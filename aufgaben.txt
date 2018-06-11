@@ -1,0 +1,11 @@
+- Klasse für Superknoten
+  - oneChildActive() [ --> bool]
+  - superchildren [list]
+  - normal_children [list]
+  - remove_states() [ --> void]
+
+- Code übersetzen
+  - Unterknoten von hello_node
+  - imports von hello_node (pos und neg)
+
+- DA vondarisieren

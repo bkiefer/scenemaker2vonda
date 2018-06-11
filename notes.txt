@@ -1,0 +1,34 @@
+- Git-Repo aufsetzen
+
+------------------------
+
+Playing Nao reimplementieren mit rudimant / rdf
+- evtl. mit Feedback
+- Interpretation verbessern
+- Standalone
+- Google ASR / Mary TTS
+- Resolution? --> Sortierspiel
+  - Multi-Party?
+- Kleine Social-Komponente dranbasteln?
+  - Komponenten von Sortierspiel
+  - Feedback zu Spiel
+  - Meta-Kommunkation --> Exkurs, Einwürfe
+
+Aufgabenverwaltung / Greifarm / Gloria reimplementieren
+- Resolution von Deixis! --> Regelbasiert
+- virtuelles Regal
+- Nao als Agent?
+- Gloria nur auf Windows
+- Bessere ASR dank Grammatik?
+- einfache Generierung
+
+- Generierung zur Zeit über Graph-Rewriting / Content-Planner
+- Größtes Problem: Interpretation
+
+- Nuance Mix für Interpretation
+
+SpeechAct --> Rudimant --> SpeechAct
+
+Google Key für ASR
+
+cplan in Kiefers github

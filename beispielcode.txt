@@ -1,0 +1,41 @@
+# vars initialisieren (aber wie?)
+states = {"hello_node", "hi_node"} # Wie kommt hi_node hier rein?
+import(hello_node) # hello_nodes Superknoten werden rekursiv importiert
+
+if "bye_node" in states:
+  emitDA("Bye")
+  exit()
+
+-------------------
+|hello_node module|
+-------------------
+import("pos_node")
+import("neg_node")
+
+if "hello_node" in states:
+  if this.oneChildActive():
+    # Interruptive edges
+    if bye == true:
+      for x in this.states:
+        states.remove(x)
+        cancelTimeout(x)
+      for x in this.superchildren:
+        x.remove_states() # löscht auch deren Timeouts
+      states.add(bye_node)
+    else:
+      # Knoten in hello_node
+        # hi_node
+        # how_node
+        # answer_node
+        # excuse_node
+  else:
+    states.remove(this.name) # name statisch oder dynamisch?
+    states.add("bye_node")
+
+-----------------
+|pos_node module|
+-----------------
+
+-----------------
+|neg_node module|
+-----------------
