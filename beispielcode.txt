@@ -1,6 +1,6 @@
 # vars initialisieren (aber wie?)
-states = {"hello_node", "hi_node"} # Wie kommt hi_node hier rein?
-import(hello_node) # hello_nodes Superknoten werden rekursiv importiert
+states = {"hello_node", "hi_node"} # TODO Wie kommt hi_node hier rein?
+import("hello_node") # hello_nodes Superknoten werden rekursiv importiert
 
 if "bye_node" in states:
   emitDA("Bye")
@@ -14,6 +14,7 @@ import("neg_node")
 
 if "hello_node" in states:
   if this.oneChildActive():
+
     # Interruptive edges
     if bye == true:
       for x in this.states:
@@ -21,21 +22,139 @@ if "hello_node" in states:
         cancelTimeout(x)
       for x in this.superchildren:
         x.remove_states() # löscht auch deren Timeouts
-      states.add(bye_node)
+      states.add("bye_node")
+
     else:
       # Knoten in hello_node
         # hi_node
+        if "hi_node" in states:
+          emitDA("hi")
+
+          if true:
+            timeout("hi_node", 5000) {
+                states.remove("hi_node")
+                states.add("how_node")
+            }
+
+          if hello == true:
+            cancelTimeout("hi_node")
+            states.remove("hi_node")
+            states.add("how_node")
+
         # how_node
+        if "how_node" in states:
+          emitDA("How are you?")
+
+          if mood == -1:
+            cancelTimeout("how_node")
+            states.remove("how_node")
+            states.add("neg_node") # TODO Auch Startknoten von neg_node adden?
+
+          if mood == 1:
+            cancelTimeout("how_node")
+            states.remove("how_node")
+            states.add("pos_node") # TODO Auch Startknoten von pos_node adden?
+
         # answer_node
+        if "anser_node" in states:
+          emitDA("I'm fine, thanks")
+
+          if true:
+            # TODO Warum kein Timeout-Cancel bei Epsilon-Übergängen?
+            states.remove("anser_node")
+            states.add("excuse_node")
+
         # excuse_node
+        emitDA("I have to go now")
+        states.remove("excuse_node") # TODO OK so? Idee: Knoten ohne ausgehende Kanten removen, damit oneChildActive() zu false auswertet.
   else:
-    states.remove(this.name) # name statisch oder dynamisch?
+    # Ausgehende Kanten
+    states.remove("hello_node")
     states.add("bye_node")
 
 -----------------
 |pos_node module|
 -----------------
+if "pos_node" in states:
+  if this.oneChildActive():
+
+    # Interruptive Edges:
+    if req_mood == true:
+      for x in this.states:
+        states.remove(x)
+        cancelTimeout(x)
+      for x in this.superchildren:
+        x.remove_states() # löscht auch deren Timeouts
+      states.add("answer_node")
+    else:
+      # cool_node
+      if "cool_node" in states: # TODO wie kommt cool_node in states?
+        emitDA("Cool")
+
+        if true:
+          states.remove("cool_node")
+          states.add("why_node")
+
+      # why node
+      if "why_node" in states:
+        emitDA("Why are you so happy today?")
+
+        if true:
+          timeout("why_node", 10000) {
+            states.remove("why_node")
+            states.add("great_node")
+          }
+
+      # great_node
+      if "great_node" in states:
+        emitDA("That's great")
+        states.remove("great_node")
+
+else:
+  # Ausgehende Kanten
+  states.remove("pos_node")
+  states.add("excuse_node")
 
 -----------------
 |neg_node module|
 -----------------
+if "neg_node" in states:
+  if this.oneChildActive():
+
+    # Interruptive Edges:
+    if req_mood == true:
+      for x in this.states:
+        states.remove(x)
+        cancelTimeout(x)
+      for x in this.superchildren:
+        x.remove_states() # löscht auch deren Timeouts
+      states.add("answer_node")
+    else:
+      # no_node
+      if "no_node" in states:
+        emitDA("Oh no!")
+        states.remove("no_node")
+
+        propose {states.add("joke_node")}
+        propose {states.add("sorry_node")}
+        propose {states.add("happy_node")}
+
+      # joke_node
+      if "joke_node" in states:
+        emitDA("joke")
+        states.remove("joke_node")
+
+      # sorry_node
+      if "sorry_node" in states:
+        emitDA("I'm so sorry")
+        states.remove("sorry_node")
+
+      # happy_node
+      if "happy_node" in states:
+        emitDA("Tomorrow will be a happy day again")
+        states.remove("happy_node")
+
+else:
+  # Ausgehende Kanten
+  states.remove("neg_node")
+  states.add("excuse_node")
