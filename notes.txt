@@ -1,34 +1,16 @@
-- Git-Repo aufsetzen
+- Superknoten
+  - Objekte in Ontologie --> DB-Objekte
+  - Anlegen beim Eintreten
+  - Default-Werte reinschreiben
+  - Superknoten in Menge aktiver Knoten
+    - Macht Abfragen ob aktive Knoten im SK sind einfacher
 
-------------------------
-
-Playing Nao reimplementieren mit rudimant / rdf
-- evtl. mit Feedback
-- Interpretation verbessern
-- Standalone
-- Google ASR / Mary TTS
-- Resolution? --> Sortierspiel
-  - Multi-Party?
-- Kleine Social-Komponente dranbasteln?
-  - Komponenten von Sortierspiel
-  - Feedback zu Spiel
-  - Meta-Kommunkation --> Exkurs, Einwürfe
-
-Aufgabenverwaltung / Greifarm / Gloria reimplementieren
-- Resolution von Deixis! --> Regelbasiert
-- virtuelles Regal
-- Nao als Agent?
-- Gloria nur auf Windows
-- Bessere ASR dank Grammatik?
-- einfache Generierung
-
-- Generierung zur Zeit über Graph-Rewriting / Content-Planner
-- Größtes Problem: Interpretation
-
-- Nuance Mix für Interpretation
-
-SpeechAct --> Rudimant --> SpeechAct
-
-Google Key für ASR
-
-cplan in Kiefers github
+- Mehrere Prozesse in einem SK:
+  1. Mehrere Instanzen von einem SK --> Konsistenter
+    - Unterschiedliche Möglichkeiten in einem SK zur gleichen Zeit
+    - Jeder Prozess hat Menge an Knoten
+    - Variablen beim Eintreten auf Default-Werte
+    - Prozesse im "gleichen" SK können nicht Variablen teilen
+  2. Nur eine Instanz pro SK --> Sinnvoller
+    - Mehrere aktive Knoten gleichzeitig
+    - Variablen bleiben --> Informationsaustausch

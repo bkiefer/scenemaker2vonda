@@ -33,8 +33,9 @@ if this.oneChildActive():
 
       # hello_node_out (Pseudo-Endknoten)
       if "hello_node_out" in states:
-        states.remove("hello_node_out")
-        states.add("bye_node")
+        if true:
+          states.remove("hello_node_out")
+          states.add("bye_node")
       # Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
 
       # hi_node
@@ -187,13 +188,21 @@ if this.oneChildActive():
     # no_node
     if "no_node" in states:
       emitDA("Oh no!")
-      states.remove("no_node")
 
-      propose {states.add("joke_node")}
-      propose {states.add("sorry_node")}
-      propose {states.add("happy_node")}
-
-      #TODO Verhalten bei Propose-Node? --> Wann zu out-Node gehen?
+      # FIXME Proposals haben Namen
+      # FIXME in --> contains()
+      propose {
+        states.add("joke_node")
+        states.remove("no_node")
+      }
+      propose {
+        states.add("sorry_node")
+        states.remove("no_node")
+      }
+      propose {
+        states.add("happy_node")
+        states.remove("no_node")
+      }
 
     # joke_node
     if "joke_node" in states:
