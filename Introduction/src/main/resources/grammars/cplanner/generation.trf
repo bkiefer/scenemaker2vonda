@@ -1,14 +1,30 @@
 // test grammar to check if working with grammar works
 // should greet back:
 
-raw:ReturnGreeting ^ Greet
+raw:InitialGoodbye ^ Bye
 ->
-# =  :canned ^ <string>"* Hey, nice to see you *".
+# =  :canned ^ <string>"* Goodbye *".
 
-raw:SecondReturnGreeting ^ Greet
+raw:Inform ^ Mood
 ->
-# =  :canned ^ <string>"* And hello you *".
+# =  :canned ^ <string>"* I'm fine, thanks *".
 
-raw:WHQuestion ^ Name
+raw:Question ^ Mood
 ->
-# =  :canned ^ <string>"What's your name?".
+# =  :canned ^ <string>"How do you feel today?".
+
+raw:Encouragement ^ Joke
+->
+# =  :canned ^ <string>"* Best_Joke_Ever *".
+
+raw:Encouragement ^ Tomorrow
+->
+# =  :canned ^ <string>"* Tomorrow will be a happy day again! *".
+
+raw:SocialFunction ^ Sorry
+->
+# =  :canned ^ <string>"* I'm so sorry! *".
+
+raw:SocialFunction ^ Empathy
+->
+# =  :canned ^ <string>"* Oh no! *".

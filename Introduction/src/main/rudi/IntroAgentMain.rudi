@@ -1,12 +1,17 @@
 
-//TODO vars initialisieren (aber wie?)
+//TODO vars initialisieren, als Datenbankobjekte!! (aber wie?)
 //TODO Superknoten-Objekte erstellen
+
 states = {"hello_node_in"} // Globaler Startknoten --> Rekursiv
 import("hello_node") // hello_nodes Superknoten werden rekursiv importiert
 
 if ("bye_node" in states) {
-	emitDA("Bye");
-	cancel;
+	emitDA(#InitialGoodbye(Bye));
+
+	timeout("shutdown", 3000) {
+		clearBehaviorsAndProposals();
+		shutdown();
+	}
 }
 
 ------------

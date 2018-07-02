@@ -2,10 +2,10 @@ import pos_node;
 import neg_node;
 
 hello_node:
-	Supernode this_node = ;//TODO: Datenbankanfrage(Superknoten mit Label "hello_node")
+	Supernode this_node = ; //TODO: Datenbankanfrage(Superknoten mit Label "hello_node")
 	if (this_node.oneChildActive()) {
 		// Interruptive edges
-		if (lastDA == "bye") { //TODO: lastDA
+		if (lastDA() >= #InitialGoodbye(Bye)) {
 			for (String x : this_node.states) {
 		   		states.remove(x);
 		      	removeTimeout(x);
@@ -17,6 +17,7 @@ hello_node:
 		    
 		} else {
 			// Knoten in hello_node
+
 			// hello_node_in (Pseudo-Startknoten)
 			hello_node_in:
 				if (states.contains("hello_node_in")) {
@@ -38,7 +39,9 @@ hello_node:
 			// hi_node
 			hi_node:
 				if (states.contains("hi_node")) {
-					emitDA("hi");
+
+					emitDA(#InitialGreeting(Greet));
+
 					if (true) {
 						timeout("hi_node", 5000) {
 							states.remove("hi_node");
@@ -59,7 +62,9 @@ hello_node:
 			// how_node
 			how_node:
 				if (states.contains("how_node")) {
-					emitDA("How are you?");
+
+					emitDA(#Question(Mood));
+
 					if (mood == -1) {
 						removeTimeout("how_node");
 						states.remove("how_node");
@@ -79,7 +84,9 @@ hello_node:
 			// answer_node
 			answer_node:
 				if (states.contains("anwser_node")) {
-					emitDA("I'm fine, thanks");
+
+					emitDA(#Inform(Mood));
+
 					if (true) {
 						states.remove("anwser_node");
 						states.add("excuse_node");
@@ -88,10 +95,13 @@ hello_node:
 						states.add("hello_node_out")
 						states.remove("answer_node")
 					}
-					// excuse_node
-					if (states.contains("excuse_node")) {
-						emitDA("I have to go now");
-					}
+				}
+
+			// excuse_node
+				if (states.contains("excuse_node")) {
+					
+					emitDA("I have to go now");
+				
 					if (!hasActiveTimeout("excuse_node") && states.contains("excuse_node")) {
 					  states.add("hello_node_out");
 					  states.remove("excuse_node");

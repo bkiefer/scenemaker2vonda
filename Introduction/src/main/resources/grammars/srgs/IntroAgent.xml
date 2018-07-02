@@ -55,7 +55,7 @@
         </one-of>
 		<item repeat="0-1">today</item> 
 		<item repeat="0-1">?</item> 
-        <tag> out.da="Request" ; out.prop="Mood"</tag>
+        <tag> out.da="Question" ; out.prop="Mood"</tag>
 	  </item>
 
 	<item>
@@ -65,7 +65,7 @@
           <item>Have a nice day</item>
 		  <item>See you</item>
         </one-of>
-        <tag> out.da="InitialGoodbye" ; out.prop="Goodbye"</tag>
+        <tag> out.da="InitialGoodbye" ; out.prop="Bye"</tag>
 	  </item>
 
     </one-of>
