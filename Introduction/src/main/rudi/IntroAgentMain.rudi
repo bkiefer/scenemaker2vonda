@@ -1,13 +1,13 @@
 
-# TODO vars initialisieren (aber wie?)
-# Superknoten-Objekte erstellen
+//TODO vars initialisieren (aber wie?)
+//TODO Superknoten-Objekte erstellen
+states = {"hello_node_in"} // Globaler Startknoten --> Rekursiv
+import("hello_node") // hello_nodes Superknoten werden rekursiv importiert
 
-states = {"hello_node_in"} # Globaler Startknoten --> Rekursiv
-import("hello_node") # hello_nodes Superknoten werden rekursiv importiert
-
-if "bye_node" in states:
-  emitDA("Bye")
-  exit()
+if ("bye_node" in states) {
+	emitDA("Bye");
+	cancel;
+}
 
 ------------
 

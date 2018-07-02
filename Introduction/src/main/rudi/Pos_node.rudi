@@ -1,59 +1,80 @@
-if this.oneChildActive():
+pos_node:
+	Supernode this_node = ;//TODO: Datenbankanfrage(Superknoten mit Label "pos_node")
+	if (this_node.oneChildActive()) {
 
-  # Interruptive Edges:
-  if req_mood == true:
-    for x in this.states:
-      states.remove(x)
-      cancelTimeout(x)
-    for x in this.superchildren:
-      x.remove_states() # löscht auch deren Timeouts
-    states.add("answer_node")
+		// Interruptive Edges:
+		if (req_mood == true) {
+			for (String x : this_node.states) {
+				states.remove(x);
+				removeTimeout(x);
+			}
+			for (Supernode x : this_node.superchildren) {
+				x.remove_states(); // löscht auch deren Timeouts
+			}
+			states.add("answer_node");
+			
+		} else {
+			// pos_node_in
+			pos_node_in:
+				if (states.contains("pos_node_in") {
+					if (true) {
+						states.remove("pos_node_in");
+						states.add("cool_node");
+					}
+				}
 
-  else:
-    # pos_node_in
-    if "pos_node_in" in states:
-      if true:
-        states.remove("pos_node_in")
-        states.add("cool_node")
+			// pos_node_out
+			pos_node_out:
+				if ("pos_node_out" in states) {
+					if (true) {
+						states.remove("pos_node_out");
+						states.add("excuse_node");
+					}
+					// Gestrichelte Kante hier nicht notwendig, da Edge aus pos_node raus eine Epsilon-Kante ist
+				}
+				
+			// cool_node
+			cool_node:
+				if (states.contains("cool_node")): {
+					emitDA("Cool");
+					if (true) {
+						states.remove("cool_node");
+						states.add("why_node");
+					}
+					if (!hasActiveTimeout("cool_node") && states.contains("cool_node")) {
+						states.remove("cool_node");
+						states.add("pos_node_out");
+					}
+				}
 
-    # pos_node_out
-    if "pos_node_out" in states:
-      if true:
-        states.remove("pos_node_out")
-        states.add("excuse_node")
-    # Gestrichelte Kante hier nicht notwendig, da Edge aus pos_node raus eine Epsilon-Kante ist
+			// why node
+			why_node:
+				if (states.contains("why_node")) {
+					emitDA("Why are you so happy today?");
+					if (true) {
+						timeout("why_node", 10000) {
+							states.remove("why_node");
+							states.add("great_node");
+						}	
+					}
+					if (!hasActiveTimeout("why_node") && states.contains("why_node")) {
+						states.remove("why_node");
+						states.add("pos_node_out");
+					}
+				}
 
-    # cool_node
-    if "cool_node" in states:
-      emitDA("Cool")
+			// great_node
+			great_node:
+				if (states.contains("great_node")) {
+					emitDA("That's great");
+					states.remove("great_node");
+					if ((!hasActiveTimeout("great_node") && states.contains("great_node")) {
+						states.remove("great_node");
+						states.add("pos_node_out");
+					}
+				}
+		}
+	}
 
-      if true:
-        states.remove("cool_node")
-        states.add("why_node")
 
-      if no_timeout("cool_node") and "cool_node" in states:
-        states.remove("cool_node")
-        states.add("pos_node_out")
 
-    # why node
-    if "why_node" in states:
-      emitDA("Why are you so happy today?")
-
-      if true:
-        timeout("why_node", 10000) {
-          states.remove("why_node")
-          states.add("great_node")
-        }
-
-      if no_timeout("why_node") and "cool_node" in states:
-        states.remove("why_node")
-        states.add("pos_node_out")
-
-    # great_node
-    if "great_node" in states:
-      emitDA("That's great")
-      states.remove("great_node")
-
-      if no_timeout("great_node") and "cool_node" in states:
-        states.remove("great_node")
-        states.add("pos_node_out")

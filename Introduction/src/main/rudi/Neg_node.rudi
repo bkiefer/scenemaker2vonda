@@ -1,69 +1,87 @@
-if this.oneChildActive():
+neg_node:
+	Supernode this_node = ; //TODO: Datenbankanfrage(Superknoten mit Label "neg_node")
+	if (this_node.oneChildActive()) {
+		// Interruptive Edges:
+		if (req_mood == true) {
+			for (String x : this_node.states) {
+				states.remove(x);
+				removeTimeout(x);
+			}
+			for (Supernode x : this_node.superchildren) {
+				x.remove_states() // löscht auch deren Timeouts
+			}
+			states.add("answer_node");
+			
+		} else {
+			//neg_node_in
+			neg_node_in:
+				if (states.contains("neg_node_in")) {
+					if (true) {
+						states.remove("neg_node_in");
+						states.add("no_node");
+					}
+				}
 
-  # Interruptive Edges:
-  if req_mood == true:
-    for x in this.states:
-      states.remove(x)
-      cancelTimeout(x)
-    for x in this.superchildren:
-      x.remove_states() # löscht auch deren Timeouts
-    states.add("answer_node")
-  else:
-    #neg_node_in
-    if "neg_node_in" in states:
-      if true:
-        states.remove("neg_node_in")
-        states.add("no_node")
+			//neg_node_out
+			neg_node_out:
+				if (states.contains("neg_node_out")) {
+					if (true) {
+						states.remove("neg_node_out");
+						states.add("excuse_node");
+					}
+				}
+				// Gestrichelte Kante hier nicht notwendig, da Kante aus neg_node raus eine Epsilon-Kante ist
 
-    #neg_node_out
-    if "neg_node_out" in states:
-      if true:
-        states.remove("neg_node_out")
-        states.add("excuse_node")
-    # Gestrichelte Kante hier nicht notwendig, da Kante aus neg_node raus eine Epsilon-Kante ist
+			// no_node
+			no_node:
+				if (states.contains("no_node")) {
+					emitDA("Oh no!");
+					propose("propose_joke_node") {
+						states.add("joke_node");
+						states.remove("no_node");
+					}
+					propose("propose_sorry_node") {
+						states.add("sorry_node");
+						states.remove("no_node");
+					}
+					propose("propose_happy_node") {
+						states.add("happy_node");
+						states.remove("no_node");
+					}
+				}
 
-    # no_node
-    if "no_node" in states:
-      emitDA("Oh no!")
+			// joke_node
+			joke_node:
+				if (states.contains("joke_node")) {
+					emitDA("joke");
+					states.remove("joke_node");
+				}
+				if (!hasActiveTimeout("joke_node") && states.contains("joke_node")) {
+					states.remove("joke_node");
+					states.add("neg_node_out");
+				}
 
-      # FIXME Proposals haben Namen
-      # FIXME in --> contains()
-      propose {
-        states.add("joke_node")
-        states.remove("no_node")
-      }
-      propose {
-        states.add("sorry_node")
-        states.remove("no_node")
-      }
-      propose {
-        states.add("happy_node")
-        states.remove("no_node")
-      }
+			// sorry_node
+			sorry_node:
+				if (states.contains("sorry_node")) {
+					emitDA("I'm so sorry");
+					states.remove("sorry_node");
+				}
+				if (!hasActiveTimeout("sorry_node") && states.contains("sorry_node")) {
+					states.remove("sorry_node");
+					states.add("neg_node_out");
+				}
 
-    # joke_node
-    if "joke_node" in states:
-      emitDA("joke")
-      states.remove("joke_node")
+			// happy_node
+			happy_node:
+				if (states.contains("happy_node")) {
+					emitDA("Tomorrow will be a happy day again");
+					states.remove("happy_node");
+				}
+				if (!hasActiveTimeout("happy_node") && states.contains("happy_node")) {
+					states.remove("happy_node");
+					states.add("neg_node_out");
+				}
+		}
+	}
 
-      if no_timeout("joke_node") and "joke_node" in states:
-        states.remove("joke_node")
-        states.add("neg_node_out")
-
-    # sorry_node
-    if "sorry_node" in states:
-      emitDA("I'm so sorry")
-      states.remove("sorry_node")
-
-      if no_timeout("sorry_node") and "sorry_node" in states:
-        states.remove("sorry_node")
-        states.add("neg_node_out")
-
-    # happy_node
-    if "happy_node" in states:
-      emitDA("Tomorrow will be a happy day again")
-      states.remove("happy_node")
-
-      if no_timeout("happy_node") and "happy_node" in states:
-        states.remove("happy_node")
-        states.add("neg_node_out")
