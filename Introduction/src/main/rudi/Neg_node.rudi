@@ -1,0 +1,69 @@
+if this.oneChildActive():
+
+  # Interruptive Edges:
+  if req_mood == true:
+    for x in this.states:
+      states.remove(x)
+      cancelTimeout(x)
+    for x in this.superchildren:
+      x.remove_states() # löscht auch deren Timeouts
+    states.add("answer_node")
+  else:
+    #neg_node_in
+    if "neg_node_in" in states:
+      if true:
+        states.remove("neg_node_in")
+        states.add("no_node")
+
+    #neg_node_out
+    if "neg_node_out" in states:
+      if true:
+        states.remove("neg_node_out")
+        states.add("excuse_node")
+    # Gestrichelte Kante hier nicht notwendig, da Kante aus neg_node raus eine Epsilon-Kante ist
+
+    # no_node
+    if "no_node" in states:
+      emitDA("Oh no!")
+
+      # FIXME Proposals haben Namen
+      # FIXME in --> contains()
+      propose {
+        states.add("joke_node")
+        states.remove("no_node")
+      }
+      propose {
+        states.add("sorry_node")
+        states.remove("no_node")
+      }
+      propose {
+        states.add("happy_node")
+        states.remove("no_node")
+      }
+
+    # joke_node
+    if "joke_node" in states:
+      emitDA("joke")
+      states.remove("joke_node")
+
+      if no_timeout("joke_node") and "joke_node" in states:
+        states.remove("joke_node")
+        states.add("neg_node_out")
+
+    # sorry_node
+    if "sorry_node" in states:
+      emitDA("I'm so sorry")
+      states.remove("sorry_node")
+
+      if no_timeout("sorry_node") and "sorry_node" in states:
+        states.remove("sorry_node")
+        states.add("neg_node_out")
+
+    # happy_node
+    if "happy_node" in states:
+      emitDA("Tomorrow will be a happy day again")
+      states.remove("happy_node")
+
+      if no_timeout("happy_node") and "happy_node" in states:
+        states.remove("happy_node")
+        states.add("neg_node_out")

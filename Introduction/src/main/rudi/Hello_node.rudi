@@ -1,0 +1,83 @@
+import("pos_node")
+import("neg_node")
+
+if this.oneChildActive():
+  # Interruptive edges
+  if bye == true:
+    for x in this.states:
+      states.remove(x)
+      cancelTimeout(x)
+    for x in this.superchildren:
+      x.remove_states() # löscht auch deren Timeouts
+    states.add("bye_node")
+
+  else:
+    # Knoten in hello_node
+      # hello_node_in (Pseudo-Startknoten)
+      if "hello_node_in" in states:
+        if true:
+          states.remove("hello_node_in")
+          states.add("hi_node")
+
+      # hello_node_out (Pseudo-Endknoten)
+      if "hello_node_out" in states:
+        states.remove("hello_node_out")
+        states.add("bye_node")
+      # Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
+
+      # hi_node
+      if "hi_node" in states:
+        emitDA("hi")
+
+        if true:
+          timeout("hi_node", 5000) {
+              states.remove("hi_node")
+              states.add("how_node")
+          }
+
+        if hello == true:
+          cancelTimeout("hi_node")
+          states.remove("hi_node")
+          states.add("how_node")
+
+        if no_timeout("hi_node") and "hi_node" in states:
+          states.add("hello_node_out")
+          states.remove("hi_node")
+
+      # how_node
+      if "how_node" in states:
+        emitDA("How are you?")
+
+        if mood == -1:
+          cancelTimeout("how_node")
+          states.remove("how_node")
+          states.add("neg_node")
+
+        if mood == 1:
+          cancelTimeout("how_node")
+          states.remove("how_node")
+          states.add("pos_node")
+
+        if no_timeout("how_node") and "hi_node" in states:
+          states.add("hello_node_out")
+          states.remove("how_node")
+
+      # answer_node
+      if "anwser_node" in states:
+        emitDA("I'm fine, thanks")
+
+        if true:
+          states.remove("anwser_node")
+          states.add("excuse_node")
+
+        if no_timeout("answer_node") and "hi_node" in states:
+          states.add("hello_node_out")
+          states.remove("answer_node")
+
+      # excuse_node
+      if "excuse_node" in states:
+        emitDA("I have to go now")
+
+        if no_timeout("excuse_node") and "hi_node" in states:
+          states.add("hello_node_out")
+          states.remove("excuse_node")

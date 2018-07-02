@@ -1,0 +1,8 @@
+<catHumanf951054c_1> <rdf:type> <cat:Human> "1528896226636"^^<xsd:long> .
+<catHumanf951054c_1> <cat:name> "Sam"^^<xsd:string> "1528896237971"^^<xsd:long> .
+<catHuman40cdbe96_1> <rdf:type> <cat:Human> "1530095582870"^^<xsd:long> .
+<catHuman40cdbe96_1> <cat:name> "Sam"^^<xsd:string> "1530095587501"^^<xsd:long> .
+<catHuman40d06601_1> <rdf:type> <cat:Human> "1530095756801"^^<xsd:long> .
+<catHuman40d07231_2> <rdf:type> <cat:Human> "1530095759921"^^<xsd:long> .
+<catHuman40d080bb_3> <rdf:type> <cat:Human> "1530095763643"^^<xsd:long> .
+<catHuman40d080bb_3> <cat:name> "Sam"^^<xsd:string> "1530095771665"^^<xsd:long> .

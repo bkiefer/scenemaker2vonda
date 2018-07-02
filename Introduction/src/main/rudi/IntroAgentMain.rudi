@@ -1,0 +1,35 @@
+
+# TODO vars initialisieren (aber wie?)
+# Superknoten-Objekte erstellen
+
+states = {"hello_node_in"} # Globaler Startknoten --> Rekursiv
+import("hello_node") # hello_nodes Superknoten werden rekursiv importiert
+
+if "bye_node" in states:
+  emitDA("Bye")
+  exit()
+
+------------
+
+ask_for_name:
+if (user && !user.name && !(myLastDA() >= #WHQuestion(Name))) {
+  propose("ask_name") {
+    emitDA(#WHQuestion(Name));
+  }
+  lastDAprocessed();
+}
+
+greet_back:
+if (lastDA() >= #InitialGreeting(Greet)) {
+  propose("greet back") {
+    emitDA(#ReturnGreeting(Greet));
+  }
+  lastDAprocessed();
+  user = new Human;
+}
+
+remember_name:
+if (lastDA() >= #Inform(Name)) {
+  user.name = lastDA().what;
+  lastDAprocessed();
+}
