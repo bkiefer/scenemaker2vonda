@@ -1,6 +1,0 @@
-- Initialisierung / Variablenverwaltung
-- Lebensdauer von Variablen (Über Programmende hinaus?)
-- Superknoten-Objekte und ihre Methoden
-- Timeouts --> Simon
-- Wie sieht User-Input aus?
-- Wie kommt der Startknoten eines Superknotens in die Menge der aktiven Knoten?
