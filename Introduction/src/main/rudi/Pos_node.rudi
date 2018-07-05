@@ -14,70 +14,48 @@ pos_node:
 			states.add("answer_node");
 			
 		} else {
-			// pos_node_in
+
 			pos_node_in:
 				if (states.contains("pos_node_in") {
-					if (true) {
-						states.remove("pos_node_in");
-						states.add("cool_node");
-					}
+
+					transition("pos_node_in", "cool_node");
 				}
 
-			// pos_node_out
 			pos_node_out:
 				if ("pos_node_out" in states) {
-					if (true) {
-						states.remove("pos_node_out");
-						states.add("excuse_node");
-					}
+					
+					transition("pos_node_out", "excuse_node");
 					// Gestrichelte Kante hier nicht notwendig, da Edge aus pos_node raus eine Epsilon-Kante ist
 				}
 				
-			// cool_node
 			cool_node:
 				if (states.contains("cool_node")): {
 
 					emitDA(#Connecting(PositiveFeeling));
 
-					if (true) {
-						states.remove("cool_node");
-						states.add("why_node");
-					}
-					if (!hasActiveTimeout("cool_node") && states.contains("cool_node")) {
-						states.remove("cool_node");
-						states.add("pos_node_out");
-					}
+					transition("cool_node", "why_node");
+
+					check_out_transition("cool_node", "pos_node_out");
 				}
 
-			// why node
 			why_node:
 				if (states.contains("why_node")) {
 					
 					emitDA(#WHQuestion(PositiveMood));
-
-					if (true) {
-						timeout("why_node", 10000) {
-							states.remove("why_node");
-							states.add("great_node");
-						}	
-					}
-					if (!hasActiveTimeout("why_node") && states.contains("why_node")) {
-						states.remove("why_node");
-						states.add("pos_node_out");
-					}
+					
+					timeout_transition("why_node", "great_node", 10000);
+					
+					check_out_transition("why_node", "pos_node_out");
 				}
 
-			// great_node
 			great_node:
 				if (states.contains("great_node")) {
 
 					emitDA(#Connecting(Enthusiastic));
 
 					states.remove("great_node");
-					if ((!hasActiveTimeout("great_node") && states.contains("great_node")) {
-						states.remove("great_node");
-						states.add("pos_node_out");
-					}
+
+					check_out_transition("great_node", "pos_node_out");
 				}
 		}
 	}
