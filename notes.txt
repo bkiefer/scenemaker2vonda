@@ -14,3 +14,31 @@
   2. Nur eine Instanz pro SK --> Sinnvoller
     - Mehrere aktive Knoten gleichzeitig
     - Variablen bleiben --> Informationsaustausch
+
+- Klasse für Superknoten
+  - oneChildActive() [ --> bool]
+  - superchildren [list]
+  - normal_children [list]
+  - remove_states() [ --> void]
+
+- Code übersetzen
+  - Unterknoten von hello_node
+  - imports von hello_node (pos und neg)
+
+- DA vondarisieren
+
+- Was muss in die Datenbank?
+
+1) Zustandsmenge (Frage: Wie kann man Listen/Collections in die Datenbank hinzufügen? Bzw. sollte man da ein eigenes Objekt erstellen oder kann man die Variable von vonda in die Datenbank "exportieren"?)
+2) Superknoten (Frage: Wie können die gleichzeitig Java-Klassen und Datenbank-Objekte sein?)
+3) "globaler Superknoten/Namespace"
+
+- rudi-Code mit Funktionen umschreiben
+
+
+Notizen 2.7.:
+
+- Der Kompiler kann owl-Files erstellen: owlapi.sourceforge.net -> Hiermit kann der Compiler Java-Code ausführen, der eine owl/nt-Datei (Ontologie) generiert)
+- Notwendig: Namespace/Superknoten-Objekte erstellen
+- Einfache Knoten brauchen keine Bindings; Variablen, die an normalen Knoten stecken, können dann in die jeweilige Regel zu dem Knoten geschrieben werden
+- Alle Bindings brauchen Informationen über Parent- und Child-Bindings. Dann kann bei jedem Variablenzugriff auch auf alle Parent-Bindings zurückgegriffen werden; eine Variablenänderung muss dann am passenden Binding passieren
