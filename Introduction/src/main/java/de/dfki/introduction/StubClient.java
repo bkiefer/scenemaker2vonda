@@ -1,4 +1,4 @@
-package de.dfki.chatcat;
+package de.dfki.introduction;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dfki.chatcat.ui.Listener;
+import de.dfki.introduction.ui.Listener;
 import de.dfki.lt.hfc.WrongFormatException;
 import de.dfki.lt.hfc.types.XsdDouble;
 import de.dfki.lt.hfc.types.XsdFloat;
@@ -56,7 +56,7 @@ public class StubClient implements CommunicationHub {
 
   private boolean isRunning = true;
 
-  private ChatCat _agent;
+  private IntroAgentMain _agent;
 
   private Deque<Object> inQueue = new ArrayDeque<>();
   private Deque<Object> itemsToSend = new ArrayDeque<>();
@@ -68,7 +68,7 @@ public class StubClient implements CommunicationHub {
   public void init(File configDir, Map<String, Object> configs)
       throws IOException, WrongFormatException {
     //RdfProxy proxy = startClient(configDir, configs);
-    _agent = new ChatCat();
+    _agent = new IntroAgentMain();
     _agent.init(configDir, "eng", configs);
     _agent.setCommunicationHub(this);
   }

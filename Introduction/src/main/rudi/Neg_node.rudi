@@ -35,7 +35,9 @@ neg_node:
 			// no_node
 			no_node:
 				if (states.contains("no_node")) {
-					emitDA("Oh no!");
+
+					emitDA(#Connecting(NegativeFeeling));
+
 					propose("propose_joke_node") {
 						states.add("joke_node");
 						states.remove("no_node");
@@ -53,34 +55,37 @@ neg_node:
 			// joke_node
 			joke_node:
 				if (states.contains("joke_node")) {
-					emitDA("joke");
-					states.remove("joke_node");
-				}
-				if (!hasActiveTimeout("joke_node") && states.contains("joke_node")) {
-					states.remove("joke_node");
-					states.add("neg_node_out");
+
+					emitDA(#Encouragement(Joke));
+
+					if (!hasActiveTimeout("joke_node") && states.contains("joke_node")) {
+						states.remove("joke_node");
+						states.add("neg_node_out");
+					}
 				}
 
 			// sorry_node
 			sorry_node:
 				if (states.contains("sorry_node")) {
-					emitDA("I'm so sorry");
-					states.remove("sorry_node");
-				}
-				if (!hasActiveTimeout("sorry_node") && states.contains("sorry_node")) {
-					states.remove("sorry_node");
-					states.add("neg_node_out");
+
+					emitDA(#Connecting(Sorry));
+
+					if (!hasActiveTimeout("sorry_node") && states.contains("sorry_node")) {
+						states.remove("sorry_node");
+						states.add("neg_node_out");
+					}
 				}
 
 			// happy_node
 			happy_node:
 				if (states.contains("happy_node")) {
-					emitDA("Tomorrow will be a happy day again");
-					states.remove("happy_node");
-				}
-				if (!hasActiveTimeout("happy_node") && states.contains("happy_node")) {
-					states.remove("happy_node");
-					states.add("neg_node_out");
+
+					emitDA(#Encouragement(Tomorrow));
+				
+					if (!hasActiveTimeout("happy_node") && states.contains("happy_node")) {
+						states.remove("happy_node");
+						states.add("neg_node_out");
+					}
 				}
 		}
 	}

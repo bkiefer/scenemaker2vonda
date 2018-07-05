@@ -1,6 +1,6 @@
-package de.dfki.chatcat;
+package de.dfki.introduction;
 
-import static de.dfki.chatcat.Constants.*;
+import static de.dfki.introduction.Constants.*;
 
 import java.io.File;
 import java.io.IOException;

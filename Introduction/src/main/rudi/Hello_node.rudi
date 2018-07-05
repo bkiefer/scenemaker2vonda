@@ -3,40 +3,37 @@ import neg_node;
 
 hello_node:
 	Supernode this_node = ; //TODO: Datenbankanfrage(Superknoten mit Label "hello_node")
+	
 	if (this_node.oneChildActive()) {
-		// Interruptive edges
-		if (lastDA() >= #InitialGoodbye(Bye)) {
-			for (String x : this_node.states) {
-		   		states.remove(x);
-		      	removeTimeout(x);
-			}
-		    for (Supernode x : this_node.superchildren) {
-				x.remove_states(); // löscht auch deren Timeouts
-		   	}
-		    states.add("bye_node");
+		
+		hello_node_interruptive_edge_1:
+			if (lastDA() >= #InitialGoodbye(Bye)) {
+				for (String x : this_node.states) {
+			   		states.remove(x);
+				  	removeTimeout(x);
+				}
+				for (Supernode x : this_node.superchildren) {
+					x.remove_states(); // löscht auch deren Timeouts
+			   	}
+				states.add("bye_node");
 		    
 		} else {
-			// Knoten in hello_node
-
-			// hello_node_in (Pseudo-Startknoten)
+	
 			hello_node_in:
 				if (states.contains("hello_node_in")) {
 					if (true) {
-						states.remove("hello_node_in");
-						states.add("hi_node");
+						transition("hello_node_in", "hi_node");
 					};
 				};
-			// hello_node_out (Pseudo-Endknoten)
+
 			hello_node_out:
 				if (states.contains("hello_node_out")) {
 					if (true) {
-						states.remove("hello_node_out");
-						states.add("bye_node");
+						transition("hello_node_out", "bye_node");
 					}
 				}
 				// Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
 
-			// hi_node
 			hi_node:
 				if (states.contains("hi_node")) {
 
@@ -44,44 +41,33 @@ hello_node:
 
 					if (true) {
 						timeout("hi_node", 5000) {
-							states.remove("hi_node");
-							states.add("how_node");
+							transition("hi_node", "how_node");
 						}
 					}
 					if (lastDA == "hello") {
-						removeTimeout("hi_node");
-						states.remove("hi_node");
-						states.add("how_node");
+						transition("hi_node", "how_node", remove_timeout = true);
 					}
 					if (!hasActiveTimeout("hi_node") && states.contains("hi_node")) {
-						states.add("hello_node_out");
-						states.remove("hi_node");
+						transition("hi_node", "hello_node_out");
 					}
 				}
 
-			// how_node
 			how_node:
 				if (states.contains("how_node")) {
 
-					emitDA(#Question(Mood));
+					emitDA(#ChoiceQuestion(Mood));
 
 					if (mood == -1) {
-						removeTimeout("how_node");
-						states.remove("how_node");
-						states.add("neg_node");
+						transition("how_node", "neg_node", remove_timeout = true);
 					}
 					if (mood == 1) {
-						removeTimeout("how_node");
-						states.remove("how_node");
-						states.add("pos_node");
+						transition("how_node", "pos_node", remove_timeout = true);
 					}
 					if (!hasActiveTimeout("how_node") && states.contains("how_node")) {
-						states.add("hello_node_out");
-						states.remove("how_node");
+						transition("how_node", "hello_node_out");
 					}
 				}
 				
-			// answer_node
 			answer_node:
 				if (states.contains("anwser_node")) {
 
@@ -97,10 +83,10 @@ hello_node:
 					}
 				}
 
-			// excuse_node
+			excuse_node:
 				if (states.contains("excuse_node")) {
 					
-					emitDA("I have to go now");
+					emitDA(#InitialGoodbye(Leave));
 				
 					if (!hasActiveTimeout("excuse_node") && states.contains("excuse_node")) {
 					  states.add("hello_node_out");

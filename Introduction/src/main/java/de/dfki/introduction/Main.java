@@ -1,6 +1,6 @@
-package de.dfki.chatcat;
+package de.dfki.introduction;
 
-import static de.dfki.chatcat.Constants.*;
+import static de.dfki.introduction.Constants.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,8 +12,8 @@ import java.util.Map;
 import org.apache.thrift.transport.TTransportException;
 import org.yaml.snakeyaml.Yaml;
 
-import de.dfki.chatcat.ui.GUI;
-import de.dfki.chatcat.ui.Reaction;
+import de.dfki.introduction.ui.GUI;
+import de.dfki.introduction.ui.Reaction;
 import de.dfki.lt.hfc.WrongFormatException;
 import joptsimple.OptionException;
 import joptsimple.OptionParser;
@@ -40,7 +40,7 @@ public class Main {
 
   final static Object [][] defaults = {
       { CFG_VISUALISE, false , "v" },
-      { CFG_ONTOLOGY_FILE, "src/main/resources/ontology/chatcat.ini", "o" },
+      { CFG_ONTOLOGY_FILE, "src/main/resources/ontology/introduction.ini", "o" },
   };
 
   public static Map<String, Object> defaultConfig() {
@@ -87,7 +87,7 @@ public class Main {
 
     //List files = null;
     confDir = new File(".");
-    String confName = "catrun.yml";
+    String confName = "introrun.yml";
 
     try {
       options = parser.parse(args);

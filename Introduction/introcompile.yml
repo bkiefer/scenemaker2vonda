@@ -1,7 +1,7 @@
 outputDirectory:    src/main/gen-java
-wrapperClass:       de.dfki.chatcat.ChatAgent
-ontologyFile:       src/main/resources/ontology/chatcat.ini
+wrapperClass:       de.dfki.introduction.ChatAgent
+ontologyFile:       src/main/resources/ontology/introduction.ini
 failOnError:        false
-rootPackage:        de.dfki.chatcat
+rootPackage:        de.dfki.introduction
 nameToURI:
   Agent : <cat:Agent>

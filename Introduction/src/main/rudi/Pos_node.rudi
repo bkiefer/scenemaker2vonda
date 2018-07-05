@@ -36,7 +36,9 @@ pos_node:
 			// cool_node
 			cool_node:
 				if (states.contains("cool_node")): {
-					emitDA("Cool");
+
+					emitDA(#Connecting(PositiveFeeling));
+
 					if (true) {
 						states.remove("cool_node");
 						states.add("why_node");
@@ -50,7 +52,9 @@ pos_node:
 			// why node
 			why_node:
 				if (states.contains("why_node")) {
-					emitDA("Why are you so happy today?");
+					
+					emitDA(#WHQuestion(PositiveMood));
+
 					if (true) {
 						timeout("why_node", 10000) {
 							states.remove("why_node");
@@ -66,7 +70,9 @@ pos_node:
 			// great_node
 			great_node:
 				if (states.contains("great_node")) {
-					emitDA("That's great");
+
+					emitDA(#Connecting(Enthusiastic));
+
 					states.remove("great_node");
 					if ((!hasActiveTimeout("great_node") && states.contains("great_node")) {
 						states.remove("great_node");

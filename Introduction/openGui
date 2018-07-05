@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar target/chatcat-jar-with-dependencies.jar
+java -jar target/introduction-jar-with-dependencies.jar

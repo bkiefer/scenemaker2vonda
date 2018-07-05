@@ -2,4 +2,4 @@
 script_dir=`dirname $0`
 gen_dir='src/main/gen-java'
 
-../../compile "$@" -c "$script_dir/introcompile.yml" "$script_dir/src/main/rudi/ChatCat.rudi"
+../../compile "$@" -c "$script_dir/introcompile.yml" "$script_dir/src/main/rudi/IntroAgentMain.rudi"

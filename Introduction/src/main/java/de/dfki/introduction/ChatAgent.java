@@ -1,4 +1,4 @@
-package de.dfki.chatcat;
+package de.dfki.introduction;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public abstract class ChatAgent extends Agent implements Constants {
           throws IOException, WrongFormatException {
     RdfProxy proxy = startClient(configDir, configs);
     super.init(configDir, language, proxy, configs);
-    robot = proxy.getRdf("<chatcat:robot1>");
+    robot = proxy.getRdf("<cat:robot1>");
   }
 
   public void shutdown() {
