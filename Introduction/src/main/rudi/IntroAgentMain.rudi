@@ -3,7 +3,7 @@ states = {"hello_node_in"} // Globaler Startknoten --> Rekursiv
 import("hello_node") // hello_nodes Superknoten werden rekursiv importiert
 
 
-void transition (String node_a, String node_b, boolean fork_edge = false) {
+void transition (String node_a, String node_b, fork_edge = false) {
 
 	removeTimeout(node_a);
 
@@ -14,6 +14,47 @@ void transition (String node_a, String node_b, boolean fork_edge = false) {
 	states.add(node_b);
 
 }
+
+void check_out_transition(String node, String out_node) {
+
+	if (!hasActiveTimeout(node) && states.contains(node)) { 
+	
+		transition(node, out_node);
+	}
+}
+
+void timeout_transition(String node_a, String node_b, Int duration) {
+
+	timeout(node_a, duration) {
+
+		transition(node_a, node_b);
+	}
+}
+
+void probability_transition(String node_a, String node_b) {
+
+	propose_id = "propose_"+ node_a;
+
+	propose(propose_id) {
+						
+		transition(node_a, node_b);
+	}
+}
+
+
+// TODO: Wie kann man die condition in VonDa evaluieren???
+void conditional_transition(String node_a, String node_b, String condition) {
+
+	if(eval(condition) {
+		transition(node_a, node_b);
+	}
+}
+
+void fork_transition(String node_a, String node_b) {
+						
+		transition(node_a, node_b, fork_edge = true);
+}
+
 
 if ("bye_node" in states) {
 	

@@ -21,35 +21,33 @@ hello_node:
 	
 			hello_node_in:
 				if (states.contains("hello_node_in")) {
-					if (true) {
-						transition("hello_node_in", "hi_node");
-					};
+
+					transition("hello_node_in", "hi_node");
+
 				};
 
 			hello_node_out:
 				if (states.contains("hello_node_out")) {
-					if (true) {
-						transition("hello_node_out", "bye_node");
-					}
+					
+					transition("hello_node_out", "bye_node");
+					// Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
+
 				}
-				// Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
+				
 
 			hi_node:
 				if (states.contains("hi_node")) {
 
 					emitDA(#InitialGreeting(Greet));
 
-					if (true) {
-						timeout("hi_node", 5000) {
-							transition("hi_node", "how_node");
-						}
-					}
+					timeout_transition("hi_node", "how_node", 5000);
+			
 					if (lastDA == "hello") {
-						transition("hi_node", "how_node", remove_timeout = true);
+						transition("hi_node", "how_node");
 					}
-					if (!hasActiveTimeout("hi_node") && states.contains("hi_node")) {
-						transition("hi_node", "hello_node_out");
-					}
+					
+					check_out_transition("hi_node", "hello_node_out");					
+
 				}
 
 			how_node:
@@ -58,13 +56,14 @@ hello_node:
 					emitDA(#ChoiceQuestion(Mood));
 
 					if (mood == -1) {
-						transition("how_node", "neg_node", remove_timeout = true);
+						transition("how_node", "neg_node");
 					}
 					if (mood == 1) {
-						transition("how_node", "pos_node", remove_timeout = true);
+						transition("how_node", "pos_node");
 					}
-					if (!hasActiveTimeout("how_node") && states.contains("how_node")) {
-						transition("how_node", "hello_node_out");
+					
+					check_out_transition("how_node", "hello_node_out");					
+
 					}
 				}
 				
@@ -73,14 +72,9 @@ hello_node:
 
 					emitDA(#Inform(Mood));
 
-					if (true) {
-						states.remove("anwser_node");
-						states.add("excuse_node");
-					}
-					if (!hasActiveTimeout("answer_node") && states.contains("answer_node")) { 
-						states.add("hello_node_out")
-						states.remove("answer_node")
-					}
+					transition("answer_node", "excuse_node");						
+
+					check_out_transition("answer_node", "hello_node_out");
 				}
 
 			excuse_node:
@@ -88,10 +82,8 @@ hello_node:
 					
 					emitDA(#InitialGoodbye(Leave));
 				
-					if (!hasActiveTimeout("excuse_node") && states.contains("excuse_node")) {
-					  states.add("hello_node_out");
-					  states.remove("excuse_node");
-					}
+					check_out_transition("excuse_node", "hello_node_out");
+					
 				}
 		}
 	}
