@@ -46,3 +46,5 @@ Notizen 2.7.:
 Erkenntnis am 5.7.:
 
 - Scenemaker löscht Superknoten-Objekte, wenn alle Prozesse raus sind
+
+TODO: Alle "transition"-Funktionen anpassen -> Referenz auf Superknoten-Objekte mitgeben!

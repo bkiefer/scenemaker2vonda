@@ -1,58 +1,61 @@
 
-states = {"hello_node_in"} // Globaler Startknoten --> Rekursiv
-import("hello_node") // hello_nodes Superknoten werden rekursiv importiert
+
+// TODO: Nur beim ersten Start, irgendwie noch anpassen! Zusätzlich muss das Top-Level-Objekt erst einmal erstellt werden
+top_level.simple_children += hello_node_in;
+
+import("hello_node")
 
 
-void transition (String node_a, String node_b, fork_edge = false) {
+void transition (String node_a, String node_b, Supernode a_super, Supernode b_super, fork_edge = false) {
 
 	removeTimeout(node_a);
 
 	if(fork_edge == false){
-		states.remove(node_a);
+		a_super.children -= node_a;
 	}
 
-	states.add(node_b);
+	b_super.children += (node_b);
 
 }
 
-void check_out_transition(String node, String out_node) {
+void check_out_transition(String node, String out_node, Supernode parent) {
 
-	if (!hasActiveTimeout(node) && states.contains(node)) { 
+	if (!hasActiveTimeout(node) && parent.simple_children.contains(node)) { 
 	
 		transition(node, out_node);
 	}
 }
 
-void timeout_transition(String node_a, String node_b, Int duration) {
+void timeout_transition(String node_a, String node_b, Supernode a_super, Supernode b_super, Int duration) {
 
 	timeout(node_a, duration) {
 
-		transition(node_a, node_b);
+		transition(node_a, node_b, a_super, b_super);
 	}
 }
 
-void probability_transition(String node_a, String node_b) {
+void probability_transition(String node_a, String node_b, Supernode a_super, Supernode b_super) {
 
 	propose_id = "propose_"+ node_a;
 
 	propose(propose_id) {
 						
-		transition(node_a, node_b);
+		transition(node_a, node_b, a_super, b_super);
 	}
 }
 
 
 // TODO: Wie kann man die condition in VonDa evaluieren???
-void conditional_transition(String node_a, String node_b, String condition) {
+void conditional_transition(String node_a, String node_b, Supernode a_super, Supernode b_super, String condition) {
 
 	if(eval(condition) {
-		transition(node_a, node_b);
+		transition(node_a, node_b, a_super, b_super);
 	}
 }
 
-void fork_transition(String node_a, String node_b) {
+void fork_transition(String node_a, String node_b, Supernode a_super, Supernode b_super) {
 						
-		transition(node_a, node_b, fork_edge = true);
+		transition(node_a, node_b, a_super, b_super, fork_edge = true);
 }
 
 
