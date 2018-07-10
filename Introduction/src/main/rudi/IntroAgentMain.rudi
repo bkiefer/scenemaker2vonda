@@ -1,9 +1,20 @@
 
+myBindings = getRdf("<cat:main_bindings>");
 
-// TODO: Nur beim ersten Start, irgendwie noch anpassen! Zusätzlich muss das Top-Level-Objekt erst einmal erstellt werden
-top_level.simple_children += hello_node_in;
+setup_main:
+	if(!myBindings) {
 
-import("hello_node")
+		myBindings = new Global;
+		myBindings.simple_children += "main_in";
+		myBindings.parent = none;
+		myBindings.nice = 0;
+
+		var_nice = new Variable;
+		var_nice.name = "nice";
+		var_nice.value = 0;
+		myBindings.variables += var_nice;
+
+	}
 
 void set_inactive(Supernode m) {
 
@@ -11,35 +22,68 @@ void set_inactive(Supernode m) {
 		removeTimeout(x);
 	}
 
-	// TODO: How to write this properly?
-	m.simplechildren = null;
-
 	for (Supernode x : m.super_children) {
-		set.inactive(x);
+		set_inactive(x);
    	}
+
+	// TODO: How to write this properly??
+	delete(m);
+	
 }
 
-boolean test_active_offspring(Supernode m) {
+boolean test_inactive(Supernode m) {
  
-	if ((!m.super_children) && (!m.simple_children)) {
-		return false;
-	}
-
-	else {
+	if ((!m.super_children) && (!m.simple_children) && (!m.initiated) {
 		return true;
 	}
 
+	else {
+		return false;
+	}
+
 }
 
-void transition (String node_a, String node_b, Supernode a_super, Supernode b_super, fork_edge = false) {
+Variable getVariable(Supernode m, String var_name) {
+
+	for (Variable x: m.variables) {
+		if (x.name == var_name) {
+			return x;
+		}
+	}
+
+	if(!m.parent) {
+		return none;
+	}
+
+	else {
+		return getVariable(m.parent, var_name);
+	}
+
+}
+
+void super_transition(String node_a, Supernode a_parent, String supernode_b) {
 
 	removeTimeout(node_a);
 
-	if(fork_edge == false){
-		a_super.children -= node_a;
+	// Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen"
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
 	}
 
-	b_super.children += (node_b);
+	a_parent.initiated += supernode_b;
+
+}
+
+void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
+
+	removeTimeout(node_a);
+
+	// Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen", deshalb löschen wir nur, wenn es das erste Mal ist
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.children -= node_a;
+	}
+
+	b_parent.children += node_b;
 
 }
 
@@ -51,53 +95,69 @@ void check_out_transition(String node, String out_node, Supernode parent) {
 	}
 }
 
-void timeout_transition(String node_a, String node_b, Supernode a_super, Supernode b_super, Int duration) {
+void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, Int duration) {
 
 	timeout(node_a, duration) {
 
-		transition(node_a, node_b, a_super, b_super);
+		transition(node_a, node_b, a_parent, b_parent);
 	}
 }
 
-void probability_transition(String node_a, String node_b, Supernode a_super, Supernode b_super) {
+void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
 
 	propose_id = "propose_"+ node_a;
 
 	propose(propose_id) {
 						
-		transition(node_a, node_b, a_super, b_super);
+		transition(node_a, node_b, a_parent, b_parent);
 	}
 }
 
 
 // TODO: Wie kann man die condition in VonDa evaluieren???
-void conditional_transition(String node_a, String node_b, Supernode a_super, Supernode b_super, String condition) {
+void conditional_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, String condition) {
 
 	if(eval(condition) {
-		transition(node_a, node_b, a_super, b_super);
+		transition(node_a, node_b, a_parent, b_parent);
 	}
 }
 
-void fork_transition(String node_a, String node_b, Supernode a_super, Supernode b_super) {
-						
-	transition(node_a, node_b, a_super, b_super, fork_edge = true);
-}
-
-void interruptive_transition(Supernode m, String target_node) {
+void interruptive_transition(Supernode m, Supernode parent, String target_node) {
 						
 	set_inactive(m);	
-	states.add(target_node);
+	parent.simple_children += target_node;
+}
 
+void interruptive_super_transition(Supernode m, Supernode parent, String target_supernode) {
+						
+	set_inactive(m);	
+	parent.initiated += target_supernode;
 }
 
 
-if ("bye_node" in states) {
-	
-	emitDA(#Valediction(Bye));
+
+if(myBindings.simple_children.contains("main_in") {
+
+	super_transition("main_in", myBindings, "hello_node");
+
+} 
+
+if(myBindings.simple_children.contains("main_out") {
 
 	timeout("shutdown", 3000) {
 		clearBehaviorsAndProposals();
 		shutdown();
 	}
+
 }
+
+if ("bye_node" in states) {
+	
+	emitDA(#Valediction(Bye));
+	
+	check_out_transition("bye_node", "main_out");
+	
+}
+
+import("hello_node");
 

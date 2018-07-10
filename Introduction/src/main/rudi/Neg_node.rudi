@@ -1,17 +1,18 @@
 
 myBindings = getRdf("<cat:neg_node_bindings>");
+parentBindings = getRdf("<cat:hello_node_bindings>");
 
 setup_neg_node:
-	if(top_level.initiated.contains("neg_node")) {
+	if(parentBindings.initiated.contains("neg_node")) {
 		if (!myBindings) {
 
-			myBindings = new Neg_node_bindings;
-			myBindings.simple_children += "neg_node_in";
-			parentBindings = getRdf("<cat:hello_node_bindings>");
+			myBindings = new Neg_node;
 			parentBindings.super_children += myBindings;
 			myBindings.parent = parentBindings;
-			// Hier müssten auch Variablen initialisiert werden!
 		}
+		
+		myBindings.simple_children += "neg_node_in";
+		parentBindings.initiated -= "neg_node";
 	}
 
 pass_by_neg_node:
@@ -20,58 +21,65 @@ pass_by_neg_node:
 	}
 
 neg_node_interruptive_edge_1:
-	if (req_mood == true) {
+	if (lastDA() >= #Question(Mood)) {
 	
-		interruptive_transition(myBindings, "answer_node");
+		interruptive_transition(myBindings, parentBindings, "answer_node");
 		cancel;
 	} 
 			
 neg_node_in:
-	if (states.contains("neg_node_in")) {
+	if (myBindings.simple_children.contains("neg_node_in")) {
 		
-		transition("neg_node_in", "no_node");
+		transition("neg_node_in", "no_node", myBindings, myBindings);
 	}
 
 neg_node_out:
-	if (states.contains("neg_node_out")) {
+	if (myBindings.simple_children.contains("neg_node_out")) {
 
 		// Bei der Transition sollten die Variablen-Bindings aus myBindings (nicht dem parent) benutzt werden
-		transition("neg_node_out", "excuse_node");	
-		// Gestrichelte Kante hier nicht notwendig, da Kante aus neg_node raus eine Epsilon-Kante ist				
+		transition("neg_node_out", "excuse_node", myBindings, parentBindings);	
+		
+		if(test_inactive(myBindings)) {
+			// TODO: Finde noch den richtigen Code hierfür!!
+			parentBindings.super_children -= myBindings;
+			delete(myBindings);
+		}
+
+		check_out_transition("neg_node_out", "hello_node_out", myBindings);				
 	}
 
 no_node:
-	if (states.contains("no_node")) {
+	if (myBindings.simple_children.contains("no_node")) {
 
 		emitDA(#Connecting(NegativeFeeling));
 
-		probability_transition("no_node", "joke_node");	
-		probability_transition("no_node", "sorry_node");	
-		probability_transition("no_node", "happy_node");					
+		probability_transition("no_node", "joke_node", myBindings, myBindings);	
+		probability_transition("no_node", "sorry_node", myBindings, myBindings);	
+		probability_transition("no_node", "happy_node", myBindings, myBindings);					
 	}
 
 joke_node:
-	if (states.contains("joke_node")) {
+	if (myBindings.simple_children.contains("joke_node")) {
 
 		emitDA(#Encouragement(Joke));
 
-		check_out_transition("joke_node", "neg_node_out");
+		check_out_transition("joke_node", "neg_node_out", myBindings);
 	}
 
 sorry_node:
-	if (states.contains("sorry_node")) {
+	if (myBindings.simple_children.contains("sorry_node")) {
 
 		emitDA(#Connecting(Sorry));
 
-		check_out_transition("sorry_node", "neg_node_out");
+		check_out_transition("sorry_node", "neg_node_out", myBindings);
 	}
 
 happy_node:
-	if (states.contains("happy_node")) {
+	if (myBindings.simple_children.contains("happy_node")) {
 
 		emitDA(#Encouragement(Tomorrow));
 		
-		check_out_transition("happy_node", "neg_node_out");
+		check_out_transition("happy_node", "neg_node_out", myBindings);
 	}
 
 

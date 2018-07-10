@@ -1,18 +1,23 @@
 
 myBindings = getRdf("<cat:hello_node_bindings>");
+parentBindings = getRdf("<cat:main_bindings>");
 
 setup_hello_node:
-	if(top_level.initiated.contains("hello_node")) {
+	if(parentBindings.initiated.contains("hello_node")) {
 		if (!myBindings) {
 
-			myBindings = new Hello_node_bindings;
-			myBindings.simple_children += "hello_node_in";
-			parentBindings = getRdf("<cat:top_level>");
+			myBindings = new Hello_node;
 			parentBindings.super_children += myBindings;
 			myBindings.parent = parentBindings;
-			// Hier müssten auch Variablen initialisiert werden!
-
+			
+			var_timedOut = new Variable;
+			var_timedOut.name = "timedOut";
+			var_timedOut.value = false;
+			myBindings.variables += var_timedOut;
 		}
+
+		myBindings.simple_children += "hello_node_in";
+		parentBindings.initiated -= "hello_node";
 	}
 
 pass_by_hello_node:
@@ -23,26 +28,29 @@ pass_by_hello_node:
 hello_node_interruptive_edge_1:
 	if (lastDA() >= #InitialGoodbye(Bye)) {
 
-		interruptive_transition(myBindings, "bye_node");
+		interruptive_transition(myBindings, parentBindings, "bye_node");
 		cancel;
 	}
-
-import pos_node;
-import neg_node;
 
 hello_node_in:
 	if (myBindings.simple_children.contains("hello_node_in")) {
 
-		transition("hello_node_in", "hi_node");
+		transition("hello_node_in", "hi_node", myBindings, myBindings);
 	}
 
 hello_node_out:
 	if (myBindings.simple_children.contains("hello_node_out")) {
 	
-		// Bei der Transition sollten die Variablen-Bindings aus myBindings (nicht dem parent) benutzt werden	
-		transition("hello_node_out", "bye_node");
+		// Bei der Transition sollten die Variablen-Bindings aus myBindings (nicht parentBindings) benutzt werden (wichtig nur für Conditionals)
+		transition("hello_node_out", "bye_node", myBindings, parentBindings);
 		
-		// Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
+		if(test_inactive(myBindings)) {
+			// TODO: Finde noch den richtigen Code hierfür!!
+			parentBindings.super_children -= myBindings;
+			delete(myBindings);
+		}
+
+		check_out_transition("hello_node_out", "main_out", myBindings);
 	}
 
 hi_node:
@@ -53,10 +61,10 @@ hi_node:
 		timeout_transition("hi_node", "how_node", 5000);
 
 		if (lastDA == "hello") {
-			transition("hi_node", "how_node");
+			transition("hi_node", "how_node", myBindings, myBindings);
 		}
 		
-		check_out_transition("hi_node", "hello_node_out");					
+		check_out_transition("hi_node", "hello_node_out", myBindings);					
 	}
 
 how_node:
@@ -65,25 +73,25 @@ how_node:
 		emitDA(#ChoiceQuestion(Mood));
 
 		if (mood == -1) {
-			transition("how_node", "neg_node_in");
+			super_transition("how_node", myBindings, "neg_node");
 		}
 		if (mood == 1) {
-			transition("how_node", "pos_node_in");
+			super_transition("how_node", myBindings, "pos_node");
 		}
 		
-		check_out_transition("how_node", "hello_node_out");					
+		check_out_transition("how_node", "hello_node_out", myBindings);					
 
 		}
 	}
 	
 answer_node:
-	if (myBindings.simple_children.contains("anwser_node")) {
+	if (myBindings.simple_children.contains("answer_node")) {
 
 		emitDA(#Inform(Mood));
 
-		transition("answer_node", "excuse_node");						
+		transition("answer_node", "excuse_node", myBindings, myBindings);						
 
-		check_out_transition("answer_node", "hello_node_out");
+		check_out_transition("answer_node", "hello_node_out", myBindings);
 	}
 
 excuse_node:
@@ -91,7 +99,9 @@ excuse_node:
 		
 		emitDA(#InitialGoodbye(Leave));
 	
-		check_out_transition("excuse_node", "hello_node_out");
+		check_out_transition("excuse_node", "hello_node_out", myBindings);
 		
 	}
 
+import pos_node;
+import neg_node;
