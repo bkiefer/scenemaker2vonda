@@ -1,89 +1,97 @@
+
+myBindings = getRdf("<cat:hello_node_bindings>");
+
+setup_hello_node:
+	if(top_level.initiated.contains("hello_node")) {
+		if (!myBindings) {
+
+			myBindings = new Hello_node_bindings;
+			myBindings.simple_children += "hello_node_in";
+			parentBindings = getRdf("<cat:top_level>");
+			parentBindings.super_children += myBindings;
+			myBindings.parent = parentBindings;
+			// Hier müssten auch Variablen initialisiert werden!
+
+		}
+	}
+
+pass_by_hello_node:
+	if(!myBindings) {
+		cancel;
+	}
+
+hello_node_interruptive_edge_1:
+	if (lastDA() >= #InitialGoodbye(Bye)) {
+
+		interruptive_transition(myBindings, "bye_node");
+		cancel;
+	}
+
 import pos_node;
 import neg_node;
 
-hello_node:
-	Supernode this_node = ; //TODO: Datenbankanfrage(Superknoten mit Label "hello_node")
+hello_node_in:
+	if (myBindings.simple_children.contains("hello_node_in")) {
+
+		transition("hello_node_in", "hi_node");
+	}
+
+hello_node_out:
+	if (myBindings.simple_children.contains("hello_node_out")) {
 	
-	if (this_node.oneChildActive()) {
+		// Bei der Transition sollten die Variablen-Bindings aus myBindings (nicht dem parent) benutzt werden	
+		transition("hello_node_out", "bye_node");
 		
-		hello_node_interruptive_edge_1:
-			if (lastDA() >= #InitialGoodbye(Bye)) {
-				for (String x : this_node.states) {
-			   		states.remove(x);
-				  	removeTimeout(x);
-				}
-				for (Supernode x : this_node.superchildren) {
-					x.remove_states(); // löscht auch deren Timeouts
-			   	}
-				states.add("bye_node");
-		    
-		} else {
-	
-			hello_node_in:
-				if (states.contains("hello_node_in")) {
+		// Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
+	}
 
-					transition("hello_node_in", "hi_node");
+hi_node:
+	if (myBindings.simple_children.contains("hi_node")) {
 
-				};
+		emitDA(#InitialGreeting(Greet));
 
-			hello_node_out:
-				if (states.contains("hello_node_out")) {
-					
-					transition("hello_node_out", "bye_node");
-					// Gestrichelte Kante hier nicht notwendig, da die nächsthöhere Ebene Toplevel ist
+		timeout_transition("hi_node", "how_node", 5000);
 
-				}
-				
+		if (lastDA == "hello") {
+			transition("hi_node", "how_node");
+		}
+		
+		check_out_transition("hi_node", "hello_node_out");					
+	}
 
-			hi_node:
-				if (states.contains("hi_node")) {
+how_node:
+	if (myBindings.simple_children.contains("how_node")) {
 
-					emitDA(#InitialGreeting(Greet));
+		emitDA(#ChoiceQuestion(Mood));
 
-					timeout_transition("hi_node", "how_node", 5000);
-			
-					if (lastDA == "hello") {
-						transition("hi_node", "how_node");
-					}
-					
-					check_out_transition("hi_node", "hello_node_out");					
+		if (mood == -1) {
+			transition("how_node", "neg_node_in");
+		}
+		if (mood == 1) {
+			transition("how_node", "pos_node_in");
+		}
+		
+		check_out_transition("how_node", "hello_node_out");					
 
-				}
-
-			how_node:
-				if (states.contains("how_node")) {
-
-					emitDA(#ChoiceQuestion(Mood));
-
-					if (mood == -1) {
-						transition("how_node", "neg_node");
-					}
-					if (mood == 1) {
-						transition("how_node", "pos_node");
-					}
-					
-					check_out_transition("how_node", "hello_node_out");					
-
-					}
-				}
-				
-			answer_node:
-				if (states.contains("anwser_node")) {
-
-					emitDA(#Inform(Mood));
-
-					transition("answer_node", "excuse_node");						
-
-					check_out_transition("answer_node", "hello_node_out");
-				}
-
-			excuse_node:
-				if (states.contains("excuse_node")) {
-					
-					emitDA(#InitialGoodbye(Leave));
-				
-					check_out_transition("excuse_node", "hello_node_out");
-					
-				}
 		}
 	}
+	
+answer_node:
+	if (myBindings.simple_children.contains("anwser_node")) {
+
+		emitDA(#Inform(Mood));
+
+		transition("answer_node", "excuse_node");						
+
+		check_out_transition("answer_node", "hello_node_out");
+	}
+
+excuse_node:
+	if (myBindings.simple_children.contains("excuse_node")) {
+		
+		emitDA(#InitialGoodbye(Leave));
+	
+		check_out_transition("excuse_node", "hello_node_out");
+		
+	}
+

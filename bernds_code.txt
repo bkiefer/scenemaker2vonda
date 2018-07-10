@@ -1,0 +1,5 @@
+Im Superknoten-Rudi-File:
+  myBindings = getRdf("<ns:super01_bindings>");
+  if (!myBindings) cancel;
+
+  myBindings.children = ...

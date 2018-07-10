@@ -1,63 +1,77 @@
-neg_node:
-	Supernode this_node = ; //TODO: Datenbankanfrage(Superknoten mit Label "neg_node")
-	if (this_node.oneChildActive()) {
-		// Interruptive Edges:
-		if (req_mood == true) {
-			for (String x : this_node.states) {
-				states.remove(x);
-				removeTimeout(x);
-			}
-			for (Supernode x : this_node.superchildren) {
-				x.remove_states() // löscht auch deren Timeouts
-			}
-			states.add("answer_node");
-			
-		} else {
-			neg_node_in:
-				if (states.contains("neg_node_in")) {
-					transition("neg_node_in", "no_node");
-				}
 
-			neg_node_out:
-				if (states.contains("neg_node_out")) {
-					transition("neg_node_out", "excuse_node");					
-				}
+myBindings = getRdf("<cat:neg_node_bindings>");
 
-				// Gestrichelte Kante hier nicht notwendig, da Kante aus neg_node raus eine Epsilon-Kante ist
+setup_neg_node:
+	if(top_level.initiated.contains("neg_node")) {
+		if (!myBindings) {
 
-			no_node:
-				if (states.contains("no_node")) {
-
-					emitDA(#Connecting(NegativeFeeling));
-
-					probability_transition("no_node", "joke_node");	
-					probability_transition("no_node", "sorry_node");	
-					probability_transition("no_node", "happy_node");					
-				}
-
-			joke_node:
-				if (states.contains("joke_node")) {
-
-					emitDA(#Encouragement(Joke));
-
-					check_out_transition("joke_node", "neg_node_out");
-				}
-
-			sorry_node:
-				if (states.contains("sorry_node")) {
-
-					emitDA(#Connecting(Sorry));
-
-					check_out_transition("sorry_node", "neg_node_out");
-				}
-
-			happy_node:
-				if (states.contains("happy_node")) {
-
-					emitDA(#Encouragement(Tomorrow));
-					
-					check_out_transition("happy_node", "neg_node_out");
-				}
+			myBindings = new Neg_node_bindings;
+			myBindings.simple_children += "neg_node_in";
+			parentBindings = getRdf("<cat:hello_node_bindings>");
+			parentBindings.super_children += myBindings;
+			myBindings.parent = parentBindings;
+			// Hier müssten auch Variablen initialisiert werden!
 		}
 	}
+
+pass_by_neg_node:
+	if(!myBindings) {
+		cancel;
+	}
+
+neg_node_interruptive_edge_1:
+	if (req_mood == true) {
+	
+		interruptive_transition(myBindings, "answer_node");
+		cancel;
+	} 
+			
+neg_node_in:
+	if (states.contains("neg_node_in")) {
+		
+		transition("neg_node_in", "no_node");
+	}
+
+neg_node_out:
+	if (states.contains("neg_node_out")) {
+
+		// Bei der Transition sollten die Variablen-Bindings aus myBindings (nicht dem parent) benutzt werden
+		transition("neg_node_out", "excuse_node");	
+		// Gestrichelte Kante hier nicht notwendig, da Kante aus neg_node raus eine Epsilon-Kante ist				
+	}
+
+no_node:
+	if (states.contains("no_node")) {
+
+		emitDA(#Connecting(NegativeFeeling));
+
+		probability_transition("no_node", "joke_node");	
+		probability_transition("no_node", "sorry_node");	
+		probability_transition("no_node", "happy_node");					
+	}
+
+joke_node:
+	if (states.contains("joke_node")) {
+
+		emitDA(#Encouragement(Joke));
+
+		check_out_transition("joke_node", "neg_node_out");
+	}
+
+sorry_node:
+	if (states.contains("sorry_node")) {
+
+		emitDA(#Connecting(Sorry));
+
+		check_out_transition("sorry_node", "neg_node_out");
+	}
+
+happy_node:
+	if (states.contains("happy_node")) {
+
+		emitDA(#Encouragement(Tomorrow));
+		
+		check_out_transition("happy_node", "neg_node_out");
+	}
+
 
