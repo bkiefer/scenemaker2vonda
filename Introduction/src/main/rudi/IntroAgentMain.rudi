@@ -5,6 +5,31 @@ top_level.simple_children += hello_node_in;
 
 import("hello_node")
 
+void set_inactive(Supernode m) {
+
+	for (String x : m.simple_children) {
+		removeTimeout(x);
+	}
+
+	// TODO: How to write this properly?
+	m.simplechildren = null;
+
+	for (Supernode x : m.super_children) {
+		set.inactive(x);
+   	}
+}
+
+boolean test_active_offspring(Supernode m) {
+ 
+	if ((!m.super_children) && (!m.simple_children)) {
+		return false;
+	}
+
+	else {
+		return true;
+	}
+
+}
 
 void transition (String node_a, String node_b, Supernode a_super, Supernode b_super, fork_edge = false) {
 
@@ -55,7 +80,14 @@ void conditional_transition(String node_a, String node_b, Supernode a_super, Sup
 
 void fork_transition(String node_a, String node_b, Supernode a_super, Supernode b_super) {
 						
-		transition(node_a, node_b, a_super, b_super, fork_edge = true);
+	transition(node_a, node_b, a_super, b_super, fork_edge = true);
+}
+
+void interruptive_transition(Supernode m, String target_node) {
+						
+	set_inactive(m);	
+	states.add(target_node);
+
 }
 
 

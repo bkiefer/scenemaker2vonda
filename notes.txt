@@ -45,6 +45,9 @@ Notizen 2.7.:
 
 Erkenntnis am 5.7.:
 
-- Scenemaker löscht Superknoten-Objekte, wenn alle Prozesse raus sind
+- Scenemaker löscht Superknoten-Objekte, wenn alle Prozesse raus sind (machen wir also auch so, Bernd schien ja auch davon auszugehen)
 
 TODO: Alle "transition"-Funktionen anpassen -> Referenz auf Superknoten-Objekte mitgeben!
+TODO: Was heißt das nochmal mit den "gestrichelten Kanten hier nicht notwendig??"
+TODO: Wie stellt man sicher, dass man auf ein Superknoten-Objekt mit "getRdf" zugreifen kann, nachdem man es mit "new SOMETHING" erstellt hat???
+TODO: Wie löscht man ein Objekt aus der Datenbank? (Muss bei interruptive-Edge oder out_Knoten ggf. gemacht werden, wenn kein weiterer Prozess im Superknoten aktiv ist)
