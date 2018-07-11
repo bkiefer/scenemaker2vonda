@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.dfki.chatcat.ui;
+package de.dfki.introduction.ui;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.swing.JLabel;
 
-import de.dfki.chatcat.StubClient;
+import de.dfki.introduction.StubClient;
 import de.dfki.mlt.rudimant.agent.Behaviour;
 import de.dfki.mlt.rudimant.agent.DialogueAct;
 

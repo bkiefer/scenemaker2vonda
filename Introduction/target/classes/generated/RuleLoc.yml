@@ -1,0 +1,312 @@
+&id001 !!de.dfki.mlt.rudimant.common.ImportInfo
+children:
+- !!de.dfki.mlt.rudimant.common.RuleInfo
+  baseterms:
+  - global.active
+  children: []
+  expression:
+  - -3
+  - 0
+  id: 0
+  label: setup_main
+  line: 1
+  parent: *id001
+- &id002 !!de.dfki.mlt.rudimant.common.ImportInfo
+  children:
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - global.initiated.contains("hello_node")
+    children: []
+    expression:
+    - 0
+    id: 1
+    label: setup_hello_node
+    line: 1
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.active
+    children: []
+    expression:
+    - -3
+    - 0
+    id: 2
+    label: pass_by_hello_node
+    line: 21
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - 'lastDA() >= #InitialGoodbye(Bye)'
+    children: []
+    expression:
+    - 0
+    id: 3
+    label: hello_node_interruptive_edge_1
+    line: 26
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("hello_node_in")
+    children: []
+    expression:
+    - 0
+    id: 4
+    label: hello_node_in
+    line: 33
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("hello_node_out")
+    children: []
+    expression:
+    - 0
+    id: 5
+    label: hello_node_out
+    line: 39
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("hi_node")
+    children: []
+    expression:
+    - 0
+    id: 6
+    label: hi_node
+    line: 53
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("how_node")
+    children: []
+    expression:
+    - 0
+    id: 7
+    label: how_node
+    line: 67
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("wait_node")
+    children: []
+    expression:
+    - 0
+    id: 8
+    label: wait_node
+    line: 77
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("answer_node")
+    children: []
+    expression:
+    - 0
+    id: 9
+    label: answer_node
+    line: 95
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("excuse_node")
+    children: []
+    expression:
+    - 0
+    id: 10
+    label: excuse_node
+    line: 105
+    parent: *id002
+  - &id003 !!de.dfki.mlt.rudimant.common.ImportInfo
+    children:
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - hello_node.initiated.contains("pos_node")
+      children: []
+      expression:
+      - 0
+      id: 11
+      label: setup_pos_node
+      line: 1
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.active
+      children: []
+      expression:
+      - -3
+      - 0
+      id: 12
+      label: pass_by_pos_node
+      line: 15
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - 'lastDA() >= #Question(Mood)'
+      children: []
+      expression:
+      - 0
+      id: 13
+      label: pos_node_interruptive_edge_1
+      line: 20
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.simple_children.contains("pos_node_in")
+      children: []
+      expression:
+      - 0
+      id: 14
+      label: pos_node_in
+      line: 27
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.simple_children.contains("pos_node_out")
+      children: []
+      expression:
+      - 0
+      id: 15
+      label: pos_node_out
+      line: 33
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.simple_children.contains("cool_node")
+      children: []
+      expression:
+      - 0
+      id: 16
+      label: cool_node
+      line: 47
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.simple_children.contains("why_node")
+      children: []
+      expression:
+      - 0
+      id: 17
+      label: why_node
+      line: 57
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.simple_children.contains("great_node")
+      children: []
+      expression:
+      - 0
+      id: 18
+      label: great_node
+      line: 67
+      parent: *id003
+    errors: []
+    label: Pos_node
+    line: 114
+    parent: *id002
+    relativePath: []
+  - &id004 !!de.dfki.mlt.rudimant.common.ImportInfo
+    children:
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - hello_node.initiated.contains("neg_node")
+      children: []
+      expression:
+      - 0
+      id: 19
+      label: setup_neg_node
+      line: 1
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.active
+      children: []
+      expression:
+      - -3
+      - 0
+      id: 20
+      label: pass_by_neg_node
+      line: 14
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - 'lastDA() >= #Question(Mood)'
+      children: []
+      expression:
+      - 0
+      id: 21
+      label: neg_node_interruptive_edge_1
+      line: 19
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.simple_children.contains("neg_node_in")
+      children: []
+      expression:
+      - 0
+      id: 22
+      label: neg_node_in
+      line: 26
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.simple_children.contains("neg_node_out")
+      children: []
+      expression:
+      - 0
+      id: 23
+      label: neg_node_out
+      line: 32
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.simple_children.contains("no_node")
+      children: []
+      expression:
+      - 0
+      id: 24
+      label: no_node
+      line: 46
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.simple_children.contains("joke_node")
+      children: []
+      expression:
+      - 0
+      id: 25
+      label: joke_node
+      line: 56
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.simple_children.contains("sorry_node")
+      children: []
+      expression:
+      - 0
+      id: 26
+      label: sorry_node
+      line: 64
+      parent: *id004
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - neg_node.simple_children.contains("happy_node")
+      children: []
+      expression:
+      - 0
+      id: 27
+      label: happy_node
+      line: 72
+      parent: *id004
+    errors: []
+    label: Neg_node
+    line: 115
+    parent: *id002
+    relativePath: []
+  errors: []
+  label: Hello_node
+  line: 150
+  parent: *id001
+  relativePath: []
+errors: []
+label: IntroAgentMain
+line: -1
+parent: null
+relativePath: []

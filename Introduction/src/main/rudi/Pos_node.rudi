@@ -1,82 +1,75 @@
-
-myBindings = getRdf("<cat:pos_node_bindings>");
-parentBindings = getRdf("<cat:hello_node_bindings>");
-
 setup_pos_node:
-	if(parentBindings.initiated.contains("pos_node")) {
-		if (!myBindings) {
+	if(hello_node.initiated.contains("pos_node")) {
+		if (!pos_node.active) {
 
-			myBindings = new Pos_node;
-			parentBindings.super_children += myBindings;
-			myBindings.parent = parentBindings;
+			// pos_node = new Pos_node;
+			pos_node.active = true;
+			hello_node.super_children += pos_node;
+			pos_node.parent = hello_node;
 		}
 
-		myBindings.simple_children += "pos_node_in";
-		parentBindings.initiated -= "pos_node";
+		pos_node.simple_children += "pos_node_in";
+		hello_node.initiated -= "pos_node";
 	}
 
 pass_by_pos_node:
-	if(!myBindings) {
+	if(!pos_node.active) {
 		cancel;
 	}
 
 pos_node_interruptive_edge_1:
 	if (lastDA() >= #Question(Mood)) {
 	
-		interruptive_transition(myBindings, parentBindings, "answer_node");
+		interruptive_transition(pos_node, hello_node, "answer_node");
 		cancel;
 	} 
 
 pos_node_in:
-	if (myBindings.simple_children.contains("pos_node_in")) {
+	if (pos_node.simple_children.contains("pos_node_in")) {
 
-		transition("pos_node_in", "cool_node", myBindings, myBindings);
+		transition("pos_node_in", "cool_node", pos_node, pos_node);
 	}
 
 pos_node_out:
-	if (myBindings.simple_children.contains("pos_node_out")) {
+	if (pos_node.simple_children.contains("pos_node_out")) {
 	
-		// Bei der Transition sollten die Variablen-Bindings aus myBindings (nicht dem parent) benutzt werden	
-		transition("pos_node_out", "excuse_node", myBindings, parentBindings);
+		// Bei der Transition sollten die Variablen-Bindings aus pos_node (nicht dem parent) benutzt werden	
+		transition("pos_node_out", "excuse_node", pos_node, hello_node);
 		
-		if(test_inactive(myBindings)) {
-			// TODO: Finde noch den richtigen Code hierfür!!
-			parentBindings.super_children -= myBindings;
-			delete(myBindings);
+		if(test_inactive(pos_node)) {
+			hello_node.super_children -= pos_node;
+			set_inactive(pos_node);
 		}
 
-		check_out_transition("pos_node_out", "hello_node_out", myBindings);
-
+		check_out_transition("pos_node_out", "hello_node_out", pos_node);
 	}
 	
 cool_node:
-	if (myBindings.simple_children.contains("cool_node")): {
+	if (pos_node.simple_children.contains("cool_node")) {
 
 		emitDA(#Connecting(PositiveFeeling));
 
-		transition("cool_node", "why_node", myBindings, myBindings);
+		transition("cool_node", "why_node", pos_node, pos_node);
 
-		check_out_transition("cool_node", "pos_node_out", myBindings);
+		check_out_transition("cool_node", "pos_node_out", pos_node);
 	}
 
 why_node:
-	if (myBindings.simple_children.contains("why_node")) {
+	if (pos_node.simple_children.contains("why_node")) {
 		
 		emitDA(#WHQuestion(PositiveMood));
 		
-		timeout_transition("why_node", "great_node", myBindings, myBindings, 10000);
+		timeout_transition("why_node", "great_node", pos_node, pos_node, 10000);
 		
-		check_out_transition("why_node", "pos_node_out", myBindings);
+		check_out_transition("why_node", "pos_node_out", pos_node);
 	}
 
 great_node:
-	if (myBindings.simple_children.contains("great_node")) {
+	if (pos_node.simple_children.contains("great_node")) {
 
 		emitDA(#Connecting(Enthusiastic));
 
-		states.remove("great_node");
-
-		check_out_transition("great_node", "pos_node_out", myBindings);
+		check_out_transition("great_node", "pos_node_out", pos_node);
 	}
 
 

@@ -1,4 +1,4 @@
-package de.dfki.chatcat.ui;
+package de.dfki.introduction.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

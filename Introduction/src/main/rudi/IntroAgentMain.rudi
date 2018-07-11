@@ -1,19 +1,15 @@
-
-myBindings = getRdf("<cat:main_bindings>");
-
 setup_main:
-	if(!myBindings) {
+	if(!global.active) {
 
-		myBindings = new Global;
-		myBindings.simple_children += "main_in";
-		myBindings.parent = none;
-		myBindings.nice = 0;
+		global.active = true;
+		global.simple_children += "main_in";
 
-		var_nice = new Variable;
-		var_nice.name = "nice";
-		var_nice.value = 0;
-		myBindings.variables += var_nice;
+		//var_nice = new Variable;
+		//var_nice.name = "nice";
+		//var_nice.valueInt = 0;
+		//myBindings.variables += var_nice;
 
+		global.nice = 0;
 	}
 
 void set_inactive(Supernode m) {
@@ -22,44 +18,39 @@ void set_inactive(Supernode m) {
 		removeTimeout(x);
 	}
 
-	for (Supernode x : m.super_children) {
-		set_inactive(x);
+	for (Supernode y : m.super_children) {
+		set_inactive(y);
    	}
 
-	// TODO: How to write this properly??
-	delete(m);
+	m.simple_children = null;
+	m.super_children = null;
+	m.initiated = null;
+	m.active = false;
 	
 }
 
 boolean test_inactive(Supernode m) {
  
-	if ((!m.super_children) && (!m.simple_children) && (!m.initiated) {
-		return true;
-	}
-
-	else {
-		return false;
-	}
+	return ((!m.super_children) && (!m.simple_children) && (!m.initiated));
 
 }
 
-Variable getVariable(Supernode m, String var_name) {
-
-	for (Variable x: m.variables) {
-		if (x.name == var_name) {
-			return x;
-		}
-	}
-
-	if(!m.parent) {
-		return none;
-	}
-
-	else {
-		return getVariable(m.parent, var_name);
-	}
-
-}
+//Variable getVariable(Supernode m, String var_name) {
+//
+//	for (Variable x: m.variables) {
+//		if (x.name == var_name) {
+//			return x;
+//		}
+//	}
+//
+//	if(!m.parent) {
+//		return none;
+//	}
+//
+//	else {
+//		return getVariable(m.parent, var_name);
+//	}
+//}
 
 void super_transition(String node_a, Supernode a_parent, String supernode_b) {
 
@@ -80,10 +71,10 @@ void transition (String node_a, String node_b, Supernode a_parent, Supernode b_p
 
 	// Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen", deshalb löschen wir nur, wenn es das erste Mal ist
 	if(a_parent.simple_children.contains(node_a)) {
-		a_parent.children -= node_a;
+		a_parent.simple_children -= node_a;
 	}
 
-	b_parent.children += node_b;
+	b_parent.simple_children += node_b;
 
 }
 
@@ -91,11 +82,11 @@ void check_out_transition(String node, String out_node, Supernode parent) {
 
 	if (!hasActiveTimeout(node) && parent.simple_children.contains(node)) { 
 	
-		transition(node, out_node);
+		transition(node, out_node, parent, parent);
 	}
 }
 
-void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, Int duration) {
+void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, int duration) {
 
 	timeout(node_a, duration) {
 
@@ -115,12 +106,12 @@ void probability_transition(String node_a, String node_b, Supernode a_parent, Su
 
 
 // TODO: Wie kann man die condition in VonDa evaluieren???
-void conditional_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, String condition) {
-
-	if(eval(condition) {
-		transition(node_a, node_b, a_parent, b_parent);
-	}
-}
+// void conditional_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, String condition) {
+//
+//	if(eval(condition) {
+//		transition(node_a, node_b, a_parent, b_parent);
+//	}
+//}
 
 void interruptive_transition(Supernode m, Supernode parent, String target_node) {
 						
@@ -135,29 +126,26 @@ void interruptive_super_transition(Supernode m, Supernode parent, String target_
 }
 
 
+if(global.simple_children.contains("main_in")) {
 
-if(myBindings.simple_children.contains("main_in") {
-
-	super_transition("main_in", myBindings, "hello_node");
-
+	super_transition("main_in", global, "hello_node");
 } 
 
-if(myBindings.simple_children.contains("main_out") {
+if(global.simple_children.contains("main_out")) {
 
 	timeout("shutdown", 3000) {
-		clearBehaviorsAndProposals();
+		clearBehavioursAndProposals();
 		shutdown();
 	}
-
 }
 
-if ("bye_node" in states) {
+if (global.simple_children.contains("bye_node")) {
 	
 	emitDA(#Valediction(Bye));
 	
-	check_out_transition("bye_node", "main_out");
+	check_out_transition("bye_node", "main_out", global);
 	
 }
 
-import("hello_node");
+import Hello_node;
 

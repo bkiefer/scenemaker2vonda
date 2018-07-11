@@ -1,4 +1,4 @@
-package de.dfki.chatcat;
+package de.dfki.introduction;
 
 public interface Constants {
   public static final String CFG_ONTOLOGY_FILE = "ontologyFile";

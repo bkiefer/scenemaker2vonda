@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.dfki.chatcat.ui;
+package de.dfki.introduction.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -378,7 +378,7 @@ public class GUI extends JFrame {
 
 
   public GUI() {
-    super("Chatcat Chat");
+    super("Introductory Chat");
 
     mainFrame = this;
 

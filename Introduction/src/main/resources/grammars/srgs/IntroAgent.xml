@@ -8,6 +8,8 @@
         <one-of>
           <item>Hello</item>
           <item>Hi</item>
+		  <item>hello</item>
+		  <item>hi</item>
         </one-of>
         <item repeat="0-1">Cat</item>
         <tag> out.da="InitialGreeting" ; out.prop="Greet" </tag>
