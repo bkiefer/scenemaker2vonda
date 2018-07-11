@@ -1,0 +1,46 @@
+// test grammar to check if working with grammar works
+// should greet back:
+
+raw:Valediction ^ Bye
+->
+# =  :canned ^ <string>"* Goodbye *".
+
+raw:Inform ^ Mood
+->
+# =  :canned ^ <string>"* I'm fine, thanks *".
+
+raw:ChoiceQuestion ^ Mood
+->
+# =  :canned ^ <string>"How do you feel today?".
+
+raw:Encouragement ^ Joke
+->
+# =  :canned ^ <string>"* Best_Joke_Ever *".
+
+raw:Encouragement ^ Tomorrow
+->
+# =  :canned ^ <string>"* Tomorrow will be a happy day again! *".
+
+raw:Connecting ^ Sorry
+->
+# =  :canned ^ <string>"* I'm so sorry! *".
+
+raw:Connecting ^ NegativeFeeling
+->
+# =  :canned ^ <string>"* Oh no! *".
+
+raw:InitialGoodbye ^ Leave
+->
+# =  :canned ^ <string>"* I have to go now *".
+
+raw:Connecting ^ PositiveFeeling
+->
+# =  :canned ^ <string>"* Cool *".
+
+raw:Connecting ^ Enthusiastic
+->
+# =  :canned ^ <string>"* That's great! *".
+
+raw:WHQuestion ^ PositiveMood
+->
+# =  :canned ^ <string>"* Why are you so happy today? *".
