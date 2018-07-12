@@ -54,7 +54,7 @@ boolean test_inactive(Supernode m) {
 
 void super_transition(String node_a, Supernode a_parent, String supernode_b) {
 
-	removeTimeout(node_a);
+	cancelTimeout(node_a);
 
 	// Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen"
 	if(a_parent.simple_children.contains(node_a)) {
@@ -67,7 +67,7 @@ void super_transition(String node_a, Supernode a_parent, String supernode_b) {
 
 void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
 
-	removeTimeout(node_a);
+	cancelTimeout(node_a);
 
 	// Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen", deshalb löschen wir nur, wenn es das erste Mal ist
 	if(a_parent.simple_children.contains(node_a)) {
@@ -133,10 +133,10 @@ if(global.simple_children.contains("main_in")) {
 
 if(global.simple_children.contains("main_out")) {
 
-	timeout("shutdown", 3000) {
-		clearBehavioursAndProposals();
-		shutdown();
-	}
+	set_inactive(global);
+	clearBehavioursAndProposals();
+	shutdown();
+	
 }
 
 if (global.simple_children.contains("bye_node")) {

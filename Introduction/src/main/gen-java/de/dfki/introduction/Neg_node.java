@@ -132,8 +132,8 @@ neg_node_out:
 
 public int no_node()
 {
-  boolean[] __x24 = new boolean[2];
-  __x24[0]        = (__x24[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("no_node"));
+  boolean[] __x24 = new boolean[3];
+  __x24[0]        = (__x24[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("no_node")) && !((__x24[2] = (introAgentMain.myLastDA().isSubsumedBy(new DialogueAct("Connecting", "NegativeFeeling")))));
   introAgentMain.logRule(24, __x24);
 no_node:
   if (__x24[0]) {

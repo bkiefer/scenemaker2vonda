@@ -82,7 +82,7 @@ children:
     - 0
     id: 7
     label: how_node
-    line: 67
+    line: 69
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -92,7 +92,7 @@ children:
     - 0
     id: 8
     label: wait_node
-    line: 77
+    line: 79
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -102,7 +102,7 @@ children:
     - 0
     id: 9
     label: answer_node
-    line: 95
+    line: 100
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -112,7 +112,7 @@ children:
     - 0
     id: 10
     label: excuse_node
-    line: 105
+    line: 110
     parent: *id002
   - &id003 !!de.dfki.mlt.rudimant.common.ImportInfo
     children:
@@ -195,11 +195,11 @@ children:
       - 0
       id: 18
       label: great_node
-      line: 67
+      line: 69
       parent: *id003
     errors: []
     label: Pos_node
-    line: 114
+    line: 119
     parent: *id002
     relativePath: []
   - &id004 !!de.dfki.mlt.rudimant.common.ImportInfo
@@ -258,9 +258,13 @@ children:
     - !!de.dfki.mlt.rudimant.common.RuleInfo
       baseterms:
       - neg_node.simple_children.contains("no_node")
+      - 'myLastDA() >= #Connecting(NegativeFeeling)'
       children: []
       expression:
+      - -1
       - 0
+      - -3
+      - 1
       id: 24
       label: no_node
       line: 46
@@ -273,7 +277,7 @@ children:
       - 0
       id: 25
       label: joke_node
-      line: 56
+      line: 58
       parent: *id004
     - !!de.dfki.mlt.rudimant.common.RuleInfo
       baseterms:
@@ -283,7 +287,7 @@ children:
       - 0
       id: 26
       label: sorry_node
-      line: 64
+      line: 66
       parent: *id004
     - !!de.dfki.mlt.rudimant.common.RuleInfo
       baseterms:
@@ -293,11 +297,11 @@ children:
       - 0
       id: 27
       label: happy_node
-      line: 72
+      line: 74
       parent: *id004
     errors: []
     label: Neg_node
-    line: 115
+    line: 120
     parent: *id002
     relativePath: []
   errors: []
