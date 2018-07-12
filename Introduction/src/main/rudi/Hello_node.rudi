@@ -57,7 +57,7 @@ hi_node:
 
 		timeout_transition("hi_node", "how_node", hello_node, hello_node, 5000);
 
-		if (lastDA() == "hello") {
+		if (lastDA() >= #InitialGreeting(Greet)) {
 			transition("hi_node", "how_node", hello_node, hello_node);
 		}
 		
