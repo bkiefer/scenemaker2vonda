@@ -1,13 +1,17 @@
 // test grammar to check if working with grammar works
 // should greet back:
 
+raw:InitialGreeting ^ Greet
+->
+# =  :canned ^ <string>"Hello fellow human!".
+
 raw:Valediction ^ Bye
 ->
-# =  :canned ^ <string>"* Goodbye *".
+# =  :canned ^ <string>"Goodbye".
 
 raw:Inform ^ Mood
 ->
-# =  :canned ^ <string>"* I'm fine, thanks *".
+# =  :canned ^ <string>"I feel great, thanks".
 
 raw:ChoiceQuestion ^ Mood
 ->
@@ -15,32 +19,32 @@ raw:ChoiceQuestion ^ Mood
 
 raw:Encouragement ^ Joke
 ->
-# =  :canned ^ <string>"* Best_Joke_Ever *".
+# =  :canned ^ <string>"Best Joke Ever".
 
 raw:Encouragement ^ Tomorrow
 ->
-# =  :canned ^ <string>"* Tomorrow will be a happy day again! *".
+# =  :canned ^ <string>"Tomorrow will be a happy day again!".
 
 raw:Connecting ^ Sorry
 ->
-# =  :canned ^ <string>"* I'm so sorry! *".
+# =  :canned ^ <string>"I am so sorry!".
 
 raw:Connecting ^ NegativeFeeling
 ->
-# =  :canned ^ <string>"* Oh no! *".
+# =  :canned ^ <string>"Oh no!".
 
 raw:InitialGoodbye ^ Leave
 ->
-# =  :canned ^ <string>"* I have to go now *".
+# =  :canned ^ <string>"I have to go now".
 
 raw:Connecting ^ PositiveFeeling
 ->
-# =  :canned ^ <string>"* Cool *".
+# =  :canned ^ <string>"Cool".
 
 raw:Connecting ^ Enthusiastic
 ->
-# =  :canned ^ <string>"* That's great! *".
+# =  :canned ^ <string>"Great!".
 
 raw:WHQuestion ^ PositiveMood
 ->
-# =  :canned ^ <string>"* Why are you so happy today? *".
+# =  :canned ^ <string>"Why are you so happy today?".

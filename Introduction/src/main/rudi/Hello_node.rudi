@@ -53,11 +53,13 @@ hello_node_out:
 hi_node:
 	if (hello_node.simple_children.contains("hi_node")) {
 
-		emitDA(#InitialGreeting(Greet));
+		if(!hasActiveTimeout("hi_node")) {
+			emitDA(#InitialGreeting(Greet));
+		}
 
 		timeout_transition("hi_node", "how_node", hello_node, hello_node, 5000);
 
-		if (lastDA() == "hello") {
+		if (lastDA() >= #InitialGreeting(Greet)) {
 			transition("hi_node", "how_node", hello_node, hello_node);
 		}
 		
@@ -81,11 +83,14 @@ wait_node:
 
 		answer = lastDA();
 
-		if (answer.what == "negative") {
-			super_transition("wait_node", hello_node, "neg_node");
-		}
-		if (answer.what == "positive") {
-			super_transition("wait_node", hello_node, "pos_node");
+		if (answer >= #Inform(Mood)) {
+			
+			if(answer.what == "negative") {
+				super_transition("wait_node", hello_node, "neg_node");
+			}
+			if (answer.what == "positive") {
+				super_transition("wait_node", hello_node, "pos_node");
+			}
 		}
 
 		check_out_transition("wait_node", "hello_node_out", hello_node);	

@@ -150,9 +150,12 @@ public int hi_node()
   introAgentMain.logRule(6, __x6);
 hi_node:
   if (__x6[0]) {
-    introAgentMain.emitDA(new DialogueAct("InitialGreeting", "Greet"));
+    if (!(introAgentMain.hasActiveTimeout("hi_node"))) {
+      introAgentMain.emitDA(new DialogueAct("InitialGreeting", "Greet"));
+    }
+
     introAgentMain.timeout_transition("hi_node", "how_node", introAgentMain.hello_node, introAgentMain.hello_node, 5000);
-    if (introAgentMain.lastDA().equals(new DialogueAct("hello"))) {
+    if (introAgentMain.lastDA().isSubsumedBy(new DialogueAct("InitialGreeting", "Greet"))) {
       introAgentMain.transition("hi_node", "how_node", introAgentMain.hello_node, introAgentMain.hello_node);
     }
 
@@ -186,12 +189,14 @@ wait_node:
   if (__x8[0]) {
     introAgentMain.timeout_transition("wait_node", "excuse_node", introAgentMain.hello_node, introAgentMain.hello_node, 16000);
     DialogueAct answer = introAgentMain.lastDA();
-    if (((String)answer.getValue("what")).equals("negative")) {
-      introAgentMain.super_transition("wait_node", introAgentMain.hello_node, "neg_node");
-    }
+    if (answer.isSubsumedBy(new DialogueAct("Inform", "Mood"))) {
+      if (((String)answer.getValue("what")).equals("negative")) {
+        introAgentMain.super_transition("wait_node", introAgentMain.hello_node, "neg_node");
+      }
 
-    if (((String)answer.getValue("what")).equals("positive")) {
-      introAgentMain.super_transition("wait_node", introAgentMain.hello_node, "pos_node");
+      if (((String)answer.getValue("what")).equals("positive")) {
+        introAgentMain.super_transition("wait_node", introAgentMain.hello_node, "pos_node");
+      }
     }
 
     introAgentMain.check_out_transition("wait_node", "hello_node_out", introAgentMain.hello_node);

@@ -151,8 +151,11 @@ public int why_node()
   introAgentMain.logRule(17, __x17);
 why_node:
   if (__x17[0]) {
-    introAgentMain.emitDA(new DialogueAct("WHQuestion", "PositiveMood"));
-    introAgentMain.timeout_transition("why_node", "great_node", introAgentMain.pos_node, introAgentMain.pos_node, 10000);
+    if (!(introAgentMain.hasActiveTimeout("why_node"))) {
+      introAgentMain.emitDA(new DialogueAct("WHQuestion", "PositiveMood"));
+    }
+
+    introAgentMain.timeout_transition("why_node", "great_node", introAgentMain.pos_node, introAgentMain.pos_node, 8000);
     introAgentMain.check_out_transition("why_node", "pos_node_out", introAgentMain.pos_node);
   }
 

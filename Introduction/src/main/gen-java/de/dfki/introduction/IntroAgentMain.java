@@ -22,13 +22,9 @@ public IntroAgentMain()
   }
 
   if (global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("main_out")) {
-    newTimeout("shutdown", 3000, new Proposal() {
-                 public void run()
-                 {
-                   clearBehavioursAndProposals();
-                   shutdown();
-                 }
-               });
+    set_inactive(global);
+    clearBehavioursAndProposals();
+    shutdown();
   }
 
   if (global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("bye_node")) {
@@ -105,7 +101,7 @@ public boolean test_inactive(Rdf m)
 
 public void super_transition(String node_a, Rdf a_parent, String supernode_b)
 {
-  removeTimeout(node_a);
+  cancelTimeout(node_a);
 // Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen"
 
   if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
@@ -117,7 +113,7 @@ public void super_transition(String node_a, Rdf a_parent, String supernode_b)
 
 public void transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent)
 {
-  removeTimeout(node_a);
+  cancelTimeout(node_a);
 // Im Falle von Fork Edges wird der Knoten ja vielleicht mehrfach "verlassen", deshalb löschen wir nur, wenn es das erste Mal ist
 
   if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
