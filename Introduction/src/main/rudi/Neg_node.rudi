@@ -44,14 +44,13 @@ neg_node_out:
 	}
 
 no_node:
-	if (neg_node.simple_children.contains("no_node") && !(myLastDA() >= #Connecting(NegativeFeeling))) {
+	if (neg_node.simple_children.contains("no_node")) {
 
 		emitDA(#Connecting(NegativeFeeling));
 
-		probability_transition("no_node", "joke_node", neg_node, neg_node);	
 		probability_transition("no_node", "sorry_node", neg_node, neg_node);	
-		probability_transition("no_node", "happy_node", neg_node, neg_node);
-
+		probability_transition("no_node", "happy_node", neg_node, neg_node);		
+		probability_transition("no_node", "joke_node", neg_node, neg_node);	
 							
 	}
 

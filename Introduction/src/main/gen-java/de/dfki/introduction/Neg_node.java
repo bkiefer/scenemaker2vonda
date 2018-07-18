@@ -132,15 +132,15 @@ neg_node_out:
 
 public int no_node()
 {
-  boolean[] __x24 = new boolean[3];
-  __x24[0]        = (__x24[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("no_node")) && !((__x24[2] = (introAgentMain.myLastDA().isSubsumedBy(new DialogueAct("Connecting", "NegativeFeeling")))));
+  boolean[] __x24 = new boolean[2];
+  __x24[0]        = (__x24[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("no_node"));
   introAgentMain.logRule(24, __x24);
 no_node:
   if (__x24[0]) {
     introAgentMain.emitDA(new DialogueAct("Connecting", "NegativeFeeling"));
-    introAgentMain.probability_transition("no_node", "joke_node", introAgentMain.neg_node, introAgentMain.neg_node);
     introAgentMain.probability_transition("no_node", "sorry_node", introAgentMain.neg_node, introAgentMain.neg_node);
     introAgentMain.probability_transition("no_node", "happy_node", introAgentMain.neg_node, introAgentMain.neg_node);
+    introAgentMain.probability_transition("no_node", "joke_node", introAgentMain.neg_node, introAgentMain.neg_node);
   }
 
   return 0;

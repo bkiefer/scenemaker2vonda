@@ -23,7 +23,6 @@ public IntroAgentMain()
 
   if (global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("main_out")) {
     set_inactive(global);
-    clearBehavioursAndProposals();
     shutdown();
   }
 
@@ -45,14 +44,18 @@ public IntroAgentMain()
   logRule(0, __x0);
 setup_main:
   if (__x0[0]) {
-    global.setValue("<cat:active>", true);
+// global.simple_children = new HashSet<Object>();
+// global.initiated = new HashSet<Object>();
+// global.super_children = new HashSet<Object>();
+
     ((Set<Object>)global.getValue("<cat:simple_children>")).add("main_in"); // var_nice = new Variable;
 // var_nice.name = "nice";
 // var_nice.valueInt = 0;
 // myBindings.variables += var_nice;
 
-    global.setValue("<cat:nice>", 0);
+    global.setValue("<cat:nice>", 42);
   }
+// global.active = true;
 
   return 0;
 }
@@ -64,17 +67,23 @@ public void set_inactive(Rdf m)
     {
       removeTimeout(x);
     }
+// m.simple_children -= x;
   }
   for (Object y_outer : ((Set<Object>)m.getValue("<cat:super_children>"))) {
     Rdf y = (Rdf)y_outer;
     {
       set_inactive(y);
     }
+// m.super_children -= y;
   }
+// for (String z : m.initiated) {
+// m.initiated -= z;
+// }
+
+  m.setValue("<cat:active>", false);
   m.clearValue("<cat:simple_children>");
   m.clearValue("<cat:super_children>");
   m.clearValue("<cat:initiated>");
-  m.setValue("<cat:active>", false);
 }
 
 public boolean test_inactive(Rdf m)
@@ -143,6 +152,10 @@ public void timeout_transition(String node_a, String node_b, Rdf a_parent, Rdf b
 public void probability_transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent)
 {
   String propose_id = ("propose_"+node_a);
+  if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
+    ((Set<Object>)a_parent.getValue("<cat:simple_children>")).remove(node_a);
+  }
+
   propose(propose_id, new Proposal() {
             public void run()
             {
