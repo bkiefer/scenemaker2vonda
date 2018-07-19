@@ -34,7 +34,7 @@ pos_node_out:
 	if (pos_node.simple_children.contains("pos_node_out")) {
 	
 		// Bei der Transition sollten die Variablen-Bindings aus pos_node (nicht dem parent) benutzt werden	
-		transition("pos_node_out", "excuse_node", pos_node, hello_node);
+		transition("pos_node_out", "something_else_node", pos_node, hello_node);
 		
 		if(test_inactive(pos_node)) {
 			hello_node.super_children -= pos_node;
@@ -60,10 +60,24 @@ why_node:
 		if(!hasActiveTimeout("why_node")) {
 			emitDA(#WHQuestion(PositiveMood));
 		}
+
+		if(hello_node.timedOut == true) {
+			transition("why_node", "demand_answer_node", pos_node, pos_node);
+		}
 		
-		timeout_transition("why_node", "great_node", pos_node, pos_node, 8000);
+		timeout_transition("why_node", "great_node", pos_node, pos_node, 10000);
 		
 		check_out_transition("why_node", "pos_node_out", pos_node);
+	}
+
+demand_answer_node:
+	if (pos_node.simple_children.contains("demand_answer_node")) {
+
+		emitDA(#Urge(Answer));
+		
+		timeout_transition("demand_answer_node", "great_node", pos_node, pos_node, 12000);
+
+		check_out_transition("demand_answer_node", "pos_node_out", pos_node);
 	}
 
 great_node:

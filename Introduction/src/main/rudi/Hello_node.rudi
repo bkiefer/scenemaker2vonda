@@ -11,7 +11,7 @@ setup_hello_node:
 			//var_timedOut.valueBool = false;
 			//hello_node.variables += var_timedOut;
 
-			hello_node.timedOut = false;
+			hello_node.timedOut = true;
 		}
 
 		hello_node.simple_children += "hello_node_in";
@@ -27,6 +27,13 @@ hello_node_interruptive_edge_1:
 	if (lastDA() >= #InitialGoodbye(Bye)) {
 
 		interruptive_transition(hello_node, global, "bye_node");
+		cancel;
+	}
+
+hello_node_interruptive_edge_2:
+	if (global.nice <= -2) {
+
+		interruptive_transition(hello_node, global, "excuse_node");
 		cancel;
 	}
 
@@ -55,6 +62,7 @@ hi_node:
 
 		if(!hasActiveTimeout("hi_node")) {
 			emitDA(#InitialGreeting(Greet));
+			hello_node.timedOut = false;
 		}
 
 		timeout_transition("hi_node", "how_node", hello_node, hello_node, 5000);
@@ -64,6 +72,19 @@ hi_node:
 		}
 		
 		check_out_transition("hi_node", "hello_node_out", hello_node);					
+	}
+
+timed_out_node:
+	if (hello_node.simple_children.contains("timed_out_node")) {
+
+		if(!hasActiveTimeout("timed_out_node")) {
+			hello_node.timedOut = true;
+			global.nice = global.nice - 1;
+		}
+		
+		transition("timed_out_node", "how_node", hello_node, hello_node);
+
+		check_out_transition("timed_out_node", "hello_node_out", hello_node);					
 	}
 
 how_node:
@@ -78,8 +99,12 @@ how_node:
 
 wait_node:
 	if (hello_node.simple_children.contains("wait_node")) {
-		
-		timeout_transition("wait_node", "excuse_node", hello_node, hello_node, 16000);
+
+		timeout_transition("wait_node", "timed_out_node", hello_node, hello_node, 20000);
+
+		if (lastDA() >= #Question(Mood)) {
+			transition("wait_node", "answer_node", hello_node, hello_node);
+		}
 
 		if (lastDA() >= #Inform(Mood)) {
 			
@@ -98,20 +123,113 @@ wait_node:
 answer_node:
 	if (hello_node.simple_children.contains("answer_node")) {
 
-		emitDA(#Inform(Mood));
+		if(!hasActiveTimeout("answer_node")) {
+			emitDA(#Inform(Mood));
+			global.nice = global.nice + 2;
+		}
 
-		transition("answer_node", "excuse_node", hello_node, hello_node);						
+		transition("answer_node", "something_else_node", hello_node, hello_node);						
 
 		check_out_transition("answer_node", "hello_node_out", hello_node);
 	}
 
-excuse_node:
-	if (hello_node.simple_children.contains("excuse_node")) {
+something_else_node:
+	if (hello_node.simple_children.contains("something_else_node")) {
 		
-		emitDA(#InitialGoodbye(Leave));
+		if(!hasActiveTimeout("something_else_node")) {
+			emitDA(#Question(MoreTalking));
+		}
+
+		timeout_transition("something_else_node", "choose_valediction_node", hello_node, hello_node, 20000);
+
+		if (lastDA() >= #Question(Mood)) {
+			transition("wait_node", "answer_node", hello_node, hello_node);
+		}
+			
+		if(lastDA() >= #Disconfirm(MoreTalking)) {
+			transition("something_else_node", "choose_valediction_node", hello_node, hello_node);
+		}
+		if(lastDA() >= #Confirm(MoreTalking)) {
+			transition("something_else_node", "what_node", hello_node, hello_node);
+		}
+
+		check_out_transition("something_else_node", "hello_node_out", hello_node);	
+	}
+
+what_node:
+	if (hello_node.simple_children.contains("what_node")) {
+
+		if(!hasActiveTimeout("what_node")) {
+			emitDA(#Suggestion(MoreTalking));
+		}
+
+		timeout_transition("what_node", "thanks_node", hello_node, hello_node, 15000);
+
+		if(lastDA() >= #DeclineSuggestion(MoreTalking)) {
+
+			transition("what_node", "nevermind_node", hello_node, hello_node);
+		}
 	
-		check_out_transition("excuse_node", "hello_node_out", hello_node);
-		
+		check_out_transition("what_node", "hello_node_out", hello_node);
+	}
+
+thanks_node:
+	if (hello_node.simple_children.contains("thanks_node")) {
+
+		if(!hasActiveTimeout("thanks_node")) {
+			emitDA(#Thanking(Sharing));
+			global.nice = global.nice + 1;
+		}
+
+		transition("thanks_node", "something_else_node", hello_node, hello_node);						
+
+		check_out_transition("thanks_node", "hello_node_out", hello_node);
+	}
+
+nevermind_node:
+	if (hello_node.simple_children.contains("nevermind_node")) {
+
+		if(!hasActiveTimeout("nevermind_node")) {
+			emitDA(#SocialFunction(NoTrust));
+			global.nice = global.nice - 1;
+		}
+
+		transition("nevermind_node", "something_else_node", hello_node, hello_node);						
+
+		check_out_transition("nevermind_node", "hello_node_out", hello_node);
+	}
+
+choose_valediction_node:
+	if (hello_node.simple_children.contains("choose_valediction_node")) {
+
+		if(global.nice > 0) {
+			transition("choose_valediction_node", "nice_leave_node", hello_node, hello_node);
+		}
+		if(global.nice <= 0) {
+			transition("choose_valediction_node", "mean_leave_node", hello_node, hello_node);
+		}
+
+		check_out_transition("choose_valediction_node", "hello_node_out", hello_node);	
+	}
+
+nice_leave_node:
+	if (hello_node.simple_children.contains("nice_leave_node")) {
+
+		if(!hasActiveTimeout("nice_leave_node")) {
+			emitDA(#InitialGoodbye(Nice));
+		}					
+
+		check_out_transition("nice_leave_node", "hello_node_out", hello_node);
+	}
+
+mean_leave_node:
+	if (hello_node.simple_children.contains("mean_leave_node")) {
+
+		if(!hasActiveTimeout("mean_leave_node")) {
+			emitDA(#InitialGoodbye(Mean));
+		}
+
+		check_out_transition("mean_leave_node", "hello_node_out", hello_node);
 	}
 
 import Pos_node;

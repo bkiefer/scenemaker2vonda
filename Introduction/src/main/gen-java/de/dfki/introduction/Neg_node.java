@@ -51,11 +51,11 @@ public Neg_node(Hello_node hello_node, IntroAgentMain introAgentMain)
 
 /*END_PROCESS*/ public int setup_neg_node()
 {
-  boolean[] __x19 = new boolean[2];
-  __x19[0]        = (__x19[1] = introAgentMain.hello_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.hello_node.getValue("<cat:initiated>"))) && ((Set<Object>)introAgentMain.hello_node.getValue("<cat:initiated>")).contains("neg_node"));
-  introAgentMain.logRule(19, __x19);
+  boolean[] __x32 = new boolean[2];
+  __x32[0]        = (__x32[1] = introAgentMain.hello_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.hello_node.getValue("<cat:initiated>"))) && ((Set<Object>)introAgentMain.hello_node.getValue("<cat:initiated>")).contains("neg_node"));
+  introAgentMain.logRule(32, __x32);
 setup_neg_node:
-  if (__x19[0]) {
+  if (__x32[0]) {
     if (!(introAgentMain.neg_node != null && ((Boolean)introAgentMain.neg_node.getSingleValue("<cat:active>")))) {
       introAgentMain.neg_node.setValue("<cat:active>", true);
       ((Set<Object>)introAgentMain.hello_node.getValue("<cat:super_children>")).add(introAgentMain.neg_node);
@@ -71,11 +71,11 @@ setup_neg_node:
 
 public int pass_by_neg_node()
 {
-  boolean[] __x20 = new boolean[2];
-  __x20[0]        = !((__x20[1] = introAgentMain.neg_node != null && ((Boolean)introAgentMain.neg_node.getSingleValue("<cat:active>"))));
-  introAgentMain.logRule(20, __x20);
+  boolean[] __x33 = new boolean[2];
+  __x33[0]        = !((__x33[1] = introAgentMain.neg_node != null && ((Boolean)introAgentMain.neg_node.getSingleValue("<cat:active>"))));
+  introAgentMain.logRule(33, __x33);
 pass_by_neg_node:
-  if (__x20[0]) {
+  if (__x33[0]) {
     return 1;
   }
 
@@ -84,11 +84,11 @@ pass_by_neg_node:
 
 public int neg_node_interruptive_edge_1()
 {
-  boolean[] __x21 = new boolean[2];
-  __x21[0]        = (__x21[1] = introAgentMain.lastDA().isSubsumedBy(new DialogueAct("Question", "Mood")));
-  introAgentMain.logRule(21, __x21);
+  boolean[] __x34 = new boolean[2];
+  __x34[0]        = (__x34[1] = introAgentMain.lastDA().isSubsumedBy(new DialogueAct("Question", "Mood")));
+  introAgentMain.logRule(34, __x34);
 neg_node_interruptive_edge_1:
-  if (__x21[0]) {
+  if (__x34[0]) {
     introAgentMain.interruptive_transition(introAgentMain.neg_node, introAgentMain.hello_node, "answer_node");
     return 1;
   }
@@ -98,11 +98,11 @@ neg_node_interruptive_edge_1:
 
 public int neg_node_in()
 {
-  boolean[] __x22 = new boolean[2];
-  __x22[0]        = (__x22[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("neg_node_in"));
-  introAgentMain.logRule(22, __x22);
+  boolean[] __x35 = new boolean[2];
+  __x35[0]        = (__x35[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("neg_node_in"));
+  introAgentMain.logRule(35, __x35);
 neg_node_in:
-  if (__x22[0]) {
+  if (__x35[0]) {
     introAgentMain.transition("neg_node_in", "no_node", introAgentMain.neg_node, introAgentMain.neg_node);
   }
 
@@ -111,14 +111,14 @@ neg_node_in:
 
 public int neg_node_out()
 {
-  boolean[] __x23 = new boolean[2];
-  __x23[0]        = (__x23[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("neg_node_out"));
-  introAgentMain.logRule(23, __x23);
+  boolean[] __x36 = new boolean[2];
+  __x36[0]        = (__x36[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("neg_node_out"));
+  introAgentMain.logRule(36, __x36);
 neg_node_out:
-  if (__x23[0]) {
+  if (__x36[0]) {
 // Bei der Transition sollten die Variablen-Bindings aus neg_node (nicht dem parent) benutzt werden
 
-    introAgentMain.transition("neg_node_out", "excuse_node", introAgentMain.neg_node, introAgentMain.hello_node);
+    introAgentMain.transition("neg_node_out", "something_else_node", introAgentMain.neg_node, introAgentMain.hello_node);
     if (introAgentMain.test_inactive(introAgentMain.neg_node)) {
       ((Set<Object>)introAgentMain.hello_node.getValue("<cat:super_children>")).remove(introAgentMain.neg_node);
       introAgentMain.set_inactive(introAgentMain.neg_node);
@@ -132,11 +132,11 @@ neg_node_out:
 
 public int no_node()
 {
-  boolean[] __x24 = new boolean[2];
-  __x24[0]        = (__x24[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("no_node"));
-  introAgentMain.logRule(24, __x24);
+  boolean[] __x37 = new boolean[2];
+  __x37[0]        = (__x37[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("no_node"));
+  introAgentMain.logRule(37, __x37);
 no_node:
-  if (__x24[0]) {
+  if (__x37[0]) {
     introAgentMain.emitDA(new DialogueAct("Connecting", "NegativeFeeling"));
     introAgentMain.probability_transition("no_node", "sorry_node", introAgentMain.neg_node, introAgentMain.neg_node);
     introAgentMain.probability_transition("no_node", "happy_node", introAgentMain.neg_node, introAgentMain.neg_node);
@@ -148,11 +148,11 @@ no_node:
 
 public int joke_node()
 {
-  boolean[] __x25 = new boolean[2];
-  __x25[0]        = (__x25[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("joke_node"));
-  introAgentMain.logRule(25, __x25);
+  boolean[] __x38 = new boolean[2];
+  __x38[0]        = (__x38[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("joke_node"));
+  introAgentMain.logRule(38, __x38);
 joke_node:
-  if (__x25[0]) {
+  if (__x38[0]) {
     introAgentMain.emitDA(new DialogueAct("Encouragement", "Joke"));
     introAgentMain.check_out_transition("joke_node", "neg_node_out", introAgentMain.neg_node);
   }
@@ -162,11 +162,11 @@ joke_node:
 
 public int sorry_node()
 {
-  boolean[] __x26 = new boolean[2];
-  __x26[0]        = (__x26[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("sorry_node"));
-  introAgentMain.logRule(26, __x26);
+  boolean[] __x39 = new boolean[2];
+  __x39[0]        = (__x39[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("sorry_node"));
+  introAgentMain.logRule(39, __x39);
 sorry_node:
-  if (__x26[0]) {
+  if (__x39[0]) {
     introAgentMain.emitDA(new DialogueAct("Connecting", "Sorry"));
     introAgentMain.check_out_transition("sorry_node", "neg_node_out", introAgentMain.neg_node);
   }
@@ -176,11 +176,11 @@ sorry_node:
 
 public int happy_node()
 {
-  boolean[] __x27 = new boolean[2];
-  __x27[0]        = (__x27[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("happy_node"));
-  introAgentMain.logRule(27, __x27);
+  boolean[] __x40 = new boolean[2];
+  __x40[0]        = (__x40[1] = introAgentMain.neg_node != null && introAgentMain.exists(((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>"))) && ((Set<Object>)introAgentMain.neg_node.getValue("<cat:simple_children>")).contains("happy_node"));
+  introAgentMain.logRule(40, __x40);
 happy_node:
-  if (__x27[0]) {
+  if (__x40[0]) {
     introAgentMain.emitDA(new DialogueAct("Encouragement", "Tomorrow"));
     introAgentMain.check_out_transition("happy_node", "neg_node_out", introAgentMain.neg_node);
   }
