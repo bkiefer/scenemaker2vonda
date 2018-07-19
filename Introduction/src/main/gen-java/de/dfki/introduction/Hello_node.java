@@ -188,13 +188,12 @@ public int wait_node()
 wait_node:
   if (__x8[0]) {
     introAgentMain.timeout_transition("wait_node", "excuse_node", introAgentMain.hello_node, introAgentMain.hello_node, 16000);
-    DialogueAct answer = introAgentMain.lastDA();
-    if (answer.isSubsumedBy(new DialogueAct("Inform", "Mood"))) {
-      if (((String)answer.getValue("what")).equals("negative")) {
+    if (introAgentMain.lastDA().isSubsumedBy(new DialogueAct("Inform", "Mood"))) {
+      if (((String)introAgentMain.lastDA().getValue("what")).equals("negative")) {
         introAgentMain.super_transition("wait_node", introAgentMain.hello_node, "neg_node");
       }
 
-      if (((String)answer.getValue("what")).equals("positive")) {
+      if (((String)introAgentMain.lastDA().getValue("what")).equals("positive")) {
         introAgentMain.super_transition("wait_node", introAgentMain.hello_node, "pos_node");
       }
     }

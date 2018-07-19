@@ -1,7 +1,10 @@
 setup_main:
 	if(!global.active) {
 
-		global.active = true;
+		// global.simple_children = new HashSet<Object>();
+		// global.initiated = new HashSet<Object>();
+		// global.super_children = new HashSet<Object>();
+
 		global.simple_children += "main_in";
 
 		//var_nice = new Variable;
@@ -10,22 +13,29 @@ setup_main:
 		//myBindings.variables += var_nice;
 
 		global.nice = 0;
+		global.active = true;
 	}
 
 void set_inactive(Supernode m) {
 
 	for (String x : m.simple_children) {
 		removeTimeout(x);
+		// m.simple_children -= x;
 	}
 
 	for (Supernode y : m.super_children) {
 		set_inactive(y);
+		// m.super_children -= y;
    	}
-
+	
+	//for (String z : m.initiated) {
+		// m.initiated -= z;
+	//}
+	
+	m.active = false;
 	m.simple_children = null;
 	m.super_children = null;
 	m.initiated = null;
-	m.active = false;
 	
 }
 
@@ -97,9 +107,12 @@ void timeout_transition(String node_a, String node_b, Supernode a_parent, Supern
 void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
 
 	propose_id = "propose_"+ node_a;
+	
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
 
-	propose(propose_id) {
-						
+	propose(propose_id) {					
 		transition(node_a, node_b, a_parent, b_parent);
 	}
 }
@@ -134,7 +147,6 @@ if(global.simple_children.contains("main_in")) {
 if(global.simple_children.contains("main_out")) {
 
 	set_inactive(global);
-	clearBehavioursAndProposals();
 	shutdown();
 	
 }

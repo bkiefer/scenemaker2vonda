@@ -34,22 +34,31 @@
 		  <item repeat="0-1">I'm</item>	
 		  <item repeat="0-1">I feel</item>
         </one-of> 
-		<one-of> 
-		  <item>not</item> 
-		  <item>Not</item> 
-		</one-of> 
-		<item repeat="0-1">so</item>  
 		<one-of>
-          <item>fine</item>
-		  <item>Fine</item>
-          <item>good</item>
-		  <item>Good</item>
-        </one-of>
+			<item>
+				<one-of> 
+				  <item>not</item> 
+				  <item>Not</item> 
+				</one-of> 
+				<item repeat="0-1">so</item>  
+				<one-of>
+			      <item>fine</item>
+				  <item>Fine</item>
+			      <item>good</item>
+				  <item>Good</item>
+			    </one-of>
+			</item>
+			<item>bad</item>
+			<item>Bad</item>
+		</one-of>
         <tag> out.da="Inform" ; out.prop="Mood" ; out.what="negative" </tag>
 	  </item>
 
 	<item>
-		<item>How</item> 
+		<one-of>
+			<item>How</item> 
+			<item>how</item>
+		</one-of>
 		<one-of>
           <item>are you</item>
 		  <item>do you feel</item>

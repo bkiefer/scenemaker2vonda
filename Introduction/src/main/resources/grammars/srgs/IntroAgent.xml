@@ -55,7 +55,10 @@
 	  </item>
 
 	<item>
-		<item>How</item> 
+		<one-of>
+			<item>How</item> 
+			<item>how</item>
+		</one-of>
 		<one-of>
           <item>are you</item>
 		  <item>do you feel</item>

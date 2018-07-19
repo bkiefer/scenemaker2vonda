@@ -81,14 +81,12 @@ wait_node:
 		
 		timeout_transition("wait_node", "excuse_node", hello_node, hello_node, 16000);
 
-		answer = lastDA();
-
-		if (answer >= #Inform(Mood)) {
+		if (lastDA() >= #Inform(Mood)) {
 			
-			if(answer.what == "negative") {
+			if(lastDA().what == "negative") {
 				super_transition("wait_node", hello_node, "neg_node");
 			}
-			if (answer.what == "positive") {
+			if(lastDA().what == "positive") {
 				super_transition("wait_node", hello_node, "pos_node");
 			}
 		}
