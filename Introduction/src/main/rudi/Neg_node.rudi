@@ -33,7 +33,7 @@ neg_node_out:
 	if (neg_node.simple_children.contains("neg_node_out")) {
 
 		// Bei der Transition sollten die Variablen-Bindings aus neg_node (nicht dem parent) benutzt werden
-		transition("neg_node_out", "excuse_node", neg_node, hello_node);	
+		transition("neg_node_out", "something_else_node", neg_node, hello_node);	
 		
 		if(test_inactive(neg_node)) {
 			hello_node.super_children -= neg_node;

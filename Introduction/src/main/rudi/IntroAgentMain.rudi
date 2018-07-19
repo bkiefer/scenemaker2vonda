@@ -138,26 +138,34 @@ void interruptive_super_transition(Supernode m, Supernode parent, String target_
 	parent.initiated += target_supernode;
 }
 
+main_in_node:
+	if(global.simple_children.contains("main_in")) {
 
-if(global.simple_children.contains("main_in")) {
+		super_transition("main_in", global, "hello_node");
+	} 
 
-	super_transition("main_in", global, "hello_node");
-} 
+main_out_node:
+	if(global.simple_children.contains("main_out")) {
 
-if(global.simple_children.contains("main_out")) {
+		set_inactive(global);
+		shutdown();
+	}
 
-	set_inactive(global);
-	shutdown();
+excuse_node:
+	if (global.simple_children.contains("excuse_node")) {
+		
+		emitDA(#InitialGoodbye(Leave));
+
+		transition("excuse_node", "bye_node", global, global);
+	}
+
+bye_node:
+	if (global.simple_children.contains("bye_node")) {
 	
-}
+		emitDA(#Valediction(Bye));
 
-if (global.simple_children.contains("bye_node")) {
-	
-	emitDA(#Valediction(Bye));
-	
-	check_out_transition("bye_node", "main_out", global);
-	
-}
+		check_out_transition("bye_node", "main_out", global);
+	}
 
 import Hello_node;
 

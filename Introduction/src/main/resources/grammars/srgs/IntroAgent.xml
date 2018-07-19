@@ -79,6 +79,39 @@
         <tag> out.da="InitialGoodbye" ; out.prop="Bye"</tag>
 	  </item>
 
+	<item>
+		<one-of>
+          <item>Yes</item>
+		  <item>yes</item>
+          <item>yeah</item>
+        </one-of>
+        <tag> out.da="Confirm" ; out.prop="MoreTalking"</tag>
+	  </item>
+
+	<item>
+		<one-of>
+          <item>No</item>
+		  <item>no</item>
+          <item>Not really</item>
+		  <item>not really</item>
+        </one-of>
+        <tag> out.da="Disconfirm" ; out.prop="MoreTalking"</tag>
+	  </item>
+
+	<item>
+		<one-of>
+          <item>I changed my mind</item>
+		  <item>i changed my mind</item>
+          <item>i forgot</item>
+		  <item>nevermind</item>
+		  <item>Nevermind</item>
+		  <item>not now</item>
+          <item>i don't want to</item>
+		  <item>forget it</item>
+        </one-of>
+        <tag> out.da="DeclineSuggestion" ; out.prop="MoreTalking"</tag>
+	  </item>
+
     </one-of>
   </rule>
 </grammar>

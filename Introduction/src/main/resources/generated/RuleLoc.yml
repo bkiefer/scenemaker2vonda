@@ -11,6 +11,46 @@ children:
   label: setup_main
   line: 1
   parent: *id001
+- !!de.dfki.mlt.rudimant.common.RuleInfo
+  baseterms:
+  - global.simple_children.contains("main_in")
+  children: []
+  expression:
+  - 0
+  id: 1
+  label: main_in_node
+  line: 141
+  parent: *id001
+- !!de.dfki.mlt.rudimant.common.RuleInfo
+  baseterms:
+  - global.simple_children.contains("main_out")
+  children: []
+  expression:
+  - 0
+  id: 2
+  label: main_out_node
+  line: 147
+  parent: *id001
+- !!de.dfki.mlt.rudimant.common.RuleInfo
+  baseterms:
+  - global.simple_children.contains("excuse_node")
+  children: []
+  expression:
+  - 0
+  id: 3
+  label: excuse_node
+  line: 154
+  parent: *id001
+- !!de.dfki.mlt.rudimant.common.RuleInfo
+  baseterms:
+  - global.simple_children.contains("bye_node")
+  children: []
+  expression:
+  - 0
+  id: 4
+  label: bye_node
+  line: 162
+  parent: *id001
 - &id002 !!de.dfki.mlt.rudimant.common.ImportInfo
   children:
   - !!de.dfki.mlt.rudimant.common.RuleInfo
@@ -19,7 +59,7 @@ children:
     children: []
     expression:
     - 0
-    id: 1
+    id: 5
     label: setup_hello_node
     line: 1
     parent: *id002
@@ -30,7 +70,7 @@ children:
     expression:
     - -3
     - 0
-    id: 2
+    id: 6
     label: pass_by_hello_node
     line: 21
     parent: *id002
@@ -40,9 +80,19 @@ children:
     children: []
     expression:
     - 0
-    id: 3
+    id: 7
     label: hello_node_interruptive_edge_1
     line: 26
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - global.nice <= -2
+    children: []
+    expression:
+    - 0
+    id: 8
+    label: hello_node_interruptive_edge_2
+    line: 33
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -50,9 +100,9 @@ children:
     children: []
     expression:
     - 0
-    id: 4
+    id: 9
     label: hello_node_in
-    line: 33
+    line: 40
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -60,9 +110,9 @@ children:
     children: []
     expression:
     - 0
-    id: 5
+    id: 10
     label: hello_node_out
-    line: 39
+    line: 46
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -70,9 +120,19 @@ children:
     children: []
     expression:
     - 0
-    id: 6
+    id: 11
     label: hi_node
-    line: 53
+    line: 60
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("timed_out_node")
+    children: []
+    expression:
+    - 0
+    id: 12
+    label: timed_out_node
+    line: 77
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -80,9 +140,9 @@ children:
     children: []
     expression:
     - 0
-    id: 7
+    id: 13
     label: how_node
-    line: 69
+    line: 90
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -90,9 +150,9 @@ children:
     children: []
     expression:
     - 0
-    id: 8
+    id: 14
     label: wait_node
-    line: 79
+    line: 100
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
@@ -100,19 +160,79 @@ children:
     children: []
     expression:
     - 0
-    id: 9
+    id: 15
     label: answer_node
-    line: 98
+    line: 123
     parent: *id002
   - !!de.dfki.mlt.rudimant.common.RuleInfo
     baseterms:
-    - hello_node.simple_children.contains("excuse_node")
+    - hello_node.simple_children.contains("something_else_node")
     children: []
     expression:
     - 0
-    id: 10
-    label: excuse_node
-    line: 108
+    id: 16
+    label: something_else_node
+    line: 136
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("what_node")
+    children: []
+    expression:
+    - 0
+    id: 17
+    label: what_node
+    line: 159
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("thanks_node")
+    children: []
+    expression:
+    - 0
+    id: 18
+    label: thanks_node
+    line: 176
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("nevermind_node")
+    children: []
+    expression:
+    - 0
+    id: 19
+    label: nevermind_node
+    line: 189
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("choose_valediction_node")
+    children: []
+    expression:
+    - 0
+    id: 20
+    label: choose_valediction_node
+    line: 202
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("nice_leave_node")
+    children: []
+    expression:
+    - 0
+    id: 21
+    label: nice_leave_node
+    line: 215
+    parent: *id002
+  - !!de.dfki.mlt.rudimant.common.RuleInfo
+    baseterms:
+    - hello_node.simple_children.contains("mean_leave_node")
+    children: []
+    expression:
+    - 0
+    id: 22
+    label: mean_leave_node
+    line: 225
     parent: *id002
   - &id003 !!de.dfki.mlt.rudimant.common.ImportInfo
     children:
@@ -122,7 +242,7 @@ children:
       children: []
       expression:
       - 0
-      id: 11
+      id: 23
       label: setup_pos_node
       line: 1
       parent: *id003
@@ -133,7 +253,7 @@ children:
       expression:
       - -3
       - 0
-      id: 12
+      id: 24
       label: pass_by_pos_node
       line: 15
       parent: *id003
@@ -143,7 +263,7 @@ children:
       children: []
       expression:
       - 0
-      id: 13
+      id: 25
       label: pos_node_interruptive_edge_1
       line: 20
       parent: *id003
@@ -153,7 +273,7 @@ children:
       children: []
       expression:
       - 0
-      id: 14
+      id: 26
       label: pos_node_in
       line: 27
       parent: *id003
@@ -163,7 +283,7 @@ children:
       children: []
       expression:
       - 0
-      id: 15
+      id: 27
       label: pos_node_out
       line: 33
       parent: *id003
@@ -173,7 +293,7 @@ children:
       children: []
       expression:
       - 0
-      id: 16
+      id: 28
       label: cool_node
       line: 47
       parent: *id003
@@ -183,9 +303,19 @@ children:
       children: []
       expression:
       - 0
-      id: 17
+      id: 29
       label: why_node
       line: 57
+      parent: *id003
+    - !!de.dfki.mlt.rudimant.common.RuleInfo
+      baseterms:
+      - pos_node.simple_children.contains("demand_answer_node")
+      children: []
+      expression:
+      - 0
+      id: 30
+      label: demand_answer_node
+      line: 73
       parent: *id003
     - !!de.dfki.mlt.rudimant.common.RuleInfo
       baseterms:
@@ -193,13 +323,13 @@ children:
       children: []
       expression:
       - 0
-      id: 18
+      id: 31
       label: great_node
-      line: 69
+      line: 83
       parent: *id003
     errors: []
     label: Pos_node
-    line: 117
+    line: 235
     parent: *id002
     relativePath: []
   - &id004 !!de.dfki.mlt.rudimant.common.ImportInfo
@@ -210,7 +340,7 @@ children:
       children: []
       expression:
       - 0
-      id: 19
+      id: 32
       label: setup_neg_node
       line: 1
       parent: *id004
@@ -221,7 +351,7 @@ children:
       expression:
       - -3
       - 0
-      id: 20
+      id: 33
       label: pass_by_neg_node
       line: 14
       parent: *id004
@@ -231,7 +361,7 @@ children:
       children: []
       expression:
       - 0
-      id: 21
+      id: 34
       label: neg_node_interruptive_edge_1
       line: 19
       parent: *id004
@@ -241,7 +371,7 @@ children:
       children: []
       expression:
       - 0
-      id: 22
+      id: 35
       label: neg_node_in
       line: 26
       parent: *id004
@@ -251,7 +381,7 @@ children:
       children: []
       expression:
       - 0
-      id: 23
+      id: 36
       label: neg_node_out
       line: 32
       parent: *id004
@@ -261,7 +391,7 @@ children:
       children: []
       expression:
       - 0
-      id: 24
+      id: 37
       label: no_node
       line: 46
       parent: *id004
@@ -271,7 +401,7 @@ children:
       children: []
       expression:
       - 0
-      id: 25
+      id: 38
       label: joke_node
       line: 57
       parent: *id004
@@ -281,7 +411,7 @@ children:
       children: []
       expression:
       - 0
-      id: 26
+      id: 39
       label: sorry_node
       line: 65
       parent: *id004
@@ -291,18 +421,18 @@ children:
       children: []
       expression:
       - 0
-      id: 27
+      id: 40
       label: happy_node
       line: 73
       parent: *id004
     errors: []
     label: Neg_node
-    line: 118
+    line: 236
     parent: *id002
     relativePath: []
   errors: []
   label: Hello_node
-  line: 162
+  line: 170
   parent: *id001
   relativePath: []
 errors: []

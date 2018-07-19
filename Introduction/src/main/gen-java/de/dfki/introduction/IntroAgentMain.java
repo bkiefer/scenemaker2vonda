@@ -17,20 +17,18 @@ public IntroAgentMain()
   res = setup_main();
   if (res != 0)
     return res - 1;
-  if (global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("main_in")) {
-    super_transition("main_in", global, "hello_node");
-  }
-
-  if (global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("main_out")) {
-    set_inactive(global);
-    shutdown();
-  }
-
-  if (global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("bye_node")) {
-    emitDA(new DialogueAct("Valediction", "Bye"));
-    check_out_transition("bye_node", "main_out", global);
-  }
-
+  res = main_in_node();
+  if (res != 0)
+    return res - 1;
+  res = main_out_node();
+  if (res != 0)
+    return res - 1;
+  res = excuse_node();
+  if (res != 0)
+    return res - 1;
+  res = bye_node();
+  if (res != 0)
+    return res - 1;
   res = new de.dfki.introduction.Hello_node(this).process();
   if (res < 0)
     return res - 1;
@@ -53,9 +51,9 @@ setup_main:
 // var_nice.valueInt = 0;
 // myBindings.variables += var_nice;
 
-    global.setValue("<cat:nice>", 42);
+    global.setValue("<cat:nice>", 0);
+    global.setValue("<cat:active>", true);
   }
-// global.active = true;
 
   return 0;
 }
@@ -182,5 +180,60 @@ public void interruptive_super_transition(Rdf m, Rdf parent, String target_super
 {
   set_inactive(m);
   ((Set<Object>)parent.getValue("<cat:initiated>")).add(target_supernode);
+}
+
+public int main_in_node()
+{
+  boolean[] __x1 = new boolean[2];
+  __x1[0]        = (__x1[1] = global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("main_in"));
+  logRule(1, __x1);
+main_in_node:
+  if (__x1[0]) {
+    super_transition("main_in", global, "hello_node");
+  }
+
+  return 0;
+}
+
+public int main_out_node()
+{
+  boolean[] __x2 = new boolean[2];
+  __x2[0]        = (__x2[1] = global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("main_out"));
+  logRule(2, __x2);
+main_out_node:
+  if (__x2[0]) {
+    set_inactive(global);
+    shutdown();
+  }
+
+  return 0;
+}
+
+public int excuse_node()
+{
+  boolean[] __x3 = new boolean[2];
+  __x3[0]        = (__x3[1] = global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("excuse_node"));
+  logRule(3, __x3);
+excuse_node:
+  if (__x3[0]) {
+    emitDA(new DialogueAct("InitialGoodbye", "Leave"));
+    transition("excuse_node", "bye_node", global, global);
+  }
+
+  return 0;
+}
+
+public int bye_node()
+{
+  boolean[] __x4 = new boolean[2];
+  __x4[0]        = (__x4[1] = global != null && exists(((Set<Object>)global.getValue("<cat:simple_children>"))) && ((Set<Object>)global.getValue("<cat:simple_children>")).contains("bye_node"));
+  logRule(4, __x4);
+bye_node:
+  if (__x4[0]) {
+    emitDA(new DialogueAct("Valediction", "Bye"));
+    check_out_transition("bye_node", "main_out", global);
+  }
+
+  return 0;
 }
 }

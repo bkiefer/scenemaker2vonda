@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SceneFlow id="" name="default" comment="" hideLocalVar="false" hideGlobalVar="false" modifDate="Fri, 13 Jul 2018 15:22:10" start="S1;" context="" package="" xmlns="xml.sceneflow.dfki.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xml.sceneflow.dfki.de res/xsd/sceneflow.xsd">
+<SceneFlow id="" name="default" comment="" hideLocalVar="false" hideGlobalVar="false" modifDate="Thu, 19 Jul 2018 11:12:21" start="N15;N2;" context="" package="" xmlns="xml.sceneflow.dfki.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xml.sceneflow.dfki.de res/xsd/sceneflow.xsd">
   <Define>
   </Define>
   <Declare>
-    <VariableDefinition type="Bool" name ="bye">
-      <BoolLiteral value="false"/>
-    </VariableDefinition>
-    <VariableDefinition type="Bool" name ="hello">
-      <BoolLiteral value="false"/>
-    </VariableDefinition>
-    <VariableDefinition type="Int" name ="mood">
+    <VariableDefinition type="Int" name ="nice">
       <IntLiteral value="0"/>
     </VariableDefinition>
   </Declare>
@@ -29,15 +23,37 @@
     <Commands>
     </Commands>
     <Graphics>
-      <Position xPos="433" yPos="233"/>
+      <Position xPos="443" yPos="233"/>
+    </Graphics>
+  </Node>
+  <Node id="N15" name="excuse_node" history="false">
+    <Define>
+    </Define>
+    <Declare>
+    </Declare>
+    <Commands>
+      <CallingExpression name="emitDA">
+        <StringLiteral><![CDATA[I have to go now]]></StringLiteral>
+      </CallingExpression>
+    </Commands>
+    <EEdge target="N2" start ="">
+    <Graphics>
+      <Connection>
+        <ControlPoint xPos="298" yPos="146" ctrlXPos="413" ctrlYPos="110"/>
+        <ControlPoint xPos="461" yPos="238" ctrlXPos="372" ctrlYPos="240"/>
+      </Connection>
+    </Graphics>
+    </EEdge>
+    <Graphics>
+      <Position xPos="233" yPos="93"/>
     </Graphics>
   </Node>
   <SuperNode id="S1" name="hello_node" comment="" hideLocalVar="false" hideGlobalVar="false" start="N1;">
     <Define>
     </Define>
     <Declare>
-      <VariableDefinition type="Bool" name ="req_mood">
-        <BoolLiteral value="false"/>
+      <VariableDefinition type="Bool" name ="timedOut">
+        <BoolLiteral value="true"/>
       </VariableDefinition>
     </Declare>
     <Commands>
@@ -45,30 +61,49 @@
     <EEdge target="N2" start ="">
     <Graphics>
       <Connection>
-        <ControlPoint xPos="133" yPos="283" ctrlXPos="258" ctrlYPos="283"/>
-        <ControlPoint xPos="433" yPos="283" ctrlXPos="308" ctrlYPos="283"/>
+        <ControlPoint xPos="93" yPos="288" ctrlXPos="258" ctrlYPos="283"/>
+        <ControlPoint xPos="453" yPos="243" ctrlXPos="308" ctrlYPos="283"/>
       </Connection>
     </Graphics>
     </EEdge>
     <IEdge target="N2" start="">
       <Graphics>
         <Connection>
-          <ControlPoint xPos="133" yPos="270" ctrlXPos="258" ctrlYPos="237"/>
-          <ControlPoint xPos="435" yPos="270" ctrlXPos="315" ctrlYPos="237"/>
+          <ControlPoint xPos="93" yPos="268" ctrlXPos="258" ctrlYPos="237"/>
+          <ControlPoint xPos="448" yPos="250" ctrlXPos="315" ctrlYPos="237"/>
         </Connection>
       </Graphics>
       <ParenExpression>
-        <Eq>
-          <SimpleVariable name="bye"/>
-          <BoolLiteral value="true"/>
-        </Eq>
+        <Ge>
+          <CallingExpression name="lastDA">
+          </CallingExpression>
+          <CallingExpression name="InitialGoodbye">
+            <SimpleVariable name="Bye"/>
+          </CallingExpression>
+        </Ge>
+      </ParenExpression>
+    </IEdge>
+    <IEdge target="N15" start="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="93" yPos="248" ctrlXPos="166" ctrlYPos="205"/>
+          <ControlPoint xPos="238" yPos="145" ctrlXPos="174" ctrlYPos="180"/>
+        </Connection>
+      </Graphics>
+      <ParenExpression>
+        <Lt>
+          <SimpleVariable name="nice"/>
+          <Neg>
+            <IntLiteral value="1"/>
+          </Neg>
+        </Lt>
       </ParenExpression>
     </IEdge>
     <Graphics>
-      <Position xPos="33" yPos="233"/>
+      <Position xPos="23" yPos="233"/>
     </Graphics>
     <LocalVariableBadge>
-      <Position xPos="151" yPos="9"/>
+      <Position xPos="105" yPos="19"/>
     </LocalVariableBadge>
     <GlobalVariableBadge>
       <Position xPos="10" yPos="10"/>
@@ -82,31 +117,210 @@
         <CallingExpression name="emitDA">
           <StringLiteral><![CDATA[hi]]></StringLiteral>
         </CallingExpression>
+        <Assignment>
+          <SimpleVariable name="timedOut"/>
+          <Expression>
+            <BoolLiteral value="false"/>
+          </Expression>
+        </Assignment>
       </Commands>
       <CEdge target="N3" start="">
         <Graphics>
           <Connection>
-            <ControlPoint xPos="83" yPos="153" ctrlXPos="154" ctrlYPos="224"/>
-            <ControlPoint xPos="243" yPos="173" ctrlXPos="201" ctrlYPos="131"/>
+            <ControlPoint xPos="128" yPos="163" ctrlXPos="128" ctrlYPos="250"/>
+            <ControlPoint xPos="128" yPos="513" ctrlXPos="128" ctrlYPos="425"/>
           </Connection>
         </Graphics>
         <ParenExpression>
-          <Eq>
-            <SimpleVariable name="hello"/>
-            <BoolLiteral value="true"/>
-          </Eq>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="InitialGreeting">
+              <SimpleVariable name="Greet"/>
+            </CallingExpression>
+          </Ge>
         </ParenExpression>
       </CEdge>
-      <TEdge target="N3" start="" timeout="5000">
+      <TEdge target="N7" start="" timeout="5000">
       <Graphics>
         <Connection>
-          <ControlPoint xPos="88" yPos="146" ctrlXPos="173" ctrlYPos="201"/>
-          <ControlPoint xPos="251" yPos="168" ctrlXPos="224" ctrlYPos="112"/>
+          <ControlPoint xPos="163" yPos="128" ctrlXPos="180" ctrlYPos="128"/>
+          <ControlPoint xPos="233" yPos="128" ctrlXPos="239" ctrlYPos="128"/>
         </Connection>
       </Graphics>
       </TEdge>
       <Graphics>
-        <Position xPos="23" yPos="93"/>
+        <Position xPos="93" yPos="93"/>
+      </Graphics>
+    </Node>
+    <Node id="N6" name="answer_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <CallingExpression name="emitDA">
+          <StringLiteral><![CDATA[I'm fine; thanks]]></StringLiteral>
+        </CallingExpression>
+        <Assignment>
+          <SimpleVariable name="nice"/>
+          <Expression>
+            <Add>
+              <SimpleVariable name="nice"/>
+              <IntLiteral value="2"/>
+            </Add>
+          </Expression>
+        </Assignment>
+      </Commands>
+      <EEdge target="N14" start ="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="513" yPos="478" ctrlXPos="565" ctrlYPos="478"/>
+          <ControlPoint xPos="723" yPos="338" ctrlXPos="670" ctrlYPos="338"/>
+        </Connection>
+      </Graphics>
+      </EEdge>
+      <Graphics>
+        <Position xPos="443" yPos="443"/>
+      </Graphics>
+    </Node>
+    <Node id="N13" name="wait_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+      </Commands>
+      <CEdge target="S2" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="259" yPos="514" ctrlXPos="264" ctrlYPos="549"/>
+            <ControlPoint xPos="303" yPos="358" ctrlXPos="255" ctrlYPos="378"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Eq>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <StringLiteral><![CDATA[positive]]></StringLiteral>
+          </Eq>
+        </ParenExpression>
+      </CEdge>
+      <CEdge target="S3" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="303" yPos="548" ctrlXPos="355" ctrlYPos="548"/>
+            <ControlPoint xPos="653" yPos="618" ctrlXPos="600" ctrlYPos="618"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Eq>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <StringLiteral><![CDATA[negative]]></StringLiteral>
+          </Eq>
+        </ParenExpression>
+      </CEdge>
+      <CEdge target="N6" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="302" yPos="539" ctrlXPos="347" ctrlYPos="507"/>
+            <ControlPoint xPos="443" yPos="478" ctrlXPos="357" ctrlYPos="501"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="Question">
+              <SimpleVariable name="Mood"/>
+            </CallingExpression>
+          </Ge>
+        </ParenExpression>
+      </CEdge>
+      <TEdge target="N7" start="" timeout="20000">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="243" yPos="523" ctrlXPos="209" ctrlYPos="360"/>
+          <ControlPoint xPos="268" yPos="163" ctrlXPos="268" ctrlYPos="320"/>
+        </Connection>
+      </Graphics>
+      </TEdge>
+      <Graphics>
+        <Position xPos="233" yPos="513"/>
+      </Graphics>
+    </Node>
+    <Node id="N14" name="something_else_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <CallingExpression name="emitDA">
+          <StringLiteral><![CDATA[Is there something else you want to talk about?]]></StringLiteral>
+        </CallingExpression>
+      </Commands>
+      <CEdge target="N19" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="788" yPos="320" ctrlXPos="787" ctrlYPos="285"/>
+            <ControlPoint xPos="933" yPos="268" ctrlXPos="841" ctrlYPos="269"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="Answer">
+              <SimpleVariable name="No"/>
+            </CallingExpression>
+          </Ge>
+        </ParenExpression>
+      </CEdge>
+      <CEdge target="N26" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="741" yPos="308" ctrlXPos="775" ctrlYPos="328"/>
+            <ControlPoint xPos="767" yPos="162" ctrlXPos="778" ctrlYPos="196"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="Answer">
+              <SimpleVariable name="Yes"/>
+            </CallingExpression>
+          </Ge>
+        </ParenExpression>
+      </CEdge>
+      <CEdge target="N6" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="724" yPos="347" ctrlXPos="622" ctrlYPos="373"/>
+            <ControlPoint xPos="508" yPos="460" ctrlXPos="597" ctrlYPos="406"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="Question">
+              <SimpleVariable name="Mood"/>
+            </CallingExpression>
+          </Ge>
+        </ParenExpression>
+      </CEdge>
+      <TEdge target="N19" start="" timeout="20000">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="792" yPos="329" ctrlXPos="848" ctrlYPos="314"/>
+          <ControlPoint xPos="934" yPos="277" ctrlXPos="877" ctrlYPos="291"/>
+        </Connection>
+      </Graphics>
+      </TEdge>
+      <Graphics>
+        <Position xPos="723" yPos="303"/>
       </Graphics>
     </Node>
     <Node id="N3" name="how_node" history="false">
@@ -119,74 +333,216 @@
           <StringLiteral><![CDATA[How are you?]]></StringLiteral>
         </CallingExpression>
       </Commands>
-      <CEdge target="S2" start="">
-        <Graphics>
-          <Connection>
-            <ControlPoint xPos="298" yPos="180" ctrlXPos="387" ctrlYPos="126"/>
-            <ControlPoint xPos="513" yPos="78" ctrlXPos="408" ctrlYPos="137"/>
-          </Connection>
-        </Graphics>
-        <ParenExpression>
-          <Eq>
-            <SimpleVariable name="mood"/>
-            <IntLiteral value="1"/>
-          </Eq>
-        </ParenExpression>
-      </CEdge>
-      <CEdge target="S3" start="">
-        <Graphics>
-          <Connection>
-            <ControlPoint xPos="298" yPos="216" ctrlXPos="387" ctrlYPos="269"/>
-            <ControlPoint xPos="513" yPos="318" ctrlXPos="408" ctrlYPos="258"/>
-          </Connection>
-        </Graphics>
-        <ParenExpression>
-          <Eq>
-            <SimpleVariable name="mood"/>
-            <Neg>
-              <IntLiteral value="1"/>
-            </Neg>
-          </Eq>
-        </ParenExpression>
-      </CEdge>
-      <Graphics>
-        <Position xPos="233" yPos="163"/>
-      </Graphics>
-    </Node>
-    <Node id="N6" name="answer_node" history="false">
-      <Define>
-      </Define>
-      <Declare>
-      </Declare>
-      <Commands>
-        <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[I'm fine; thanks]]></StringLiteral>
-        </CallingExpression>
-      </Commands>
-      <EEdge target="N7" start ="">
+      <EEdge target="N13" start ="">
       <Graphics>
         <Connection>
-          <ControlPoint xPos="583" yPos="198" ctrlXPos="635" ctrlYPos="198"/>
-          <ControlPoint xPos="723" yPos="198" ctrlXPos="670" ctrlYPos="198"/>
+          <ControlPoint xPos="163" yPos="548" ctrlXPos="186" ctrlYPos="543"/>
+          <ControlPoint xPos="233" yPos="548" ctrlXPos="189" ctrlYPos="537"/>
         </Connection>
       </Graphics>
       </EEdge>
       <Graphics>
-        <Position xPos="513" yPos="163"/>
+        <Position xPos="93" yPos="513"/>
       </Graphics>
     </Node>
-    <Node id="N7" name="excuse_node" history="false">
+    <Node id="N7" name="timed_out_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <Assignment>
+          <SimpleVariable name="timedOut"/>
+          <Expression>
+            <BoolLiteral value="true"/>
+          </Expression>
+        </Assignment>
+        <Assignment>
+          <SimpleVariable name="nice"/>
+          <Expression>
+            <Sub>
+              <SimpleVariable name="nice"/>
+              <IntLiteral value="1"/>
+            </Sub>
+          </Expression>
+        </Assignment>
+      </Commands>
+      <EEdge target="N3" start ="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="243" yPos="153" ctrlXPos="239" ctrlYPos="186"/>
+          <ControlPoint xPos="153" yPos="523" ctrlXPos="186" ctrlYPos="489"/>
+        </Connection>
+      </Graphics>
+      </EEdge>
+      <Graphics>
+        <Position xPos="233" yPos="93"/>
+      </Graphics>
+    </Node>
+    <Node id="N17" name="nice_leave_node" history="false">
       <Define>
       </Define>
       <Declare>
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[I have to go now]]></StringLiteral>
+          <StringLiteral><![CDATA[Ok, see you next time then. It was nice talking to you!]]></StringLiteral>
         </CallingExpression>
       </Commands>
       <Graphics>
-        <Position xPos="723" yPos="163"/>
+        <Position xPos="933" yPos="23"/>
+      </Graphics>
+    </Node>
+    <Node id="N18" name="mean_leave_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <CallingExpression name="emitDA">
+          <StringLiteral><![CDATA[I can't stand talking to you any longer anyway.]]></StringLiteral>
+        </CallingExpression>
+      </Commands>
+      <Graphics>
+        <Position xPos="933" yPos="443"/>
+      </Graphics>
+    </Node>
+    <Node id="N19" name="choose_valediction_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+      </Commands>
+      <CEdge target="N17" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="985" yPos="238" ctrlXPos="1007" ctrlYPos="230"/>
+            <ControlPoint xPos="993" yPos="83" ctrlXPos="999" ctrlYPos="89"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Gt>
+            <SimpleVariable name="nice"/>
+            <IntLiteral value="0"/>
+          </Gt>
+        </ParenExpression>
+      </CEdge>
+      <CEdge target="N18" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="968" yPos="303" ctrlXPos="998" ctrlYPos="348"/>
+            <ControlPoint xPos="968" yPos="443" ctrlXPos="974" ctrlYPos="408"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Le>
+            <SimpleVariable name="nice"/>
+            <IntLiteral value="0"/>
+          </Le>
+        </ParenExpression>
+      </CEdge>
+      <Graphics>
+        <Position xPos="933" yPos="233"/>
+      </Graphics>
+    </Node>
+    <Node id="N24" name="thanks_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <CallingExpression name="emitDA">
+          <StringLiteral><![CDATA[Thanks for sharing this with me.]]></StringLiteral>
+        </CallingExpression>
+        <Assignment>
+          <SimpleVariable name="nice"/>
+          <Expression>
+            <Add>
+              <SimpleVariable name="nice"/>
+              <IntLiteral value="1"/>
+            </Add>
+          </Expression>
+        </Assignment>
+      </Commands>
+      <EEdge target="N14" start ="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="548" yPos="93" ctrlXPos="558" ctrlYPos="57"/>
+          <ControlPoint xPos="749" yPos="304" ctrlXPos="694" ctrlYPos="256"/>
+        </Connection>
+      </Graphics>
+      </EEdge>
+      <Graphics>
+        <Position xPos="513" yPos="23"/>
+      </Graphics>
+    </Node>
+    <Node id="N25" name="nevermind_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <CallingExpression name="emitDA">
+          <StringLiteral><![CDATA[I see, you probably don't trust me yet.]]></StringLiteral>
+        </CallingExpression>
+        <Assignment>
+          <SimpleVariable name="nice"/>
+          <Expression>
+            <Sub>
+              <SimpleVariable name="nice"/>
+              <IntLiteral value="1"/>
+            </Sub>
+          </Expression>
+        </Assignment>
+      </Commands>
+      <EEdge target="N14" start ="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="442" yPos="207" ctrlXPos="435" ctrlYPos="210"/>
+          <ControlPoint xPos="733" yPos="313" ctrlXPos="649" ctrlYPos="257"/>
+        </Connection>
+      </Graphics>
+      </EEdge>
+      <Graphics>
+        <Position xPos="373" yPos="163"/>
+      </Graphics>
+    </Node>
+    <Node id="N26" name="what_node" history="false">
+      <Define>
+      </Define>
+      <Declare>
+      </Declare>
+      <Commands>
+        <CallingExpression name="emitDA">
+          <StringLiteral><![CDATA[Alright, please tell me what is on your mind]]></StringLiteral>
+        </CallingExpression>
+      </Commands>
+      <CEdge target="N25" start="">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="724" yPos="137" ctrlXPos="675" ctrlYPos="147"/>
+            <ControlPoint xPos="433" yPos="173" ctrlXPos="442" ctrlYPos="146"/>
+          </Connection>
+        </Graphics>
+        <ParenExpression>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <SimpleVariable name="Nevermind"/>
+          </Ge>
+        </ParenExpression>
+      </CEdge>
+      <TEdge target="N24" start="" timeout="20000">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="728" yPos="110" ctrlXPos="680" ctrlYPos="46"/>
+          <ControlPoint xPos="582" yPos="49" ctrlXPos="591" ctrlYPos="43"/>
+        </Connection>
+      </Graphics>
+      </TEdge>
+      <Graphics>
+        <Position xPos="723" yPos="93"/>
       </Graphics>
     </Node>
     <SuperNode id="S2" name="pos_node" comment="" hideLocalVar="false" hideGlobalVar="false" start="N4;">
@@ -196,30 +552,33 @@
       </Declare>
       <Commands>
       </Commands>
-      <EEdge target="N7" start ="">
+      <EEdge target="N14" start ="">
       <Graphics>
         <Connection>
-          <ControlPoint xPos="583" yPos="78" ctrlXPos="656" ctrlYPos="120"/>
-          <ControlPoint xPos="728" yPos="180" ctrlXPos="664" ctrlYPos="142"/>
+          <ControlPoint xPos="373" yPos="338" ctrlXPos="415" ctrlYPos="363"/>
+          <ControlPoint xPos="724" yPos="329" ctrlXPos="632" ctrlYPos="251"/>
         </Connection>
       </Graphics>
       </EEdge>
       <IEdge target="N6" start="">
         <Graphics>
           <Connection>
-            <ControlPoint xPos="548" yPos="93" ctrlXPos="548" ctrlYPos="110"/>
-            <ControlPoint xPos="548" yPos="163" ctrlXPos="548" ctrlYPos="145"/>
+            <ControlPoint xPos="373" yPos="347" ctrlXPos="420" ctrlYPos="353"/>
+            <ControlPoint xPos="478" yPos="443" ctrlXPos="451" ctrlYPos="417"/>
           </Connection>
         </Graphics>
         <ParenExpression>
-          <Eq>
-            <SimpleVariable name="req_mood"/>
-            <BoolLiteral value="true"/>
-          </Eq>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="Question">
+              <SimpleVariable name="Mood"/>
+            </CallingExpression>
+          </Ge>
         </ParenExpression>
       </IEdge>
       <Graphics>
-        <Position xPos="513" yPos="23"/>
+        <Position xPos="303" yPos="303"/>
       </Graphics>
       <LocalVariableBadge>
         <Position xPos="10" yPos="10"/>
@@ -259,6 +618,20 @@
             <StringLiteral><![CDATA[Why are you so happy?]]></StringLiteral>
           </CallingExpression>
         </Commands>
+        <CEdge target="N20" start="">
+          <Graphics>
+            <Connection>
+              <ControlPoint xPos="285" yPos="168" ctrlXPos="297" ctrlYPos="145"/>
+              <ControlPoint xPos="321" yPos="88" ctrlXPos="308" ctrlYPos="110"/>
+            </Connection>
+          </Graphics>
+          <ParenExpression>
+            <Eq>
+              <SimpleVariable name="timedOut"/>
+              <BoolLiteral value="true"/>
+            </Eq>
+          </ParenExpression>
+        </CEdge>
         <TEdge target="N9" start="" timeout="10000">
         <Graphics>
           <Connection>
@@ -285,6 +658,28 @@
           <Position xPos="513" yPos="163"/>
         </Graphics>
       </Node>
+      <Node id="N20" name="demand_answer_node" history="false">
+        <Define>
+        </Define>
+        <Declare>
+        </Declare>
+        <Commands>
+          <CallingExpression name="emitDA">
+            <StringLiteral><![CDATA[Please give me an answer this time]]></StringLiteral>
+          </CallingExpression>
+        </Commands>
+        <TEdge target="N9" start="" timeout="15000">
+        <Graphics>
+          <Connection>
+            <ControlPoint xPos="368" yPos="76" ctrlXPos="431" ctrlYPos="113"/>
+            <ControlPoint xPos="518" yPos="180" ctrlXPos="454" ctrlYPos="142"/>
+          </Connection>
+        </Graphics>
+        </TEdge>
+        <Graphics>
+          <Position xPos="303" yPos="23"/>
+        </Graphics>
+      </Node>
     </SuperNode>
     <SuperNode id="S3" name="neg_node" comment="" hideLocalVar="false" hideGlobalVar="false" start="N5;">
       <Define>
@@ -293,30 +688,33 @@
       </Declare>
       <Commands>
       </Commands>
-      <EEdge target="N7" start ="">
+      <EEdge target="N14" start ="">
       <Graphics>
         <Connection>
-          <ControlPoint xPos="583" yPos="318" ctrlXPos="656" ctrlYPos="275"/>
-          <ControlPoint xPos="728" yPos="215" ctrlXPos="664" ctrlYPos="250"/>
+          <ControlPoint xPos="708" yPos="583" ctrlXPos="724" ctrlYPos="526"/>
+          <ControlPoint xPos="728" yPos="355" ctrlXPos="672" ctrlYPos="412"/>
         </Connection>
       </Graphics>
       </EEdge>
       <IEdge target="N6" start="">
         <Graphics>
           <Connection>
-            <ControlPoint xPos="548" yPos="303" ctrlXPos="548" ctrlYPos="285"/>
-            <ControlPoint xPos="548" yPos="233" ctrlXPos="548" ctrlYPos="250"/>
+            <ControlPoint xPos="697" yPos="583" ctrlXPos="669" ctrlYPos="569"/>
+            <ControlPoint xPos="508" yPos="496" ctrlXPos="608" ctrlYPos="526"/>
           </Connection>
         </Graphics>
         <ParenExpression>
-          <Eq>
-            <SimpleVariable name="req_mood"/>
-            <BoolLiteral value="true"/>
-          </Eq>
+          <Ge>
+            <CallingExpression name="lastDA">
+            </CallingExpression>
+            <CallingExpression name="Question">
+              <SimpleVariable name="Mood"/>
+            </CallingExpression>
+          </Ge>
         </ParenExpression>
       </IEdge>
       <Graphics>
-        <Position xPos="513" yPos="303"/>
+        <Position xPos="653" yPos="583"/>
       </Graphics>
       <LocalVariableBadge>
         <Position xPos="10" yPos="10"/>

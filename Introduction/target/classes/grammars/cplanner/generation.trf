@@ -48,3 +48,31 @@ raw:Connecting ^ Enthusiastic
 raw:WHQuestion ^ PositiveMood
 ->
 # =  :canned ^ <string>"Why are you so happy today?".
+
+raw:Suggestion ^ MoreTalking
+->
+# =  :canned ^ <string>"Alright, please tell me what is on your mind".
+
+raw:Thanking ^ Sharing
+->
+# =  :canned ^ <string>"Thank you for sharing this with me".
+
+raw:SocialFunction ^ NoTrust
+->
+# =  :canned ^ <string>"I see. You probably don't trust me yet".
+
+raw:InitialGoodbye ^ Nice
+->
+# =  :canned ^ <string>"Ok, see you next time! It was nice talking with you".
+
+raw:InitialGoodbye ^ Mean
+->
+# =  :canned ^ <string>"I cannot stand talking to you any longer anyways".
+
+raw:Urge ^ Answer
+->
+# =  :canned ^ <string>"Please give me an answer this time".
+
+raw:Question ^ MoreTalking
+->
+# =  :canned ^ <string>"Is there anything else you want to talk about?".
