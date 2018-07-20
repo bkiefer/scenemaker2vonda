@@ -4,12 +4,6 @@ setup_hello_node:
 
 			hello_node.active = true;
 			global.super_children += hello_node;
-			hello_node.parent = global;
-			
-			//var_timedOut = new Variable;
-			//var_timedOut.name = "timedOut";
-			//var_timedOut.valueBool = false;
-			//hello_node.variables += var_timedOut;
 
 			hello_node.timedOut = true;
 		}
@@ -46,7 +40,6 @@ hello_node_in:
 hello_node_out:
 	if (hello_node.simple_children.contains("hello_node_out")) {
 	
-		// Bei der Transition sollten die Variablen-Bindings aus hello_node (nicht global) benutzt werden (wichtig nur für Conditionals)
 		transition("hello_node_out", "bye_node", hello_node, global);
 		
 		if(test_inactive(hello_node)) {
@@ -54,7 +47,7 @@ hello_node_out:
 			set_inactive(hello_node);
 		}
 
-		check_out_transition("hello_node_out", "main_out", hello_node);
+		check_out_transition("hello_node_out", "main_out", hello_node, global);
 	}
 
 hi_node:
@@ -72,7 +65,7 @@ hi_node:
 			transition("hi_node", "how_node", hello_node, hello_node);
 		}
 		
-		check_out_transition("hi_node", "hello_node_out", hello_node);					
+		check_out_transition("hi_node", "hello_node_out", hello_node, hello_node);					
 	}
 
 timed_out_node:
@@ -86,7 +79,7 @@ timed_out_node:
 		
 		transition("timed_out_node", "how_node", hello_node, hello_node);
 
-		check_out_transition("timed_out_node", "hello_node_out", hello_node);					
+		check_out_transition("timed_out_node", "hello_node_out", hello_node, hello_node);					
 	}
 
 how_node:
@@ -97,7 +90,7 @@ how_node:
 		
 		transition("how_node", "wait_node", hello_node, hello_node);
 
-		check_out_transition("how_node", "hello_node_out", hello_node);					
+		check_out_transition("how_node", "hello_node_out", hello_node, hello_node);					
 	}
 
 wait_node:
@@ -119,7 +112,7 @@ wait_node:
 			}
 		}
 
-		check_out_transition("wait_node", "hello_node_out", hello_node);	
+		check_out_transition("wait_node", "hello_node_out", hello_node, hello_node);	
 
 	}
 	
@@ -134,7 +127,7 @@ answer_node:
 
 		transition("answer_node", "something_else_node", hello_node, hello_node);						
 
-		check_out_transition("answer_node", "hello_node_out", hello_node);
+		check_out_transition("answer_node", "hello_node_out", hello_node, hello_node);
 	}
 
 something_else_node:
@@ -158,7 +151,7 @@ something_else_node:
 			transition("something_else_node", "what_node", hello_node, hello_node);
 		}
 
-		check_out_transition("something_else_node", "hello_node_out", hello_node);	
+		check_out_transition("something_else_node", "hello_node_out", hello_node, hello_node);	
 	}
 
 what_node:
@@ -176,7 +169,7 @@ what_node:
 			transition("what_node", "nevermind_node", hello_node, hello_node);
 		}
 	
-		check_out_transition("what_node", "hello_node_out", hello_node);
+		check_out_transition("what_node", "hello_node_out", hello_node, hello_node);
 	}
 
 thanks_node:
@@ -190,7 +183,7 @@ thanks_node:
 
 		transition("thanks_node", "something_else_node", hello_node, hello_node);						
 
-		check_out_transition("thanks_node", "hello_node_out", hello_node);
+		check_out_transition("thanks_node", "hello_node_out", hello_node, hello_node);
 	}
 
 nevermind_node:
@@ -204,7 +197,7 @@ nevermind_node:
 
 		transition("nevermind_node", "something_else_node", hello_node, hello_node);						
 
-		check_out_transition("nevermind_node", "hello_node_out", hello_node);
+		check_out_transition("nevermind_node", "hello_node_out", hello_node, hello_node);
 	}
 
 choose_valediction_node:
@@ -217,7 +210,7 @@ choose_valediction_node:
 			transition("choose_valediction_node", "mean_leave_node", hello_node, hello_node);
 		}
 
-		check_out_transition("choose_valediction_node", "hello_node_out", hello_node);	
+		check_out_transition("choose_valediction_node", "hello_node_out", hello_node, hello_node);	
 	}
 
 nice_leave_node:
@@ -228,7 +221,7 @@ nice_leave_node:
 			lastDAprocessed();
 		}					
 
-		check_out_transition("nice_leave_node", "hello_node_out", hello_node);
+		check_out_transition("nice_leave_node", "hello_node_out", hello_node, hello_node);
 	}
 
 mean_leave_node:
@@ -239,7 +232,7 @@ mean_leave_node:
 			lastDAprocessed();
 		}
 
-		check_out_transition("mean_leave_node", "hello_node_out", hello_node);
+		check_out_transition("mean_leave_node", "hello_node_out", hello_node, hello_node);
 	}
 
 import Pos_node;

@@ -4,7 +4,6 @@ setup_pos_node:
 
 			pos_node.active = true;
 			hello_node.super_children += pos_node;
-			pos_node.parent = hello_node;
 		}
 
 		pos_node.simple_children += "pos_node_in";
@@ -40,7 +39,7 @@ pos_node_out:
 			set_inactive(pos_node);
 		}
 
-		check_out_transition("pos_node_out", "hello_node_out", pos_node);
+		check_out_transition("pos_node_out", "hello_node_out", pos_node, hello_node);
 	}
 	
 cool_node:
@@ -51,7 +50,7 @@ cool_node:
 
 		transition("cool_node", "why_node", pos_node, pos_node);
 
-		check_out_transition("cool_node", "pos_node_out", pos_node);
+		check_out_transition("cool_node", "pos_node_out", pos_node, pos_node);
 	}
 
 why_node:
@@ -68,7 +67,7 @@ why_node:
 		
 		timeout_transition("why_node", "great_node", pos_node, pos_node, 10000);
 		
-		check_out_transition("why_node", "pos_node_out", pos_node);
+		check_out_transition("why_node", "pos_node_out", pos_node, pos_node);
 	}
 
 demand_answer_node:
@@ -78,7 +77,7 @@ demand_answer_node:
 		
 		timeout_transition("demand_answer_node", "great_node", pos_node, pos_node, 12000);
 
-		check_out_transition("demand_answer_node", "pos_node_out", pos_node);
+		check_out_transition("demand_answer_node", "pos_node_out", pos_node, pos_node);
 	}
 
 great_node:
@@ -87,7 +86,7 @@ great_node:
 		emitDA(#Connecting(Enthusiastic));
 		lastDAprocessed();
 
-		check_out_transition("great_node", "pos_node_out", pos_node);
+		check_out_transition("great_node", "pos_node_out", pos_node, pos_node);
 	}
 
 

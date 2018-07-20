@@ -1,13 +1,3 @@
-setup_main:
-	if(!global.active) {
-		
-		timeout("globalStart", 1600) {		
-			global.simple_children += "main_in";
-			global.nice = 0;
-			global.active = true;
-		}
-	}
-
 void set_inactive(Supernode m) {
 
 	for (String x : m.simple_children) {
@@ -57,11 +47,11 @@ void transition (String node_a, String node_b, Supernode a_parent, Supernode b_p
 
 }
 
-void check_out_transition(String node, String out_node, Supernode parent) {
+void check_out_transition(String a, String b, Supernode a_parent, Supernode b_parent) {
 
-	if (!hasActiveTimeout(node) && parent.simple_children.contains(node)) { 
+	if (!hasActiveTimeout(a) && a_parent.simple_children.contains(a)) { 
 	
-		transition(node, out_node, parent, parent);
+		transition(a, b, a_parent, b_parent);
 	}
 }
 
@@ -98,6 +88,16 @@ void interruptive_super_transition(Supernode m, Supernode parent, String target_
 	parent.initiated += target_supernode;
 }
 
+setup_main:
+	if(!global.active) {
+		
+		timeout("globalStart", 1400) {		
+			global.simple_children += "main_in";
+			global.active = true;
+			global.nice = 0;
+		}
+	}
+
 main_in_node:
 	if(global.simple_children.contains("main_in")) {
 
@@ -126,7 +126,7 @@ bye_node:
 		emitDA(#Valediction(Bye));
 		lastDAprocessed();
 
-		check_out_transition("bye_node", "main_out", global);
+		check_out_transition("bye_node", "main_out", global, global);
 	}
 
 import Hello_node;
