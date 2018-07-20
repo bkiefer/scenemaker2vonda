@@ -2,7 +2,6 @@ setup_pos_node:
 	if(hello_node.initiated.contains("pos_node")) {
 		if (!pos_node.active) {
 
-			// pos_node = new Pos_node;
 			pos_node.active = true;
 			hello_node.super_children += pos_node;
 			pos_node.parent = hello_node;
@@ -48,6 +47,7 @@ cool_node:
 	if (pos_node.simple_children.contains("cool_node")) {
 
 		emitDA(#Connecting(PositiveFeeling));
+		lastDAprocessed();
 
 		transition("cool_node", "why_node", pos_node, pos_node);
 
@@ -59,6 +59,7 @@ why_node:
 		
 		if(!hasActiveTimeout("why_node")) {
 			emitDA(#WHQuestion(PositiveMood));
+			lastDAprocessed();
 		}
 
 		if(hello_node.timedOut == true) {
@@ -84,6 +85,7 @@ great_node:
 	if (pos_node.simple_children.contains("great_node")) {
 
 		emitDA(#Connecting(Enthusiastic));
+		lastDAprocessed();
 
 		check_out_transition("great_node", "pos_node_out", pos_node);
 	}

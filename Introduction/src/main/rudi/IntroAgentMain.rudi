@@ -1,41 +1,27 @@
 setup_main:
 	if(!global.active) {
-
-		// global.simple_children = new HashSet<Object>();
-		// global.initiated = new HashSet<Object>();
-		// global.super_children = new HashSet<Object>();
-
-		global.simple_children += "main_in";
-
-		//var_nice = new Variable;
-		//var_nice.name = "nice";
-		//var_nice.valueInt = 0;
-		//myBindings.variables += var_nice;
-
-		global.nice = 0;
-		global.active = true;
+		
+		timeout("globalStart", 1600) {		
+			global.simple_children += "main_in";
+			global.nice = 0;
+			global.active = true;
+		}
 	}
 
 void set_inactive(Supernode m) {
 
 	for (String x : m.simple_children) {
 		removeTimeout(x);
-		// m.simple_children -= x;
 	}
 
 	for (Supernode y : m.super_children) {
 		set_inactive(y);
-		// m.super_children -= y;
    	}
 	
-	//for (String z : m.initiated) {
-		// m.initiated -= z;
-	//}
-	
 	m.active = false;
-	m.simple_children = null;
-	m.super_children = null;
-	m.initiated = null;
+	m.simple_children = {};
+	m.super_children = {};
+	m.initiated = {};
 	
 }
 
@@ -44,23 +30,6 @@ boolean test_inactive(Supernode m) {
 	return ((!m.super_children) && (!m.simple_children) && (!m.initiated));
 
 }
-
-//Variable getVariable(Supernode m, String var_name) {
-//
-//	for (Variable x: m.variables) {
-//		if (x.name == var_name) {
-//			return x;
-//		}
-//	}
-//
-//	if(!m.parent) {
-//		return none;
-//	}
-//
-//	else {
-//		return getVariable(m.parent, var_name);
-//	}
-//}
 
 void super_transition(String node_a, Supernode a_parent, String supernode_b) {
 
@@ -117,15 +86,6 @@ void probability_transition(String node_a, String node_b, Supernode a_parent, Su
 	}
 }
 
-
-// TODO: Wie kann man die condition in VonDa evaluieren???
-// void conditional_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, String condition) {
-//
-//	if(eval(condition) {
-//		transition(node_a, node_b, a_parent, b_parent);
-//	}
-//}
-
 void interruptive_transition(Supernode m, Supernode parent, String target_node) {
 						
 	set_inactive(m);	
@@ -155,6 +115,7 @@ excuse_node:
 	if (global.simple_children.contains("excuse_node")) {
 		
 		emitDA(#InitialGoodbye(Leave));
+		lastDAprocessed();
 
 		transition("excuse_node", "bye_node", global, global);
 	}
@@ -163,6 +124,7 @@ bye_node:
 	if (global.simple_children.contains("bye_node")) {
 	
 		emitDA(#Valediction(Bye));
+		lastDAprocessed();
 
 		check_out_transition("bye_node", "main_out", global);
 	}

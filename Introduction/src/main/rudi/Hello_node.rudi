@@ -63,6 +63,7 @@ hi_node:
 		if(!hasActiveTimeout("hi_node")) {
 			emitDA(#InitialGreeting(Greet));
 			hello_node.timedOut = false;
+			lastDAprocessed();
 		}
 
 		timeout_transition("hi_node", "how_node", hello_node, hello_node, 5000);
@@ -80,6 +81,7 @@ timed_out_node:
 		if(!hasActiveTimeout("timed_out_node")) {
 			hello_node.timedOut = true;
 			global.nice = global.nice - 1;
+			lastDAprocessed();
 		}
 		
 		transition("timed_out_node", "how_node", hello_node, hello_node);
@@ -91,6 +93,7 @@ how_node:
 	if (hello_node.simple_children.contains("how_node")) {
 
 		emitDA(#ChoiceQuestion(Mood));
+		lastDAprocessed();
 		
 		transition("how_node", "wait_node", hello_node, hello_node);
 
@@ -126,6 +129,7 @@ answer_node:
 		if(!hasActiveTimeout("answer_node")) {
 			emitDA(#Inform(Mood));
 			global.nice = global.nice + 2;
+			lastDAprocessed();
 		}
 
 		transition("answer_node", "something_else_node", hello_node, hello_node);						
@@ -138,6 +142,7 @@ something_else_node:
 		
 		if(!hasActiveTimeout("something_else_node")) {
 			emitDA(#Question(MoreTalking));
+			lastDAprocessed();
 		}
 
 		timeout_transition("something_else_node", "choose_valediction_node", hello_node, hello_node, 20000);
@@ -161,6 +166,7 @@ what_node:
 
 		if(!hasActiveTimeout("what_node")) {
 			emitDA(#Suggestion(MoreTalking));
+			lastDAprocessed();
 		}
 
 		timeout_transition("what_node", "thanks_node", hello_node, hello_node, 15000);
@@ -179,6 +185,7 @@ thanks_node:
 		if(!hasActiveTimeout("thanks_node")) {
 			emitDA(#Thanking(Sharing));
 			global.nice = global.nice + 1;
+			lastDAprocessed();
 		}
 
 		transition("thanks_node", "something_else_node", hello_node, hello_node);						
@@ -192,6 +199,7 @@ nevermind_node:
 		if(!hasActiveTimeout("nevermind_node")) {
 			emitDA(#SocialFunction(NoTrust));
 			global.nice = global.nice - 1;
+			lastDAprocessed();
 		}
 
 		transition("nevermind_node", "something_else_node", hello_node, hello_node);						
@@ -217,6 +225,7 @@ nice_leave_node:
 
 		if(!hasActiveTimeout("nice_leave_node")) {
 			emitDA(#InitialGoodbye(Nice));
+			lastDAprocessed();
 		}					
 
 		check_out_transition("nice_leave_node", "hello_node_out", hello_node);
@@ -227,6 +236,7 @@ mean_leave_node:
 
 		if(!hasActiveTimeout("mean_leave_node")) {
 			emitDA(#InitialGoodbye(Mean));
+			lastDAprocessed();
 		}
 
 		check_out_transition("mean_leave_node", "hello_node_out", hello_node);

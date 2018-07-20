@@ -137,6 +137,7 @@ public class StubClient implements CommunicationHub {
   }
 
   private void runReceiveSendCycle() {
+    _agent.newData();
     while (isRunning()) {
       boolean emptyRun = true;
       while (! inQueue.isEmpty()) {

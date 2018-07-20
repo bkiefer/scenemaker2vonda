@@ -191,6 +191,7 @@ hi_node:
     if (!(introAgentMain.hasActiveTimeout("hi_node"))) {
       introAgentMain.emitDA(new DialogueAct("InitialGreeting", "Greet"));
       introAgentMain.hello_node.setValue("<cat:timedOut>", false);
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.timeout_transition("hi_node", "how_node", introAgentMain.hello_node, introAgentMain.hello_node, 5000);
@@ -214,6 +215,7 @@ timed_out_node:
     if (!(introAgentMain.hasActiveTimeout("timed_out_node"))) {
       introAgentMain.hello_node.setValue("<cat:timedOut>", true);
       introAgentMain.global.setValue("<cat:nice>", (((Integer)introAgentMain.global.getSingleValue("<cat:nice>"))-1));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.transition("timed_out_node", "how_node", introAgentMain.hello_node, introAgentMain.hello_node);
@@ -231,6 +233,7 @@ public int how_node()
 how_node:
   if (__x13[0]) {
     introAgentMain.emitDA(new DialogueAct("ChoiceQuestion", "Mood"));
+    introAgentMain.lastDAprocessed();
     introAgentMain.transition("how_node", "wait_node", introAgentMain.hello_node, introAgentMain.hello_node);
     introAgentMain.check_out_transition("how_node", "hello_node_out", introAgentMain.hello_node);
   }
@@ -276,6 +279,7 @@ answer_node:
     if (!(introAgentMain.hasActiveTimeout("answer_node"))) {
       introAgentMain.emitDA(new DialogueAct("Inform", "Mood"));
       introAgentMain.global.setValue("<cat:nice>", (((Integer)introAgentMain.global.getSingleValue("<cat:nice>"))+2));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.transition("answer_node", "something_else_node", introAgentMain.hello_node, introAgentMain.hello_node);
@@ -294,6 +298,7 @@ something_else_node:
   if (__x16[0]) {
     if (!(introAgentMain.hasActiveTimeout("something_else_node"))) {
       introAgentMain.emitDA(new DialogueAct("Question", "MoreTalking"));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.timeout_transition("something_else_node", "choose_valediction_node", introAgentMain.hello_node, introAgentMain.hello_node, 20000);
@@ -324,6 +329,7 @@ what_node:
   if (__x17[0]) {
     if (!(introAgentMain.hasActiveTimeout("what_node"))) {
       introAgentMain.emitDA(new DialogueAct("Suggestion", "MoreTalking"));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.timeout_transition("what_node", "thanks_node", introAgentMain.hello_node, introAgentMain.hello_node, 15000);
@@ -347,6 +353,7 @@ thanks_node:
     if (!(introAgentMain.hasActiveTimeout("thanks_node"))) {
       introAgentMain.emitDA(new DialogueAct("Thanking", "Sharing"));
       introAgentMain.global.setValue("<cat:nice>", (((Integer)introAgentMain.global.getSingleValue("<cat:nice>"))+1));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.transition("thanks_node", "something_else_node", introAgentMain.hello_node, introAgentMain.hello_node);
@@ -366,6 +373,7 @@ nevermind_node:
     if (!(introAgentMain.hasActiveTimeout("nevermind_node"))) {
       introAgentMain.emitDA(new DialogueAct("SocialFunction", "NoTrust"));
       introAgentMain.global.setValue("<cat:nice>", (((Integer)introAgentMain.global.getSingleValue("<cat:nice>"))-1));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.transition("nevermind_node", "something_else_node", introAgentMain.hello_node, introAgentMain.hello_node);
@@ -405,6 +413,7 @@ nice_leave_node:
   if (__x21[0]) {
     if (!(introAgentMain.hasActiveTimeout("nice_leave_node"))) {
       introAgentMain.emitDA(new DialogueAct("InitialGoodbye", "Nice"));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.check_out_transition("nice_leave_node", "hello_node_out", introAgentMain.hello_node);
@@ -422,6 +431,7 @@ mean_leave_node:
   if (__x22[0]) {
     if (!(introAgentMain.hasActiveTimeout("mean_leave_node"))) {
       introAgentMain.emitDA(new DialogueAct("InitialGoodbye", "Mean"));
+      introAgentMain.lastDAprocessed();
     }
 
     introAgentMain.check_out_transition("mean_leave_node", "hello_node_out", introAgentMain.hello_node);

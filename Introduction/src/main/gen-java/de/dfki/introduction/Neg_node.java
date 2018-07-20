@@ -138,6 +138,7 @@ public int no_node()
 no_node:
   if (__x37[0]) {
     introAgentMain.emitDA(new DialogueAct("Connecting", "NegativeFeeling"));
+    introAgentMain.lastDAprocessed();
     introAgentMain.probability_transition("no_node", "sorry_node", introAgentMain.neg_node, introAgentMain.neg_node);
     introAgentMain.probability_transition("no_node", "happy_node", introAgentMain.neg_node, introAgentMain.neg_node);
     introAgentMain.probability_transition("no_node", "joke_node", introAgentMain.neg_node, introAgentMain.neg_node);

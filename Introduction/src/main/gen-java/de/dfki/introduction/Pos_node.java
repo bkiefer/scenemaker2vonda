@@ -57,8 +57,6 @@ public Pos_node(Hello_node hello_node, IntroAgentMain introAgentMain)
 setup_pos_node:
   if (__x23[0]) {
     if (!(introAgentMain.pos_node != null && ((Boolean)introAgentMain.pos_node.getSingleValue("<cat:active>")))) {
-// pos_node = new Pos_node;
-
       introAgentMain.pos_node.setValue("<cat:active>", true);
       ((Set<Object>)introAgentMain.hello_node.getValue("<cat:super_children>")).add(introAgentMain.pos_node);
       introAgentMain.pos_node.setValue("<cat:parent>", introAgentMain.hello_node);
@@ -140,6 +138,7 @@ public int cool_node()
 cool_node:
   if (__x28[0]) {
     introAgentMain.emitDA(new DialogueAct("Connecting", "PositiveFeeling"));
+    introAgentMain.lastDAprocessed();
     introAgentMain.transition("cool_node", "why_node", introAgentMain.pos_node, introAgentMain.pos_node);
     introAgentMain.check_out_transition("cool_node", "pos_node_out", introAgentMain.pos_node);
   }
@@ -156,6 +155,7 @@ why_node:
   if (__x29[0]) {
     if (!(introAgentMain.hasActiveTimeout("why_node"))) {
       introAgentMain.emitDA(new DialogueAct("WHQuestion", "PositiveMood"));
+      introAgentMain.lastDAprocessed();
     }
 
     if (((Boolean)introAgentMain.hello_node.getSingleValue("<cat:timedOut>")) == true) {
@@ -192,6 +192,7 @@ public int great_node()
 great_node:
   if (__x31[0]) {
     introAgentMain.emitDA(new DialogueAct("Connecting", "Enthusiastic"));
+    introAgentMain.lastDAprocessed();
     introAgentMain.check_out_transition("great_node", "pos_node_out", introAgentMain.pos_node);
   }
 

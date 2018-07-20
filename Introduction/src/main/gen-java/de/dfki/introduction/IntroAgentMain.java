@@ -42,17 +42,14 @@ public IntroAgentMain()
   logRule(0, __x0);
 setup_main:
   if (__x0[0]) {
-// global.simple_children = new HashSet<Object>();
-// global.initiated = new HashSet<Object>();
-// global.super_children = new HashSet<Object>();
-
-    ((Set<Object>)global.getValue("<cat:simple_children>")).add("main_in"); // var_nice = new Variable;
-// var_nice.name = "nice";
-// var_nice.valueInt = 0;
-// myBindings.variables += var_nice;
-
-    global.setValue("<cat:nice>", 0);
-    global.setValue("<cat:active>", true);
+    newTimeout("globalStart", 1600, new Proposal() {
+                 public void run()
+                 {
+                   ((Set<Object>)global.getValue("<cat:simple_children>")).add("main_in");
+                   global.setValue("<cat:nice>", 0);
+                   global.setValue("<cat:active>", true);
+                 }
+               });
   }
 
   return 0;
@@ -65,46 +62,23 @@ public void set_inactive(Rdf m)
     {
       removeTimeout(x);
     }
-// m.simple_children -= x;
   }
   for (Object y_outer : ((Set<Object>)m.getValue("<cat:super_children>"))) {
     Rdf y = (Rdf)y_outer;
     {
       set_inactive(y);
     }
-// m.super_children -= y;
   }
-// for (String z : m.initiated) {
-// m.initiated -= z;
-// }
-
   m.setValue("<cat:active>", false);
-  m.clearValue("<cat:simple_children>");
-  m.clearValue("<cat:super_children>");
-  m.clearValue("<cat:initiated>");
+  m.setValue("<cat:simple_children>", new LinkedHashSet<>());
+  m.setValue("<cat:super_children>", new LinkedHashSet<>());
+  m.setValue("<cat:initiated>", new LinkedHashSet<>());
 }
 
 public boolean test_inactive(Rdf m)
 {
   return (!(m != null && exists(((Set<Object>)m.getValue("<cat:super_children>"))))) && (!(m != null && exists(((Set<Object>)m.getValue("<cat:simple_children>"))))) && (!(m != null && exists(((Set<Object>)m.getValue("<cat:initiated>")))));
 }
-
-// Variable getVariable(Supernode m, String var_name) {
-//
-//	for (Variable x: m.variables) {
-//		if (x.name == var_name) {
-//			return x;
-//		}
-//	}
-//
-//	if(!m.parent) {
-//		return none;
-//	}
-//
-//	else {
-//		return getVariable(m.parent, var_name);
-//	}
-// }
 
 public void super_transition(String node_a, Rdf a_parent, String supernode_b)
 {
@@ -162,14 +136,6 @@ public void probability_transition(String node_a, String node_b, Rdf a_parent, R
           });
 }
 
-// TODO: Wie kann man die condition in VonDa evaluieren???
-// void conditional_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, String condition) {
-//
-//	if(eval(condition) {
-//		transition(node_a, node_b, a_parent, b_parent);
-//	}
-// }
-
 public void interruptive_transition(Rdf m, Rdf parent, String target_node)
 {
   set_inactive(m);
@@ -217,6 +183,7 @@ public int excuse_node()
 excuse_node:
   if (__x3[0]) {
     emitDA(new DialogueAct("InitialGoodbye", "Leave"));
+    lastDAprocessed();
     transition("excuse_node", "bye_node", global, global);
   }
 
@@ -231,6 +198,7 @@ public int bye_node()
 bye_node:
   if (__x4[0]) {
     emitDA(new DialogueAct("Valediction", "Bye"));
+    lastDAprocessed();
     check_out_transition("bye_node", "main_out", global);
   }
 

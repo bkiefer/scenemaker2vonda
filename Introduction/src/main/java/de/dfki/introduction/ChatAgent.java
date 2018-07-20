@@ -53,11 +53,11 @@ public abstract class ChatAgent extends Agent implements Constants {
           throws IOException, WrongFormatException {
     RdfProxy proxy = startClient(configDir, configs);
     super.init(configDir, language, proxy, configs);
-    //robot = proxy.getRdf("<cat:robot1>");
     global = proxy.getRdf("<cat:global>");
     hello_node = proxy.getRdf("<cat:hello_node>");
     pos_node = proxy.getRdf("<cat:pos_node>");
     neg_node = proxy.getRdf("<cat:neg_node>");
+    //this.newData();
   }
 
   public void shutdown() {
