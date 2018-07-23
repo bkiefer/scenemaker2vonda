@@ -124,9 +124,9 @@ FÜR JEDE INTERRUPTIVE-EDGE (assoziiert mit Index i und mit Trigger-Condition c)
 
 	s_interruptive_edge_i:
 		if (c) {
-			IF ( TARGET-KNOTEN IS SIMPLE_NODE): 
+			WENN TARGET-KNOTEN IST SIMPLE_NODE: 
 				interruptive_transition(s, PARENT-SUPERKNOTEN, TARGET-KNOTEN);
-			ELSE:
+			SONST:
 				interruptive_super_transition(s, PARENT-SUPERKNOTEN, TARGET-KNOTEN);
 
 			cancel;
@@ -185,6 +185,37 @@ import T;
 Compile-Anweisung für Edge e:
 
 
+
+EPSILON-EDGE von node_a nach node_b:
+	WENN node_b IST SIMPLE_NODE:
+		transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+	SONST:
+		super_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+
+
+FORK-EDGE von node_a nach node_1, ... , node_n:
+	FÜR JEDEN KNOTEN node_b, ZU DEM EINE EDGE AUS node_a FÜHRT:
+		WENN node_b IST SIMPLE_NODE:
+			transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+		SONST:
+			super_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+
+
+TIME_OUT-EDGE von node_a nach node_b:
+	timeout_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b, LENGTH_OF_TIME_OUT);
+
+
+CONDITIONAL-EDGE von node_a nach node_b:
+	if (CONDITION) {
+		WENN node_b IST SIMPLE_NODE:
+			transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+		SONST:
+			super_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+		}
+
+PROBABILITY-EDGE von node_a nach node_1, ... , node_n:
+	FÜR JEDEN KNOTEN node_b, ZU DEM EINE PROBABILITY-EDGE AUS node_a FÜHRT:
+		probability_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);	
 
 -----------------------------------------------------------------------------
 
