@@ -124,7 +124,11 @@ FÜR JEDE INTERRUPTIVE-EDGE (assoziiert mit Index i und mit Trigger-Condition c)
 
 	s_interruptive_edge_i:
 		if (c) {
-			interruptive_transition(s, PARENT-SUPERKNOTEN, TARGET-KNOTEN);
+			IF ( TARGET-KNOTEN IS SIMPLE_NODE): 
+				interruptive_transition(s, PARENT-SUPERKNOTEN, TARGET-KNOTEN);
+			ELSE:
+				interruptive_super_transition(s, PARENT-SUPERKNOTEN, TARGET-KNOTEN);
+
 			cancel;
 		}
 
