@@ -1,0 +1,79 @@
+void set_inactive(Supernode m) {
+
+	for (String x : m.simple_children) {removeTimeout(x);}
+	for (Supernode y : m.super_children) {set_inactive(y);}
+	
+	m.active = false;
+	m.simple_children = {};
+	m.super_children = {};
+	m.initiated = {};
+}
+
+boolean test_inactive(Supernode m) {
+ 
+	return ((!m.super_children) && (!m.simple_children) && (!m.initiated));
+
+}
+
+void super_transition(String node_a, Supernode a_parent, String supernode_b) {
+
+	cancelTimeout(node_a);
+
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
+
+	a_parent.initiated += supernode_b;
+}
+
+void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
+
+	cancelTimeout(node_a);
+
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
+
+	b_parent.simple_children += node_b;
+}
+
+void check_out_transition(String a, String b, Supernode a_parent, Supernode b_parent) {
+
+	if (!hasActiveTimeout(a) && a_parent.simple_children.contains(a)) { 
+	
+		transition(a, b, a_parent, b_parent);
+	}
+}
+
+void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, int duration) {
+
+	timeout(node_a, duration) {
+
+		transition(node_a, node_b, a_parent, b_parent);
+	}
+}
+
+void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
+
+	propose_id = "propose_"+ node_a;
+	
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
+
+	propose(propose_id) {					
+		transition(node_a, node_b, a_parent, b_parent);
+	}
+}
+
+void interruptive_transition(Supernode m, Supernode parent, String target_node) {
+						
+	set_inactive(m);	
+	parent.simple_children += target_node;
+}
+
+void interruptive_super_transition(Supernode m, Supernode parent, String target_supernode) {
+						
+	set_inactive(m);	
+	parent.initiated += target_supernode;
+}

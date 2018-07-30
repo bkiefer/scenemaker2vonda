@@ -1,0 +1,33 @@
+
+setup_MainAgent: 
+	if(.initiated.contains("MainAgent") {
+		if(!MainAgent.active) {
+
+			MainAgent.active = true;
+			.super_children += MainAgent;
+
+			MainAgent.nice = 0;
+		}
+
+		MainAgent.simple_children += "MainAgent_in";
+		.initiated -= "MainAgent";
+	}
+
+
+pass_by_MainAgent: 
+	if(!MainAgent.active) {
+		cancel;
+	}
+
+MainAgent_in: 
+	if(MainAgent.simple_children.contains("MainAgent_in") {
+
+
+
+			transition("MainAgent_in", "excuse_node", MainAgent, MainAgent);
+			transition("MainAgent_in", "bye_node", MainAgent, MainAgent);
+
+			check_out_transition("MainAgent_in", "MainAgent_out", MainAgent, MainAgent);
+	}
+
+import hello_node;

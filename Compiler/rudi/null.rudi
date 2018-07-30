@@ -1,0 +1,22 @@
+
+setup_null: 
+	if(.initiated.contains("null") {
+		if(!null.active) {
+
+			null.active = true;
+			.super_children += null;
+
+			null.nice = 0;
+		}
+
+		null.simple_children += "null_in";
+		.initiated -= "null";
+	}
+
+
+pass_by_null: 
+	if(!null.active) {
+		cancel;
+	}
+
+import null;

@@ -1,0 +1,30 @@
+
+setup_neg_node: 
+	if(hello_node.initiated.contains("neg_node") {
+		if(!neg_node.active) {
+
+			neg_node.active = true;
+			hello_node.super_children += neg_node;
+
+		}
+
+		neg_node.simple_children += "neg_node_in";
+		hello_node.initiated -= "neg_node";
+	}
+
+
+pass_by_neg_node: 
+	if(!neg_node.active) {
+		cancel;
+	}
+
+neg_node_in: 
+	if(neg_node.simple_children.contains("neg_node_in") {
+
+
+
+			transition("neg_node_in", "no_node", neg_node, neg_node);
+
+			check_out_transition("neg_node_in", "neg_node_out", neg_node, neg_node);
+	}
+

@@ -1,0 +1,4 @@
+- Parser: Nodes müssen ihre Parent-Supernodes kennen! (Notwendig, um Variablen im Code aufzulösen. Und im Falle von Supernodes, um die Interruptive Edges zu kennen)
+- Parser: Sicherstellen, dass der Name des Automaten/des Top-Levels "MainAgent" lautet
+
+- Allgemein: Sehr sorgfältig abstimmen, dass Datenbankobjekte, Knotennamen, Variablennamen etc. konsistent benutzt werden (im Parser, in Rudi [Regel-Namen, Objektaufrufe, Stringrepräsentationen, Importstatements], in der Datenbank)
