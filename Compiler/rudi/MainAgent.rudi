@@ -1,16 +1,14 @@
 
 setup_MainAgent: 
-	if(.initiated.contains("MainAgent")) {
-		if(!MainAgent.active) {
+	if(!MainAgent.active) {
+
+		timeout("MainAgentStart", 1400) {
 
 			MainAgent.active = true;
-			.super_children += MainAgent;
+			MainAgent.simple_children += "MainAgent_in";
 
 			MainAgent.nice = 0;
 		}
-
-		MainAgent.simple_children += "MainAgent_in";
-		.initiated -= "MainAgent";
 	}
 
 
@@ -19,9 +17,10 @@ pass_by_MainAgent:
 		cancel;
 	}
 
-MainAgent_in: 
+MainAgent_in:
 	if(MainAgent.simple_children.contains("MainAgent_in")) {
 
+			
 
 			transition("MainAgent_in", "excuse_node", MainAgent, MainAgent);
 			transition("MainAgent_in", "bye_node", MainAgent, MainAgent);
@@ -32,13 +31,48 @@ MainAgent_in:
 MainAgent_out: 
 	if(MainAgent.simple_children.contains("MainAgent_out")) {
 
-		if(test_inactive(MainAgent)) {
+		set_inactive(MainAgent);
+		shutdown();
+	}
 
-			.super_children -= MainAgent;
-			set_inactive(MainAgent);
+hello_node:
+	if(MainAgent.simple_children.contains("hello_node")) {
+
+		if(!hasActiveTimeout(hello_node)) {
+
+			
+
 		}
 
-		check_out_transition("MainAgent_out", "_out", MainAgent, );
+
+		check_out_transition("hello_node", "MainAgent_out", MainAgent, MainAgent);
+	}
+
+excuse_node:
+	if(MainAgent.simple_children.contains("excuse_node")) {
+
+		if(!hasActiveTimeout(excuse_node)) {
+
+			emitDA("I have to go now");
+
+
+		}
+
+
+		check_out_transition("excuse_node", "MainAgent_out", MainAgent, MainAgent);
+	}
+
+bye_node:
+	if(MainAgent.simple_children.contains("bye_node")) {
+
+		if(!hasActiveTimeout(bye_node)) {
+
+			
+
+		}
+
+
+		check_out_transition("bye_node", "MainAgent_out", MainAgent, MainAgent);
 	}
 
 import hello_node;

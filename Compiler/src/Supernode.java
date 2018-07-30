@@ -15,10 +15,7 @@ public class Supernode extends Node {
    * A set of the start nodes.
    */
   public Set<Node> startNodes;
-  /**
-   * Name of the node's parent.
-   */
-  public String parentName = ""; //FIXME no longer needed
+
   
   /**
    * Creates a new {@code Supernode}.
@@ -31,10 +28,10 @@ public class Supernode extends Node {
   public String getSetupCode() {
 	  
 	  String outString = "\nsetup_" + this.name + ": \n";
-	  outString += "\tif("+ this.parentName + ".initiated.contains(\"" + this.name + "\")) {\n";
+	  outString += "\tif("+ this.parent.name + ".initiated.contains(\"" + this.name + "\")) {\n";
 	  outString += "\t\tif(!" + this.name + ".active) {\n\n";
 	  outString += "\t\t\t" + this.name + ".active = true;\n";
-	  outString += "\t\t\t" + this.parentName + ".super_children += " + this.name + ";\n\n";
+	  outString += "\t\t\t" + this.parent.name + ".super_children += " + this.name + ";\n\n";
 	  
 	  for (Variable v : this.variables) {
 		  outString += "\t\t\t" + this.name + "." + v.name + " = " + v.value + ";\n";
@@ -42,7 +39,7 @@ public class Supernode extends Node {
 	  
 	  outString += "\t\t}\n\n";
 	  outString += "\t\t" + this.name + ".simple_children += \"" + this.name + "_in\";\n";
-	  outString += "\t\t" + this.parentName + ".initiated -= \"" + this.name + "\";\n";
+	  outString += "\t\t" + this.parent.name + ".initiated -= \"" + this.name + "\";\n";
 	  outString += "\t}\n\n";
 
 	  return outString;
@@ -99,11 +96,11 @@ public class Supernode extends Node {
 	  }
 	  
 	  outString += "\t\tif(test_inactive("+ this.name + ")) {\n\n";
-	  outString += "\t\t\t" + this.parentName + ".super_children -= " + this.name + ";\n";
+	  outString += "\t\t\t" + this.parent.name + ".super_children -= " + this.name + ";\n";
 	  outString += "\t\t\tset_inactive("+ this.name + ");\n";
 	  outString += "\t\t}\n\n";
 
-	  outString += "\t\tcheck_out_transition(\"" + this.name + "_out\", \"" + this.parentName + "_out\", " + this.name + ", " + this.parentName + ");\n";			  
+	  outString += "\t\tcheck_out_transition(\"" + this.name + "_out\", \"" + this.parent.name + "_out\", " + this.name + ", " + this.parent.name + ");\n";			  
 	  outString += "\t}\n\n";
 
 	  return outString;

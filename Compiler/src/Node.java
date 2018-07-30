@@ -49,13 +49,24 @@ public class Node {
 
 	  outString += this.convertCodeToRudi() + "\n";
 	  
+	  outString += "\t\t}\n\n";
+
+	  for (Edge e : this.outgoingEdges) {
+		  
+		  outString += e.getRudiCode();
+	  }
+	  
+	  outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.name + "_out\", " + this.parent.name + ", " + this.parent.name + ");\n";			  
+
+	  outString += "\t}\n\n";
+
 	  
 	  return outString;
   }
   
   public String convertCodeToRudi() {
 	  
-	  String rudiCode = this.code;
+	  String rudiCode = "\t\t\t" + this.code + "\n";
 	  
 	  return rudiCode;
 	  
