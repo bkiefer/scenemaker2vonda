@@ -18,7 +18,7 @@ public class Supernode extends Node {
   /**
    * Name of the node's parent.
    */
-  public String parentName = "";
+  public String parentName = ""; //FIXME no longer needed
   
   /**
    * Creates a new {@code Supernode}.
