@@ -187,9 +187,9 @@ FÜR JEDEN NORMALEN KNOTEN n IN s:
 				CODE, DER IN SCENEMAKER UNTER KNOTEN n STEHT;
 			}
 
-		FÜR JEDE EDGE e, DIE AUS n HINAUSFÜHRT: CODE FÜR e (s. weiter unten)
+			FÜR JEDE EDGE e, DIE AUS n HINAUSFÜHRT: CODE FÜR e (s. weiter unten)
 
-		check_out_transition("n", "s_out", s, s);
+			check_out_transition("n", "s_out", s, s);
 
 		}
 
@@ -212,7 +212,7 @@ EPSILON-EDGE von node_a nach node_b:
 	WENN node_b IST SIMPLE_NODE:
 		transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
 	SONST:
-		super_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+		super_transition("node_a", parent_of_node_a, "node_b");
 
 
 FORK-EDGE von node_a nach node_1, ... , node_n:

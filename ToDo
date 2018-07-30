@@ -5,7 +5,6 @@
 
 Sobald die Node-Klasse ihre Parent-Supernode kennt:
 
-	- Interruptive Edges implementieren
 	- Die Methode "convertCodeToRudi" in der Node-Klasse so implementieren, dass Variablen korrekt aufgelöst werden
 	- Die Methode "convertConditionToRudi" in der ConditionalEdge-Klasse und der InterruptiveEdge-Klasse so implementieren, dass Variablen korrekt aufgelöst werden
 

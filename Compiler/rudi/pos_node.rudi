@@ -20,6 +20,7 @@ pass_by_pos_node:
 
 pos_node_interruptive_edge_1:
 	if( lastDA() >= Question(Mood) ) {
+
 		interruptive_transition(pos_node, hello_node, "answer_node");
 
 		cancel;
@@ -38,6 +39,8 @@ pos_node_in:
 pos_node_out: 
 	if(pos_node.simple_children.contains("pos_node_out")) {
 
+		transition("pos_node_out", "something_else_node", pos_node, hello_node);
+		transition("pos_node_out", "answer_node", pos_node, hello_node);
 		if(test_inactive(pos_node)) {
 
 			hello_node.super_children -= pos_node;
@@ -54,6 +57,7 @@ great_node:
 
 			emitDA("That's great");
 
+			emitDA("That's great");
 
 		}
 
@@ -68,9 +72,11 @@ demand_answer_node:
 
 			emitDA("Please give me an answer this time");
 
+			emitDA("Please give me an answer this time");
 
 		}
 
+		transition("demand_answer_node", "great_node", pos_node, pos_node);
 
 		check_out_transition("demand_answer_node", "pos_node_out", pos_node, pos_node);
 	}
@@ -82,9 +88,12 @@ why_node:
 
 			emitDA("Why are you so happy?");
 
+			emitDA("Why are you so happy?");
 
 		}
 
+		transition("why_node", "demand_answer_node", pos_node, pos_node);
+		transition("why_node", "great_node", pos_node, pos_node);
 
 		check_out_transition("why_node", "pos_node_out", pos_node, pos_node);
 	}
@@ -96,9 +105,11 @@ cool_node:
 
 			emitDA("Cool");
 
+			emitDA("Cool");
 
 		}
 
+		transition("cool_node", "why_node", pos_node, pos_node);
 
 		check_out_transition("cool_node", "pos_node_out", pos_node, pos_node);
 	}

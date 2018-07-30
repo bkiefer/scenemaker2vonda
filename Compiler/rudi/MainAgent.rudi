@@ -44,6 +44,9 @@ hello_node:
 
 		}
 
+		transition("hello_node_out", "bye_node", hello_node, MainAgent);
+		transition("hello_node_out", "bye_node", hello_node, MainAgent);
+		transition("hello_node_out", "excuse_node", hello_node, MainAgent);
 
 		check_out_transition("hello_node", "MainAgent_out", MainAgent, MainAgent);
 	}
@@ -55,9 +58,11 @@ excuse_node:
 
 			emitDA("I have to go now");
 
+			emitDA("I have to go now");
 
 		}
 
+		transition("excuse_node", "bye_node", MainAgent, MainAgent);
 
 		check_out_transition("excuse_node", "MainAgent_out", MainAgent, MainAgent);
 	}

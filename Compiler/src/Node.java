@@ -1,4 +1,7 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -66,7 +69,19 @@ public class Node {
   
   public String convertCodeToRudi() {
 	  
+	  
+	  BufferedReader bufReader = new BufferedReader(new StringReader(this.code));
 	  String rudiCode = "\t\t\t" + this.code + "\n";
+	  
+	  String line = null;
+	  try {
+		while( (line=bufReader.readLine()) != null )
+		  {
+			rudiCode += "\t\t\t" + line + "\n";
+		  }
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
 	  
 	  return rudiCode;
 	  

@@ -87,9 +87,6 @@ public class Supernode extends Node {
 		  }
 	  }
 	  
-	  
-	  
-	  
 	  return outString;
   }
 

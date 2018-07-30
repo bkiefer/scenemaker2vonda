@@ -23,7 +23,30 @@ public abstract class Edge {
     this.endNode = end;
   }
   
-  public String getRudiCode() {return "";};
+  public String getRudiCode() {
+	  
+	  String rudiCode = "\t\t";
+	  String startNodeString = this.startNode.name;
+	  String startNodeParentString = this.startNode.parent.name;
+	  
+	  if (this.startNode.isSupernode) {
+		  startNodeString += "_out";
+		  startNodeParentString = this.startNode.name;
+	  }
+	  
+	  if (this.endNode.isSupernode) {
+		  
+		  rudiCode += "super_transition(\"" + startNodeString + "\", ";
+		  rudiCode += startNodeParentString;
+		  rudiCode += ", \"" + this.endNode.name + "\");\n";	  
+	  } else {
+		  
+		  rudiCode += "transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
+		  rudiCode += startNodeParentString + ", " + this.endNode.parent.name + ");\n";
+	  }
+	  
+	  return rudiCode;
+  }
   
   /**
    * Default constructor in oder to support subclasses.
