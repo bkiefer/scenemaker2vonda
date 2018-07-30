@@ -12,7 +12,6 @@ public class Main {
     @SuppressWarnings("unused")
     SceneMakerAutomaton a = parser.getSceneMakerAutomaton();
     
-    a.name = "MainAgent";
     RudiFileGenerator g = new RudiFileGenerator(a, "./rudi/");
 
     g.generateRudiFiles();
