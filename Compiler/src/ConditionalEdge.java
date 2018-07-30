@@ -18,5 +18,13 @@ public class ConditionalEdge extends Edge {
   public ConditionalEdge(Node start, Node end) {
     super(start, end);
   }
+  
+  public String convertConditionToRudi() {
+	  
+	  String rudiCondition = this.condition;
+	  
+	  return rudiCondition;
+	  
+  }
 
 }

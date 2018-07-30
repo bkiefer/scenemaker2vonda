@@ -18,5 +18,13 @@ public class InterruptiveEdge extends Edge {
   public InterruptiveEdge(Node start, Node end) {
     super(start, end);
   }
+  
+  public String convertConditionToRudi() {
+	  
+	  String rudiCondition = this.condition;
+	  
+	  return rudiCondition;
+	  
+  }
 
 }

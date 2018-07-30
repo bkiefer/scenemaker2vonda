@@ -19,6 +19,20 @@ pass_by_hello_node:
 		cancel;
 	}
 
+hello_node_interruptive_edge_1:
+	if( lastDA() >= InitialGoodbye(Bye) ) {
+		interruptive_transition(hello_node, MainAgent, "bye_node");
+
+		cancel;
+	}
+
+hello_node_interruptive_edge_2:
+	if( nice < -1 ) {
+		interruptive_transition(hello_node, MainAgent, "excuse_node");
+
+		cancel;
+	}
+
 hello_node_in:
 	if(hello_node.simple_children.contains("hello_node_in")) {
 

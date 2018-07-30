@@ -18,6 +18,13 @@ pass_by_neg_node:
 		cancel;
 	}
 
+neg_node_interruptive_edge_1:
+	if( lastDA() >= Question(Mood) ) {
+		interruptive_transition(neg_node, hello_node, "answer_node");
+
+		cancel;
+	}
+
 neg_node_in:
 	if(neg_node.simple_children.contains("neg_node_in")) {
 

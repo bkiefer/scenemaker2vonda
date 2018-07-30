@@ -57,7 +57,38 @@ public class Supernode extends Node {
 
   public String getInterruptiveEdgesCode() {
 	  
+	  // Set<InterruptiveEdge> outgoingInterruptiveEdges = new HashSet<InterruptiveEdge>();
+	  int interruptiveEdgeIndex = 1;
 	  String outString = "";
+
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof InterruptiveEdge) {
+			  //outgoingInterruptiveEdges.add((InterruptiveEdge) e);
+			 
+			  InterruptiveEdge edge = (InterruptiveEdge) e;
+			  
+			  outString += this.name + "_interruptive_edge_" + Integer.toString(interruptiveEdgeIndex) + ":\n";
+			  outString += "\tif" + edge.convertConditionToRudi() + " {\n\n";
+			  
+			  Node n = edge.endNode;
+			  
+			  if(n.isSupernode) {
+				  outString += "\t\tinterruptive_super_transition(" + this.name + ", " + this.parent.name + ", \"" + n.name + "\");\n";
+			  }
+			  
+			  else {
+				  outString += "\t\tinterruptive_transition(" + this.name + ", " + this.parent.name + ", \"" + n.name + "\");\n";
+			  }
+			  
+			  outString += "\n\t\tcancel;\n";
+			  outString += "\t}\n\n";
+			  
+			  interruptiveEdgeIndex += 1;
+		  }
+	  }
+	  
+	  
+	  
 	  
 	  return outString;
   }

@@ -182,7 +182,6 @@ public class RudiFileGenerator {
 	public void generateRudiFiles() {
 		
 		this.generateFunctionsFile();
-		this.generateSupernodeFile(this.automaton);
 		
 		for (Supernode m : this.automaton.allSupernodes) {
 			generateSupernodeFile(m);

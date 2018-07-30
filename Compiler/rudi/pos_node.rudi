@@ -18,6 +18,13 @@ pass_by_pos_node:
 		cancel;
 	}
 
+pos_node_interruptive_edge_1:
+	if( lastDA() >= Question(Mood) ) {
+		interruptive_transition(pos_node, hello_node, "answer_node");
+
+		cancel;
+	}
+
 pos_node_in:
 	if(pos_node.simple_children.contains("pos_node_in")) {
 
