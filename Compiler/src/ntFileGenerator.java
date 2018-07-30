@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 public class ntFileGenerator {
 	
 	private SceneMakerAutomaton automat;
@@ -45,9 +47,9 @@ public class ntFileGenerator {
 	
 	private String create_brackets(String uri, String string) {
 		if (!(string=="")) {
-			string += "#";
+			uri += "#";
 		}
-		String new_string = "<" + uri + string + ">";
+		String new_string = "<" + uri + string + "> ";
 		return new_string;
 	}
 	
@@ -60,11 +62,11 @@ public class ntFileGenerator {
 	
 	private void write_property(String name, String type, String domain, String range, BufferedWriter bw, boolean functional) throws IOException {
 		this.write_line(name, "type", type, bw);
+		this.write_line(name, "domain", domain, bw);
+		this.write_line(name, "range", range, bw);
 		if (functional) {
 			this.write_line(name, "type", "FunctionalProperty", bw);
 		}
-		this.write_line(name, "domain", domain, bw);
-		this.write_line(name, "range", range, bw);
 	}
 	
 	
@@ -75,12 +77,13 @@ public class ntFileGenerator {
 	
 	
 	private void write_instance(String name, String parent, BufferedWriter bw) throws IOException {
+		String class_name = StringUtils.capitalize(name);
 		this.write_line(name, "type", "NamedIndividual", bw);
-		this.write_line(name, "type", name, bw);
+		this.write_line(name, "type", class_name, bw);
 		if (parent!="") {
 			this.write_line(name, "parent", parent, bw);
 		}
-		String line = this.create_brackets(this.find_uri(name), name) + this.create_brackets(this.find_uri_relation("active"),"active")  + "\"false\"^^" + this.create_brackets(this.find_uri("boolean"), "boolean");
+		String line = this.create_brackets(this.find_uri(name), name) + this.create_brackets(this.find_uri_relation("active"),"active")  + "\"false\"^^" + this.create_brackets(this.find_uri("boolean"), "boolean")+ ".\n";
 		bw.write(line);
 	}
 	
@@ -102,7 +105,8 @@ public class ntFileGenerator {
 		// create Classes
 		this.write_line("Supernode", "type", "Class", bw);
 		for (Supernode supernode : this.automat.allSupernodes) {
-			this.write_class(supernode.name, bw);
+			String class_name = StringUtils.capitalize(supernode.name);
+			this.write_class(class_name, bw);
 		}
 		// create NamedIndividuals
 		for (Supernode supernode: this.automat.allSupernodes) {
@@ -119,10 +123,11 @@ public class ntFileGenerator {
 		BufferedWriter writer = null;
 	    try {
 	    	File file = new File(this.file_path);
-	    	if (!file.exists()) {
-	    		file.createNewFile();
+	    	if (file.exists()) {
+	    		file.delete();
 	    	}
-
+	      file.getParentFile().mkdirs();
+    	  file.createNewFile();
 		  FileWriter fw = new FileWriter(file);
 		  writer = new BufferedWriter(fw);
 		  this.write_file(writer);
