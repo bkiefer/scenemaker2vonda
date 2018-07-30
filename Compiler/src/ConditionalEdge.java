@@ -1,3 +1,5 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A conditional edge.
@@ -49,11 +51,27 @@ public class ConditionalEdge extends Edge {
   
   
   public String convertConditionToRudi() {
-	  
-	  String rudiCondition = this.condition;
+	  	 
+	    String rudiCondition = this.condition;
+
+		Pattern VAR_TAG_PATTERN = Pattern.compile("<v>(.*?)</v>");
+		Matcher m = VAR_TAG_PATTERN.matcher(rudiCondition);
+		
+		while (true) {
+			if(m.find()) {
+				String varName = m.group(1);			
+				String extendedVarName = this.startNode.replaceVarName(varName);
+				String stringToReplace = "<v>" + varName + "</v>";
+				
+				rudiCondition = rudiCondition.replace(stringToReplace, extendedVarName);
+				m = VAR_TAG_PATTERN.matcher(rudiCondition);
+			}
+			else {
+				break;
+			}
+		}
 	  
 	  return rudiCondition;
-	  
   }
 
 }

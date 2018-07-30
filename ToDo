@@ -4,7 +4,5 @@
 - Nochmal darüber nachdenken, ob man ohne eine "super_"-Transition für jede Kantenart auskommen kann -> Falls ja, dann VonDa- und CompilerCode ändern! (etwas nervig im Moment)
 - Konzeptionelle Frage: Könnte es passieren, dass Prozesse sterben, wenn von mehreren Knoten aus ProbabilityEdges proposed werden? Dann ist ja nicht garantiert, dass eine Edge aus jedem Knoten auch tatsächlich ausgeführt wird. Wie könnten wir das ändern?
 
-- Die Methode "convertCodeToRudi" in der Node-Klasse so implementieren, dass Variablen korrekt aufgelöst werden
-- Die Methode "convertConditionToRudi" in der ConditionalEdge-Klasse und der InterruptiveEdge-Klasse so implementieren, dass Variablen korrekt aufgelöst werden
 
 

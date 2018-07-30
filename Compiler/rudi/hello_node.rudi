@@ -28,7 +28,7 @@ hello_node_interruptive_edge_1:
 	}
 
 hello_node_interruptive_edge_2:
-	if( nice < -1 ) {
+	if( MainAgent.nice < -1 ) {
 
 		interruptive_transition(hello_node, MainAgent, "excuse_node");
 
@@ -108,7 +108,7 @@ nevermind_node:
 		if(!hasActiveTimeout(nevermind_node)) {
 
 			emitDA("I see, you probably don't trust me yet.");
-			nice = nice - 1;
+			MainAgent.nice = MainAgent.nice - 1;
 		}
 
 		transition("nevermind_node", "something_else_node", hello_node, hello_node);
@@ -142,8 +142,8 @@ timed_out_node:
 
 		if(!hasActiveTimeout(timed_out_node)) {
 
-			timedOut = true;
-			nice = nice - 1;
+			hello_node.timedOut = true;
+			MainAgent.nice = MainAgent.nice - 1;
 		}
 
 		transition("timed_out_node", "how_node", hello_node, hello_node);
@@ -169,7 +169,7 @@ answer_node:
 		if(!hasActiveTimeout(answer_node)) {
 
 			emitDA("I'm fine; thanks");
-			nice = nice + 2;
+			MainAgent.nice = MainAgent.nice + 2;
 		}
 
 		transition("answer_node", "something_else_node", hello_node, hello_node);
@@ -180,11 +180,11 @@ answer_node:
 choose_valediction_node:
 	if(hello_node.simple_children.contains("choose_valediction_node")) {
 
-		if ( nice > 0 ) {
+		if ( MainAgent.nice > 0 ) {
 			transition("choose_valediction_node", "nice_leave_node", hello_node, hello_node);
 		}
 
-		if ( nice <= 0 ) {
+		if ( MainAgent.nice <= 0 ) {
 			transition("choose_valediction_node", "mean_leave_node", hello_node, hello_node);
 		}
 
@@ -198,7 +198,7 @@ thanks_node:
 		if(!hasActiveTimeout(thanks_node)) {
 
 			emitDA("Thanks for sharing this with me.");
-			nice = nice + 1;
+			MainAgent.nice = MainAgent.nice + 1;
 		}
 
 		transition("thanks_node", "something_else_node", hello_node, hello_node);
@@ -221,7 +221,7 @@ hi_node:
 		if(!hasActiveTimeout(hi_node)) {
 
 			emitDA("hi");
-			timedOut = false;
+			hello_node.timedOut = false;
 		}
 
 		timeout_transition("hi_node", "timed_out_node", hello_node, hello_node, 5000);

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A scenemaker node.
@@ -81,11 +83,26 @@ public class Node {
 	  return outString;
   }
   
+  public String replaceVarName(String varName) {
+	  
+	  for (Variable v : this.variables) {
+			if (v.name.equals(varName)) {
+				return this.name + "." + varName;
+			}
+	  }
+	  
+	  if (this.parent != null) {
+		  return this.parent.replaceVarName(varName);
+	  }
+	  
+	  else {
+		  return varName;
+	  }
+	  
+  }
+  
   public String convertCodeToRudi() {
-	  
-	  
-	  
-	  
+	    
 	  BufferedReader bufReader = new BufferedReader(new StringReader(this.code));
 	  String rudiCode = "";
 	  
@@ -93,7 +110,26 @@ public class Node {
 	  try {
 		while( (line=bufReader.readLine()) != null )
 		  {
+			
 			String cleanedLine = line;
+			Pattern VAR_TAG_PATTERN = Pattern.compile("<v>(.*?)</v>");
+			Matcher m = VAR_TAG_PATTERN.matcher(cleanedLine);
+			
+			while (true) {
+				if(m.find()) {
+					String varName = m.group(1);			
+					String extendedVarName = this.replaceVarName(varName);
+					String stringToReplace = "<v>" + varName + "</v>";
+					
+					cleanedLine = cleanedLine.replace(stringToReplace, extendedVarName);
+					m = VAR_TAG_PATTERN.matcher(cleanedLine);
+				}
+				else {
+					break;
+				}
+				
+			}
+			
 			rudiCode += "\t\t\t" + cleanedLine + "\n";
 		  }
 	} catch (IOException e) {

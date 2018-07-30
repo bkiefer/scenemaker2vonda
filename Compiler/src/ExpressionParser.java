@@ -30,7 +30,7 @@ public class ExpressionParser {
         return e.getAttributeValue("name") + "(" + arguments + ")";
         
       case "Assignment":
-        return e.getChild("SimpleVariable").getAttributeValue("name") + " = "
+        return "<v>" + e.getChild("SimpleVariable").getAttributeValue("name") + "</v> = "
           + parse(e.getChild("Expression"));
         
       case "Expression":
@@ -105,7 +105,7 @@ public class ExpressionParser {
         
       // VARIABLES
       case "SimpleVariable":
-        return "VARIABLE_" + e.getAttributeValue("name");
+        return "<v>" + e.getAttributeValue("name") + "</v>";
         
       default:
         return "";

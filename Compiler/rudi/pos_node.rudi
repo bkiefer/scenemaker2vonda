@@ -85,7 +85,7 @@ why_node:
 
 		timeout_transition("why_node", "great_node", pos_node, pos_node, 10000);
 
-		if ( timedOut == true ) {
+		if ( hello_node.timedOut == true ) {
 			transition("why_node", "demand_answer_node", pos_node, pos_node);
 		}
 
