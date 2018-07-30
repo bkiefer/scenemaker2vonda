@@ -192,6 +192,31 @@ public class RudiFileGenerator {
 			} 
 	}
 
+	public void generateChatAgentFile() {
+		
+		String filePath = this.outPath + "ChatAgent.rudi";
+		BufferedWriter fw = this.getFileWriter(filePath);
+		
+		try {
+			
+			for (Supernode m : this.automaton.allSupernodes) {
+				fw.write(m.name.substring(0,1).toUpperCase() + m.name.substring(1) + " " + m.name + ";\n");
+			}
+						
+		} catch (IOException ioe) {
+			   ioe.printStackTrace();
+			}
+			finally
+			{ 
+			   try{
+			      if(fw!=null)
+				 fw.close();
+			   }catch(Exception ex){
+			       System.out.println("Error in closing the BufferedWriter "+ex);
+			    }
+			} 
+	}
+	
 	public void generateSupernodeFile(Supernode m) {
 		
 		String filePath = this.outPath + m.name + ".rudi";
@@ -202,6 +227,7 @@ public class RudiFileGenerator {
 	public void generateRudiFiles() {
 		
 		this.generateFunctionsFile();
+		this.generateChatAgentFile();
 		
 		for (Supernode m : this.automaton.allSupernodes) {
 			generateSupernodeFile(m);
