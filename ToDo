@@ -5,6 +5,7 @@
 
 - Edges: getRudiCode()-Methode  implementieren (sehr sorgfältig darauf achten, dass alle Fälle abgedeckt werden)
 
+- Alternative Setup_Regel für den MainAgent schreiben
 
 
 Sobald die Node-Klasse ihre Parent-Supernode kennt:

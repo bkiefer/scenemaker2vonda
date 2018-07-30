@@ -12,8 +12,6 @@ public class Main {
     @SuppressWarnings("unused")
     SceneMakerAutomaton a = parser.getSceneMakerAutomaton();
     
-    a.name = "MainAgent";
-    
     ntFileGenerator ntg = new ntFileGenerator(a, "<http://www.semanticweb.org/ontologies/2018/6/untitled-ontology-6>", "./ontology/ontology.nt");
     
     ntg.generateNtFile();

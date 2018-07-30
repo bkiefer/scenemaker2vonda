@@ -18,9 +18,10 @@ pass_by_neg_node:
 		cancel;
 	}
 
-neg_node_in: 
+neg_node_in:
 	if(neg_node.simple_children.contains("neg_node_in")) {
 
+			
 
 			transition("neg_node_in", "no_node", neg_node, neg_node);
 
@@ -37,5 +38,61 @@ neg_node_out:
 		}
 
 		check_out_transition("neg_node_out", "hello_node_out", neg_node, hello_node);
+	}
+
+no_node:
+	if(neg_node.simple_children.contains("no_node")) {
+
+		if(!hasActiveTimeout(no_node)) {
+
+			emitDA("Oh no!");
+
+
+		}
+
+
+		check_out_transition("no_node", "neg_node_out", neg_node, neg_node);
+	}
+
+sorry_node:
+	if(neg_node.simple_children.contains("sorry_node")) {
+
+		if(!hasActiveTimeout(sorry_node)) {
+
+			emitDA("I'm so sorry");
+
+
+		}
+
+
+		check_out_transition("sorry_node", "neg_node_out", neg_node, neg_node);
+	}
+
+joke_node:
+	if(neg_node.simple_children.contains("joke_node")) {
+
+		if(!hasActiveTimeout(joke_node)) {
+
+			emitDA("joke");
+
+
+		}
+
+
+		check_out_transition("joke_node", "neg_node_out", neg_node, neg_node);
+	}
+
+happy_node:
+	if(neg_node.simple_children.contains("happy_node")) {
+
+		if(!hasActiveTimeout(happy_node)) {
+
+			emitDA("Tomorrow will be a happy day again");
+
+
+		}
+
+
+		check_out_transition("happy_node", "neg_node_out", neg_node, neg_node);
 	}
 
