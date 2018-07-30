@@ -29,7 +29,6 @@ neg_node_interruptive_edge_1:
 neg_node_in:
 	if(neg_node.simple_children.contains("neg_node_in")) {
 
-			
 
 			transition("neg_node_in", "no_node", neg_node, neg_node);
 
@@ -39,8 +38,8 @@ neg_node_in:
 neg_node_out: 
 	if(neg_node.simple_children.contains("neg_node_out")) {
 
-		transition("neg_node_out", "answer_node", neg_node, hello_node);
 		transition("neg_node_out", "something_else_node", neg_node, hello_node);
+
 		if(test_inactive(neg_node)) {
 
 			hello_node.super_children -= neg_node;
@@ -56,14 +55,11 @@ no_node:
 		if(!hasActiveTimeout(no_node)) {
 
 			emitDA("Oh no!");
-
-			emitDA("Oh no!");
-
 		}
 
-		transition("no_node", "happy_node", neg_node, neg_node);
-		transition("no_node", "joke_node", neg_node, neg_node);
-		transition("no_node", "sorry_node", neg_node, neg_node);
+		probability_transition("no_node", "happy_node", neg_node, neg_node);
+		probability_transition("no_node", "joke_node", neg_node, neg_node);
+		probability_transition("no_node", "sorry_node", neg_node, neg_node);
 
 		check_out_transition("no_node", "neg_node_out", neg_node, neg_node);
 	}
@@ -74,9 +70,6 @@ sorry_node:
 		if(!hasActiveTimeout(sorry_node)) {
 
 			emitDA("I'm so sorry");
-
-			emitDA("I'm so sorry");
-
 		}
 
 
@@ -89,9 +82,6 @@ joke_node:
 		if(!hasActiveTimeout(joke_node)) {
 
 			emitDA("joke");
-
-			emitDA("joke");
-
 		}
 
 
@@ -104,9 +94,6 @@ happy_node:
 		if(!hasActiveTimeout(happy_node)) {
 
 			emitDA("Tomorrow will be a happy day again");
-
-			emitDA("Tomorrow will be a happy day again");
-
 		}
 
 

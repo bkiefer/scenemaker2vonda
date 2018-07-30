@@ -47,12 +47,15 @@ public class Node {
   public String getNodeCode() {
 	  
 	  String outString = this.name + ":\n";
-	  outString += "\tif("+ this.parent.name + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
-	  outString += "\t\tif(!hasActiveTimeout("+ this.name + ")) {\n\n";
-
-	  outString += this.convertCodeToRudi() + "\n";
 	  
-	  outString += "\t\t}\n\n";
+	  outString += "\tif("+ this.parent.name + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
+	  
+	  if (!this.code.isEmpty()) {
+		  
+		  outString += "\t\tif(!hasActiveTimeout("+ this.name + ")) {\n\n";
+		  outString += this.convertCodeToRudi();
+		  outString += "\t\t}\n\n";
+	  }
 
 	  for (Edge e : this.outgoingEdges) {
 		  
@@ -71,7 +74,7 @@ public class Node {
 	  
 	  
 	  BufferedReader bufReader = new BufferedReader(new StringReader(this.code));
-	  String rudiCode = "\t\t\t" + this.code + "\n";
+	  String rudiCode = "";
 	  
 	  String line = null;
 	  try {

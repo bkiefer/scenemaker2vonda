@@ -227,14 +227,14 @@ TIME_OUT-EDGE von node_a nach node_b:
 	WENN node_b IST SIMPLE_NODE:
 		timeout_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b, LENGTH_OF_TIME_OUT);
 	SONST:
-		timeout_super_transition("node_a", "node_b", parent_of_node_a, LENGTH_OF_TIME_OUT);
+		timeout_super_transition("node_a", parent_of_node_a, "node_b", LENTH_OF_TIME_OUT);		
 
 CONDITIONAL-EDGE von node_a nach node_b:
 	if (CONDITION) {
 		WENN node_b IST SIMPLE_NODE:
 			transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
 		SONST:
-			super_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);
+			super_transition("node_a", parent_of_node_a, "node_b");		
 		}
 
 PROBABILITY-EDGE von node_a nach node_1, ... , node_n:
@@ -242,7 +242,7 @@ PROBABILITY-EDGE von node_a nach node_1, ... , node_n:
 		WENN node_b IST SIMPLE_NODE:
 			probability_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);	
 		SONST:
-			probability_super_transition("node_a", "node_b", parent_of_node_a);	
+			probability_super_transition("node_a", parent_of_node_a, "node_b");
 -----------------------------------------------------------------------------
 
 

@@ -20,7 +20,6 @@ pass_by_MainAgent:
 MainAgent_in:
 	if(MainAgent.simple_children.contains("MainAgent_in")) {
 
-			
 
 			transition("MainAgent_in", "excuse_node", MainAgent, MainAgent);
 			transition("MainAgent_in", "bye_node", MainAgent, MainAgent);
@@ -38,12 +37,6 @@ MainAgent_out:
 hello_node:
 	if(MainAgent.simple_children.contains("hello_node")) {
 
-		if(!hasActiveTimeout(hello_node)) {
-
-			
-
-		}
-
 		transition("hello_node_out", "bye_node", hello_node, MainAgent);
 		transition("hello_node_out", "bye_node", hello_node, MainAgent);
 		transition("hello_node_out", "excuse_node", hello_node, MainAgent);
@@ -57,9 +50,6 @@ excuse_node:
 		if(!hasActiveTimeout(excuse_node)) {
 
 			emitDA("I have to go now");
-
-			emitDA("I have to go now");
-
 		}
 
 		transition("excuse_node", "bye_node", MainAgent, MainAgent);
@@ -69,12 +59,6 @@ excuse_node:
 
 bye_node:
 	if(MainAgent.simple_children.contains("bye_node")) {
-
-		if(!hasActiveTimeout(bye_node)) {
-
-			
-
-		}
 
 
 		check_out_transition("bye_node", "MainAgent_out", MainAgent, MainAgent);

@@ -119,11 +119,12 @@ public class Supernode extends Node {
 	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_out\")) {\n\n";
 	  
 	  for (Edge e : this.outgoingEdges) {
-		  
-		  outString += e.getRudiCode();
+		  if (!(e instanceof InterruptiveEdge)) {
+			  outString += e.getRudiCode();			  
+		  }
 	  }
 	  
-	  outString += "\t\tif(test_inactive("+ this.name + ")) {\n\n";
+	  outString += "\n\t\tif(test_inactive("+ this.name + ")) {\n\n";
 	  outString += "\t\t\t" + this.parent.name + ".super_children -= " + this.name + ";\n";
 	  outString += "\t\t\tset_inactive("+ this.name + ");\n";
 	  outString += "\t\t}\n\n";
