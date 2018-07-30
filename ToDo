@@ -1,10 +1,8 @@
 
 - Allgemein: Sehr sorgfältig abstimmen, dass Datenbankobjekte, Knotennamen, Variablennamen etc. konsistent benutzt werden (im Parser, in Rudi [Regel-Namen, Objektaufrufe, Stringrepräsentationen, Importstatements], in der Datenbank)
 
-- Ggf: Bei der Generierung des Kanten-Codes am Knoten: Timeout vor Conditional vor Probability vor Epsilon/Fork - Kanten generieren (damit der timeout schon mal gestartet wird, und zur Übersichtlichkeit)
-
 - Nochmal darüber nachdenken, ob man ohne eine "super_"-Transition für jede Kantenart auskommen kann -> Falls ja, dann VonDa- und CompilerCode ändern! (etwas nervig im Moment)
-- Stand jetzt: Functions-File so anpassen, dass alle Arten von Transitionen unterstützt werden
+- Konzeptionelle Frage: Könnte es passieren, dass Prozesse sterben, wenn von mehreren Knoten aus ProbabilityEdges proposed werden? Dann ist ja nicht garantiert, dass eine Edge aus jedem Knoten auch tatsächlich ausgeführt wird. Wie könnten wir das ändern?
 
 - Die Methode "convertCodeToRudi" in der Node-Klasse so implementieren, dass Variablen korrekt aufgelöst werden
 - Die Methode "convertConditionToRudi" in der ConditionalEdge-Klasse und der InterruptiveEdge-Klasse so implementieren, dass Variablen korrekt aufgelöst werden

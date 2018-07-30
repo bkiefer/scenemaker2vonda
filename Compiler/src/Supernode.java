@@ -119,7 +119,19 @@ public class Supernode extends Node {
 	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_out\")) {\n\n";
 	  
 	  for (Edge e : this.outgoingEdges) {
-		  if (!(e instanceof InterruptiveEdge)) {
+		  if (e instanceof TimeoutEdge) {
+			  outString += e.getRudiCode();			  
+		  }
+	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof ConditionalEdge) {
+			  outString += e.getRudiCode();			  
+		  }
+	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge) && !(e instanceof InterruptiveEdge)) {
 			  outString += e.getRudiCode();			  
 		  }
 	  }

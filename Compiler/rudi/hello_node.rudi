@@ -66,6 +66,8 @@ something_else_node:
 			emitDA("Is there something else you want to talk about?");
 		}
 
+		timeout_transition("something_else_node", "choose_valediction_node", hello_node, hello_node, 20000);
+
 		if ( lastDA() >= Answer(Yes) ) {
 			transition("something_else_node", "what_node", hello_node, hello_node);
 		}
@@ -74,7 +76,6 @@ something_else_node:
 			transition("something_else_node", "choose_valediction_node", hello_node, hello_node);
 		}
 
-		timeout_transition("something_else_node", "choose_valediction_node", hello_node, hello_node, 20000);
 		if ( lastDA() >= Question(Mood) ) {
 			transition("something_else_node", "answer_node", hello_node, hello_node);
 		}
@@ -92,6 +93,7 @@ what_node:
 		}
 
 		timeout_transition("what_node", "thanks_node", hello_node, hello_node, 20000);
+
 		if ( lastDA() >= Nevermind ) {
 			transition("what_node", "nevermind_node", hello_node, hello_node);
 		}
@@ -223,6 +225,7 @@ hi_node:
 		}
 
 		timeout_transition("hi_node", "timed_out_node", hello_node, hello_node, 5000);
+
 		if ( lastDA() >= InitialGreeting(Greet) ) {
 			transition("hi_node", "how_node", hello_node, hello_node);
 		}
@@ -247,11 +250,12 @@ how_node:
 wait_node:
 	if(hello_node.simple_children.contains("wait_node")) {
 
+		timeout_transition("wait_node", "timed_out_node", hello_node, hello_node, 20000);
+
 		if ( lastDA() == "negative" ) {
 			super_transition("wait_node", hello_node, "neg_node");
 		}
 
-		timeout_transition("wait_node", "timed_out_node", hello_node, hello_node, 20000);
 		if ( lastDA() >= Question(Mood) ) {
 			transition("wait_node", "answer_node", hello_node, hello_node);
 		}

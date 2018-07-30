@@ -56,21 +56,34 @@ public class Node {
 		  outString += this.convertCodeToRudi();
 		  outString += "\t\t}\n\n";
 	  }
-
+	  
 	  for (Edge e : this.outgoingEdges) {
-		  
-		  outString += e.getRudiCode();
+		  if (e instanceof TimeoutEdge) {
+			  outString += e.getRudiCode() + "\n";
+		  }
+	  }
+	  	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof ConditionalEdge) {
+			  outString += e.getRudiCode();
+		  }
+	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge)) {
+			  outString += e.getRudiCode();
+		  }
 	  }
 	  
 	  outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.name + "_out\", " + this.parent.name + ", " + this.parent.name + ");\n";			  
-
 	  outString += "\t}\n\n";
 
-	  
 	  return outString;
   }
   
   public String convertCodeToRudi() {
+	  
+	  
 	  
 	  
 	  BufferedReader bufReader = new BufferedReader(new StringReader(this.code));
@@ -80,7 +93,8 @@ public class Node {
 	  try {
 		while( (line=bufReader.readLine()) != null )
 		  {
-			rudiCode += "\t\t\t" + line + "\n";
+			String cleanedLine = line;
+			rudiCode += "\t\t\t" + cleanedLine + "\n";
 		  }
 	} catch (IOException e) {
 		e.printStackTrace();

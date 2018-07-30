@@ -1,40 +1,3 @@
-- Superknoten
-  - Objekte in Ontologie --> DB-Objekte
-  - Anlegen beim Eintreten
-  - Default-Werte reinschreiben
-  - Superknoten in Menge aktiver Knoten
-    - Macht Abfragen ob aktive Knoten im SK sind einfacher
-
-- Mehrere Prozesse in einem SK:
-  1. Mehrere Instanzen von einem SK --> Konsistenter
-    - Unterschiedliche Möglichkeiten in einem SK zur gleichen Zeit
-    - Jeder Prozess hat Menge an Knoten
-    - Variablen beim Eintreten auf Default-Werte
-    - Prozesse im "gleichen" SK können nicht Variablen teilen
-  2. Nur eine Instanz pro SK --> Sinnvoller
-    - Mehrere aktive Knoten gleichzeitig
-    - Variablen bleiben --> Informationsaustausch
-
-- Klasse für Superknoten
-  - oneChildActive() [ --> bool]
-  - superchildren [list]
-  - normal_children [list]
-  - remove_states() [ --> void]
-
-- Code übersetzen
-  - Unterknoten von hello_node
-  - imports von hello_node (pos und neg)
-
-- DA vondarisieren
-
-- Was muss in die Datenbank?
-
-1) Zustandsmenge (Frage: Wie kann man Listen/Collections in die Datenbank hinzufügen? Bzw. sollte man da ein eigenes Objekt erstellen oder kann man die Variable von vonda in die Datenbank "exportieren"?)
-2) Superknoten (Frage: Wie können die gleichzeitig Java-Klassen und Datenbank-Objekte sein?)
-3) "globaler Superknoten/Namespace"
-
-- rudi-Code mit Funktionen umschreiben
-
 
 Notizen 2.7.:
 
@@ -47,7 +10,6 @@ Erkenntnis am 5.7.:
 
 - Scenemaker löscht Superknoten-Objekte, wenn alle Prozesse raus sind (machen wir also auch so, Bernd schien ja auch davon auszugehen)
 
-TODO: Alle "transition"-Funktionen anpassen -> Referenz auf Superknoten-Objekte mitgeben!
 TODO: Was heißt das nochmal mit den "gestrichelten Kanten hier nicht notwendig??"
-TODO: Wie stellt man sicher, dass man auf ein Superknoten-Objekt mit "getRdf" zugreifen kann, nachdem man es mit "new SOMETHING" erstellt hat???
-TODO: Wie löscht man ein Objekt aus der Datenbank? (Muss bei interruptive-Edge oder out_Knoten ggf. gemacht werden, wenn kein weiterer Prozess im Superknoten aktiv ist)
+
+

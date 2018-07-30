@@ -1,4 +1,3 @@
-// TODO: Wir müssen noch sicherstellen, dass der Name des Automaten (also auf dem Top-Level) "MainAgent" lautet!
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -73,7 +72,8 @@ public class RudiFileGenerator {
 	
 	public void generateFunctionsFile() {
 		
-		String preface = "void set_inactive(Supernode m) {\n" + 
+		String preface = "\n" + 
+				"void set_inactive(Supernode m) {\n" + 
 				"\n" + 
 				"	for (String x : m.simple_children) {removeTimeout(x);}\n" + 
 				"	for (Supernode y : m.super_children) {set_inactive(y);}\n" + 
@@ -128,6 +128,14 @@ public class RudiFileGenerator {
 				"	}\n" + 
 				"}\n" + 
 				"\n" + 
+				"void timeout_super_transition(String node_a, Supernode a_parent, String supernode_b, int duration) {\n" + 
+				"\n" + 
+				"	timeout(node_a, duration) {\n" + 
+				"\n" + 
+				"		super_transition(node_a, a_parent, supernode_b);\n" + 
+				"	}\n" + 
+				"}\n" + 
+				"\n" + 
 				"void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {\n" + 
 				"\n" + 
 				"	propose_id = \"propose_\"+ node_a;\n" + 
@@ -141,6 +149,19 @@ public class RudiFileGenerator {
 				"	}\n" + 
 				"}\n" + 
 				"\n" + 
+				"void probability_super_transition(String node_a, Supernode a_parent, String node_b) {\n" + 
+				"\n" + 
+				"	propose_id = \"propose_\"+ node_a;\n" + 
+				"	\n" + 
+				"	if(a_parent.simple_children.contains(node_a)) {\n" + 
+				"		a_parent.simple_children -= node_a;\n" + 
+				"	}\n" + 
+				"\n" + 
+				"	propose(propose_id) {					\n" + 
+				"		super_transition(node_a, a_parent, node_b);\n" + 
+				"	}\n" + 
+				"}\n" + 
+				"\n" + 
 				"void interruptive_transition(Supernode m, Supernode parent, String target_node) {\n" + 
 				"						\n" + 
 				"	set_inactive(m);	\n" + 
@@ -151,8 +172,7 @@ public class RudiFileGenerator {
 				"						\n" + 
 				"	set_inactive(m);	\n" + 
 				"	parent.initiated += target_supernode;\n" + 
-				"}\n" + 
-				"";
+				"}";
 		
 		String filePath = this.outPath + "/Functions.rudi";
 		BufferedWriter fw = this.getFileWriter(filePath);

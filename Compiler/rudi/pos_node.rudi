@@ -71,6 +71,7 @@ demand_answer_node:
 
 		timeout_transition("demand_answer_node", "great_node", pos_node, pos_node, 15000);
 
+
 		check_out_transition("demand_answer_node", "pos_node_out", pos_node, pos_node);
 	}
 
@@ -82,11 +83,12 @@ why_node:
 			emitDA("Why are you so happy?");
 		}
 
+		timeout_transition("why_node", "great_node", pos_node, pos_node, 10000);
+
 		if ( timedOut == true ) {
 			transition("why_node", "demand_answer_node", pos_node, pos_node);
 		}
 
-		timeout_transition("why_node", "great_node", pos_node, pos_node, 10000);
 
 		check_out_transition("why_node", "pos_node_out", pos_node, pos_node);
 	}

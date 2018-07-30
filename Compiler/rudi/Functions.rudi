@@ -1,3 +1,4 @@
+
 void set_inactive(Supernode m) {
 
 	for (String x : m.simple_children) {removeTimeout(x);}
@@ -53,6 +54,14 @@ void timeout_transition(String node_a, String node_b, Supernode a_parent, Supern
 	}
 }
 
+void timeout_super_transition(String node_a, Supernode a_parent, String supernode_b, int duration) {
+
+	timeout(node_a, duration) {
+
+		super_transition(node_a, a_parent, supernode_b);
+	}
+}
+
 void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
 
 	propose_id = "propose_"+ node_a;
@@ -63,6 +72,19 @@ void probability_transition(String node_a, String node_b, Supernode a_parent, Su
 
 	propose(propose_id) {					
 		transition(node_a, node_b, a_parent, b_parent);
+	}
+}
+
+void probability_super_transition(String node_a, Supernode a_parent, String node_b) {
+
+	propose_id = "propose_"+ node_a;
+	
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
+
+	propose(propose_id) {					
+		super_transition(node_a, a_parent, node_b);
 	}
 }
 
