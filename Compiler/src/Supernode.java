@@ -31,7 +31,7 @@ public class Supernode extends Node {
   public String getSetupCode() {
 	  
 	  String outString = "\nsetup_" + this.name + ": \n";
-	  outString += "\tif("+ this.parentName + ".initiated.contains(\"" + this.name + "\") {\n";
+	  outString += "\tif("+ this.parentName + ".initiated.contains(\"" + this.name + "\")) {\n";
 	  outString += "\t\tif(!" + this.name + ".active) {\n\n";
 	  outString += "\t\t\t" + this.name + ".active = true;\n";
 	  outString += "\t\t\t" + this.parentName + ".super_children += " + this.name + ";\n\n";
@@ -68,7 +68,7 @@ public class Supernode extends Node {
   public String getPseudoInCode() {
 	  
 	  String outString = this.name + "_in: \n";
-	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_in\") {\n\n";
+	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_in\")) {\n\n";
 	  outString += this.convertCodeToRudi() + "\n";
 	  
 	  for (Node n : this.startNodes) {
@@ -91,14 +91,19 @@ public class Supernode extends Node {
   public String getPseudoOutCode() {
 	  
 	  String outString = this.name + "_out: \n";
-	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_out\") {\n\n";
+	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_out\")) {\n\n";
 	  
 	  for (Edge e : this.outgoingEdges) {
 		  
 		  outString += e.getRudiCode();
 	  }
 	  
-	  outString += "\n\t\t\tcheck_out_transition(\"" + this.name + "_in\", \"" + this.name + "_out\", " + this.name + ", " + this.name + ");\n";			  
+	  outString += "\t\tif(test_inactive("+ this.name + ")) {\n\n";
+	  outString += "\t\t\t" + this.parentName + ".super_children -= " + this.name + ";\n";
+	  outString += "\t\t\tset_inactive("+ this.name + ");\n";
+	  outString += "\t\t}\n\n";
+
+	  outString += "\t\tcheck_out_transition(\"" + this.name + "_out\", \"" + this.parentName + "_out\", " + this.name + ", " + this.parentName + ");\n";			  
 	  outString += "\t}\n\n";
 
 	  return outString;

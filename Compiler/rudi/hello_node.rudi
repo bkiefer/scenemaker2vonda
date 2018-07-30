@@ -1,6 +1,6 @@
 
 setup_hello_node: 
-	if(default.initiated.contains("hello_node") {
+	if(default.initiated.contains("hello_node")) {
 		if(!hello_node.active) {
 
 			hello_node.active = true;
@@ -20,13 +20,24 @@ pass_by_hello_node:
 	}
 
 hello_node_in: 
-	if(hello_node.simple_children.contains("hello_node_in") {
-
+	if(hello_node.simple_children.contains("hello_node_in")) {
 
 
 			transition("hello_node_in", "hi_node", hello_node, hello_node);
 
 			check_out_transition("hello_node_in", "hello_node_out", hello_node, hello_node);
+	}
+
+hello_node_out: 
+	if(hello_node.simple_children.contains("hello_node_out")) {
+
+		if(test_inactive(hello_node)) {
+
+			default.super_children -= hello_node;
+			set_inactive(hello_node);
+		}
+
+		check_out_transition("hello_node_out", "default_out", hello_node, default);
 	}
 
 import pos_node;

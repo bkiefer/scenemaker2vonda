@@ -1,6 +1,6 @@
 
 setup_MainAgent: 
-	if(.initiated.contains("MainAgent") {
+	if(.initiated.contains("MainAgent")) {
 		if(!MainAgent.active) {
 
 			MainAgent.active = true;
@@ -20,14 +20,25 @@ pass_by_MainAgent:
 	}
 
 MainAgent_in: 
-	if(MainAgent.simple_children.contains("MainAgent_in") {
-
+	if(MainAgent.simple_children.contains("MainAgent_in")) {
 
 
 			transition("MainAgent_in", "excuse_node", MainAgent, MainAgent);
 			transition("MainAgent_in", "bye_node", MainAgent, MainAgent);
 
 			check_out_transition("MainAgent_in", "MainAgent_out", MainAgent, MainAgent);
+	}
+
+MainAgent_out: 
+	if(MainAgent.simple_children.contains("MainAgent_out")) {
+
+		if(test_inactive(MainAgent)) {
+
+			.super_children -= MainAgent;
+			set_inactive(MainAgent);
+		}
+
+		check_out_transition("MainAgent_out", "_out", MainAgent, );
 	}
 
 import hello_node;
