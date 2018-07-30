@@ -56,6 +56,14 @@ void timeout_transition(String node_a, String node_b, Supernode a_parent, Supern
 	}
 }
 
+void timeout_super_transition(String node_a, String supernode_b, Supernode a_parent, int duration) {
+
+	timeout(node_a, duration) {
+
+		super_transition(node_a, a_parent, supernode_b);
+	}
+}
+
 void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
 
 	propose_id = "propose_"+ node_a;
@@ -66,6 +74,19 @@ void probability_transition(String node_a, String node_b, Supernode a_parent, Su
 
 	propose(propose_id) {					
 		transition(node_a, node_b, a_parent, b_parent);
+	}
+}
+
+void probability_super_transition(String node_a, String node_b, Supernode a_parent) {
+
+	propose_id = "propose_"+ node_a;
+	
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
+
+	propose(propose_id) {					
+		super_transition(node_a, a_parent, node_b);
 	}
 }
 
@@ -203,8 +224,10 @@ FORK-EDGE von node_a nach node_1, ... , node_n:
 
 
 TIME_OUT-EDGE von node_a nach node_b:
-	timeout_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b, LENGTH_OF_TIME_OUT);
-
+	WENN node_b IST SIMPLE_NODE:
+		timeout_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b, LENGTH_OF_TIME_OUT);
+	SONST:
+		timeout_super_transition("node_a", "node_b", parent_of_node_a, LENGTH_OF_TIME_OUT);
 
 CONDITIONAL-EDGE von node_a nach node_b:
 	if (CONDITION) {
@@ -216,8 +239,10 @@ CONDITIONAL-EDGE von node_a nach node_b:
 
 PROBABILITY-EDGE von node_a nach node_1, ... , node_n:
 	FÜR JEDEN KNOTEN node_b, ZU DEM EINE PROBABILITY-EDGE AUS node_a FÜHRT:
-		probability_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);	
-
+		WENN node_b IST SIMPLE_NODE:
+			probability_transition("node_a", "node_b", parent_of_node_a, parent_of_node_b);	
+		SONST:
+			probability_super_transition("node_a", "node_b", parent_of_node_a);	
 -----------------------------------------------------------------------------
 
 
