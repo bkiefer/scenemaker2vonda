@@ -43,7 +43,12 @@ public class Node {
 
   public String getNodeCode() {
 	  
-	  String outString = "";
+	  String outString = this.name + ":\n";
+	  outString += "\tif("+ this.parent.name + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
+	  outString += "\t\tif(!hasActiveTimeout("+ this.name + ")) {\n\n";
+
+	  outString += this.convertCodeToRudi() + "\n";
+	  
 	  
 	  return outString;
   }

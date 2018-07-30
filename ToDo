@@ -2,3 +2,14 @@
 - Parser: Sicherstellen, dass der Name des Automaten/des Top-Levels "MainAgent" lautet
 
 - Allgemein: Sehr sorgfältig abstimmen, dass Datenbankobjekte, Knotennamen, Variablennamen etc. konsistent benutzt werden (im Parser, in Rudi [Regel-Namen, Objektaufrufe, Stringrepräsentationen, Importstatements], in der Datenbank)
+
+- Edges: getRudiCode()-Methode  implementieren (sehr sorgfältig darauf achten, dass alle Fälle abgedeckt werden)
+
+
+
+Sobald die Node-Klasse ihre Parent-Supernode kennt:
+
+	- Alle Vorkommnisse von "parentName" durch "parent.name" ersetzen!
+	- Interruptive Edges implementieren
+	- Die Methode "convertCodeToRudi" in der Node-Klasse so implementieren, dass Variablen korrekt aufgelöst werden
+

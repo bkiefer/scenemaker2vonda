@@ -80,6 +80,7 @@ public class XmlParser {
   
       parseSupernode(e, node);
       Supernode parent = (Supernode) this.nodes.get(e.getParentElement().getAttributeValue("id"));
+      node.parent = parent;
       parent.nodes.add(node);
     }
   }
@@ -87,7 +88,6 @@ public class XmlParser {
   private void parseSupernode(Element e, Supernode node) {
     node.isSupernode = true;
     node.name = e.getAttributeValue("name");
-    node.parentName = e.getParentElement().getAttributeValue("name");
     
     parseDeclare(e.getChild("Declare"), node);
     parseCommands(e.getChild("Commands"), node);
@@ -106,6 +106,7 @@ public class XmlParser {
       
       parseNode(e, node);
       Supernode parent = (Supernode) this.nodes.get(e.getParentElement().getAttributeValue("id"));
+      node.parent = parent;
       parent.nodes.add(node);
     }
   }
