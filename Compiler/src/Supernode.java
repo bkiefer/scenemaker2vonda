@@ -67,7 +67,7 @@ public class Supernode extends Node {
 
   public String getPseudoInCode() {
 	  
-	  String outString = this.name + "_in: \n";
+	  String outString = this.name + "_in:\n";
 	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_in\")) {\n\n";
 	  outString += this.convertCodeToRudi() + "\n";
 	  
