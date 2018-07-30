@@ -13,6 +13,11 @@ public class Main {
     SceneMakerAutomaton a = parser.getSceneMakerAutomaton();
     
     a.name = "MainAgent";
+    
+    ntFileGenerator ntg = new ntFileGenerator(a, "<http://www.semanticweb.org/ontologies/2018/6/untitled-ontology-6>", "./ontology/ontology.nt");
+    
+    ntg.generateNtFile();
+    
     RudiFileGenerator g = new RudiFileGenerator(a, "./rudi/");
 
     g.generateRudiFiles();
