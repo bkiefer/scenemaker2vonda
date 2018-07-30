@@ -45,8 +45,8 @@ public class XmlParser {
 
   private void parse(Document doc) {
     this.topLevel = new SceneMakerAutomaton();
-    doc.getRootElement().setAttribute("id", "default");
-    this.nodes.put("default", this.topLevel);
+    doc.getRootElement().setAttribute("id", "MainAgent");
+    this.nodes.put("MainAgent", this.topLevel);
     // NB: topLevel is not put in this.nodeElements
   
     // variables / declares
