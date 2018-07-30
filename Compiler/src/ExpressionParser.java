@@ -105,7 +105,7 @@ public class ExpressionParser {
         
       // VARIABLES
       case "SimpleVariable":
-        return e.getAttributeValue("name");
+        return "VARIABLE_" + e.getAttributeValue("name");
         
       default:
         return "";
