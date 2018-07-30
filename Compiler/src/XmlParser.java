@@ -60,6 +60,7 @@ public class XmlParser {
     parseSupernodes(doc.getRootElement().getChildren("SuperNode"));
     
     this.topLevel.startNodes = parseStart(doc.getRootElement().getAttributeValue("start"));
+    this.topLevel.name = "MainAgent";
   
     // iterate over this.nodeElements to generate edges
     for (String key : this.nodeElements.keySet()) {
