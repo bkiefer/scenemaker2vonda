@@ -18,7 +18,7 @@ public abstract class ChatAgent extends Agent implements Constants {
   Rdf user;
   Rdf robot;
 
-  Rdf global;
+  Rdf mainAgent;
   Rdf hello_node;
   Rdf pos_node;
   Rdf neg_node;

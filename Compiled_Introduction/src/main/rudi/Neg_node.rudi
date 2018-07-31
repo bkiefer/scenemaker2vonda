@@ -52,7 +52,7 @@ neg_node_out:
 no_node:
 	if(neg_node.simple_children.contains("no_node")) {
 
-		if(!hasActiveTimeout(no_node)) {
+		if(!hasActiveTimeout("no_node")) {
 
 			emitDA(#Connecting(NegativeFeeling));
 			lastDAprocessed();
@@ -68,7 +68,7 @@ no_node:
 sorry_node:
 	if(neg_node.simple_children.contains("sorry_node")) {
 
-		if(!hasActiveTimeout(sorry_node)) {
+		if(!hasActiveTimeout("sorry_node")) {
 
 			emitDA(#Connecting(Sorry));
 			lastDAprocessed();
@@ -81,7 +81,7 @@ sorry_node:
 joke_node:
 	if(neg_node.simple_children.contains("joke_node")) {
 
-		if(!hasActiveTimeout(joke_node)) {
+		if(!hasActiveTimeout("joke_node")) {
 
 			emitDA(#Encouragement(Joke));
 			lastDAprocessed();
@@ -94,7 +94,7 @@ joke_node:
 happy_node:
 	if(neg_node.simple_children.contains("happy_node")) {
 
-		if(!hasActiveTimeout(happy_node)) {
+		if(!hasActiveTimeout("happy_node")) {
 
 			emitDA(#Encouragement(Tomorrow));
 			lastDAprocessed();
