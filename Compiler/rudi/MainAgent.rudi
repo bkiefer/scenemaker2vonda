@@ -134,7 +134,7 @@ excuse_node:
 
 		if(!hasActiveTimeout("excuse_node")) {
 
-			emitDA(InitialGoodbye(Leave));
+			emitDA(#InitialGoodbye(Leave));
 			lastDAprocessed();
 		}
 
@@ -148,7 +148,7 @@ bye_node:
 
 		if(!hasActiveTimeout("bye_node")) {
 
-			emitDA(Valediction(Bye));
+			emitDA(#Valediction(Bye));
 		}
 
 

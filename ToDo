@@ -6,11 +6,14 @@
 
 - Bugfixes, so dass es kompiliert! Insbesondere: Ontologie-File anpassen 8Was ist das Problem?)
 
+- Aktuell geht unser Programm davon aus, dass Superknoten mit einem Kleinbuchstaben starten (in Scenemaker). Wir wissen noch nicht, ob es auch anders geht -> Namen immer lowerCase?
+
 ------------------
 
 Was muss man noch machen nach dem Kompilieren?
 
 - Alle Hashtags in den Dialogakten ergänzen (in den .rudi-Dateien)
+- In der rudi-Datei "Hello_node" an der wait_node noch das ".what" nach lastDA() ergänzen  
 - rudi-Dateien und ontology.nt-file in den richtigen Ordner verschieben (dabei ontology.nt zu introduction.nt umbenennen)
 - Im compile-Skript den Namen der Main-Klasse (MainAgent.rudi) einstellen
 - Im Ontology-Ordner in der Datei "introduction.ini" den Default-Namespace ("cat =") an die uri aus ontology.nt anpassen
