@@ -132,7 +132,7 @@ mainAgent_out:
 excuse_node:
 	if(mainAgent.simple_children.contains("excuse_node")) {
 
-		if(!hasActiveTimeout(excuse_node)) {
+		if(!hasActiveTimeout("excuse_node")) {
 
 			emitDA(InitialGoodbye(Leave));
 			lastDAprocessed();
@@ -146,7 +146,7 @@ excuse_node:
 bye_node:
 	if(mainAgent.simple_children.contains("bye_node")) {
 
-		if(!hasActiveTimeout(bye_node)) {
+		if(!hasActiveTimeout("bye_node")) {
 
 			emitDA(Valediction(Bye));
 		}
