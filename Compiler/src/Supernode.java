@@ -1,6 +1,8 @@
 import java.util.HashSet;
 import java.util.Set;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 /**
  * A scenemaker supernode.
  * @author Max Depenbrock
@@ -38,7 +40,8 @@ public class Supernode extends Node {
 	  }
 	  
 	  outString += "\t\t}\n\n";
-	  outString += "\t\t" + this.name + ".simple_children += \"" + this.name + "_in\";\n";
+	  outString += "\t\t" + this.name + ".active_simple_children += \"" + this.name + "_in\";\n";
+	  outString += "\t\t" + this.name + ".imminent_simple_children += \"" + this.name + "_in\";\n";
 	  outString += "\t\t" + this.parent.name + ".initiated -= \"" + this.name + "\";\n";
 	  outString += "\t}\n\n";
 
@@ -57,15 +60,14 @@ public class Supernode extends Node {
 
   public String getInterruptiveEdgesCode() {
 	  
-	  // Set<InterruptiveEdge> outgoingInterruptiveEdges = new HashSet<InterruptiveEdge>();
 	  int interruptiveEdgeIndex = 1;
 	  String outString = "";
 
 	  for (Edge e : this.outgoingEdges) {
 		  if (e instanceof InterruptiveEdge) {
-			  //outgoingInterruptiveEdges.add((InterruptiveEdge) e);
 			 
 			  InterruptiveEdge edge = (InterruptiveEdge) e;
+			  String targetNodeIsSupernode = "false";
 			  
 			  outString += this.name + "_interruptive_edge_" + Integer.toString(interruptiveEdgeIndex) + ":\n";
 			  outString += "\tif" + edge.convertConditionToRudi() + " {\n\n";
@@ -73,13 +75,11 @@ public class Supernode extends Node {
 			  Node n = edge.endNode;
 			  
 			  if(n.isSupernode) {
-				  outString += "\t\tinterruptive_super_transition(" + this.name + ", " + this.parent.name + ", \"" + n.name + "\");\n";
+				  targetNodeIsSupernode = "true";
 			  }
-			  
-			  else {
-				  outString += "\t\tinterruptive_transition(" + this.name + ", " + this.parent.name + ", \"" + n.name + "\");\n";
-			  }
-			  
+			 
+			  outString += "\t\tinterruptive_transition(" + this.name + ", " + this.parent.name + ", \""; 
+			  outString += n.name + "\", " + targetNodeIsSupernode  + ");\n";
 			  outString += "\n\t\tcancel;\n";
 			  outString += "\t}\n\n";
 			  
@@ -94,17 +94,20 @@ public class Supernode extends Node {
 	  
 	  String outString = this.name + "_in:\n";
 	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_in\")) {\n\n";
-	  outString += this.convertCodeToRudi() + "\n";
 	  
+	  outString += this.convertCodeToRudi() + "\n\n";
+	  outString += "\t\t" + this.name + ".imminent_simple_children -= \"" + this.name + "_in\";\n\n";
+
 	  for (Node n : this.startNodes) {
 		  
+		  String targetNodeIsSupernode = "false";
+		  
 		  if(n.isSupernode) {
-			  outString += "\t\t\tsuper_transition(\"" + this.name + "_in\", " + this.name + ", \"" + n.name + "\");\n";
+			  targetNodeIsSupernode = "true";
 		  }
 		  
-		  else {
-			  outString += "\t\t\ttransition(\"" + this.name + "_in\", \"" + n.name + "\", " + this.name + ", " + this.name + ");\n";			  
-		  }
+		  outString += "\t\t\ttransition(\"" + this.name + "_in\", \"" + n.name + "\", " + this.name + ", ";
+		  outString += this.name + ", " + targetNodeIsSupernode + ");\n";	
 	  }
 	  
 	  outString += "\n\t\t\tcheck_out_transition(\"" + this.name + "_in\", \"" + this.name + "_out\", " + this.name + ", " + this.name + ");\n";			  
@@ -123,6 +126,14 @@ public class Supernode extends Node {
 			  outString += e.getRudiCode();			  
 		  }
 	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof ProbabilityEdge) {
+			  outString += e.getRudiCode() + "\n";
+		  }
+	  }
+	  
+	  outString += "\t\t" + this.name + ".imminent_simple_children -= \"" + this.name + "_out\";\n\n";
 	  
 	  for (Edge e : this.outgoingEdges) {
 		  if (e instanceof ConditionalEdge) {
@@ -158,4 +169,16 @@ public class Supernode extends Node {
 	  
 	  return outString;
   }
+
+public void ensureNodeNamesAreLowerCase() {
+	for (Node n: this.nodes) {
+		n.name = StringUtils.decapitalize(n.name);
+		
+		if(n.isSupernode) {
+			Supernode m = (Supernode) n;
+			m.ensureNodeNamesAreLowerCase();
+		}
+	}	
+}
+
 }

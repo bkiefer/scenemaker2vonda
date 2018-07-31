@@ -23,8 +23,10 @@ public class TimeoutEdge extends Edge {
   public String getRudiCode() {
 	  
 	  String rudiCode = "\t\t";
+
 	  String startNodeString = this.startNode.name;
 	  String startNodeParentString = this.startNode.parent.name;
+	  String targetNodeIsSupernode = "false";
 	  
 	  if (this.startNode.isSupernode) {
 		  startNodeString += "_out";
@@ -32,16 +34,12 @@ public class TimeoutEdge extends Edge {
 	  }
 	  
 	  if (this.endNode.isSupernode) {
-		  
-		  rudiCode += "super_timeout_transition(\"" + startNodeString + "\", ";
-		  rudiCode += startNodeParentString;
-		  rudiCode += ", \"" + this.endNode.name + "\"";	  
-	  } else {
-		  
-		  rudiCode += "timeout_transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
-		  rudiCode += startNodeParentString + ", " + this.endNode.parent.name;
+		  targetNodeIsSupernode = "true";
 	  }
 	  
+	  rudiCode += "timeout_transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
+	  rudiCode += startNodeParentString + ", " + this.endNode.parent.name; 
+	  rudiCode += ", " + targetNodeIsSupernode;
 	  rudiCode += ", " + Integer.toString(this.timeout) + ");\n";
 	  
 	  return rudiCode;

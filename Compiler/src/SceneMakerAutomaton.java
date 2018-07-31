@@ -1,6 +1,8 @@
 import java.util.HashSet;
 import java.util.Set;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 /**
  * A complete Scenemaker automaton. This class represents the "default" super node in Scenemaker.
  * @author Max Depenbrock

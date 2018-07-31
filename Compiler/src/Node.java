@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 /**
  * A scenemaker node.
  * @author Max Depenbrock
@@ -54,7 +56,7 @@ public class Node {
 	  
 	  if (!this.code.isEmpty()) {
 		  
-		  outString += "\t\tif(!hasActiveTimeout(\""+ this.name + "\")) {\n\n";
+		  outString += "\t\tif("+ this.parent.name + ".imminent_simple_children.contains(\"" + this.name + "\")) {\n\n";
 		  outString += this.convertCodeToRudi();
 		  outString += "\t\t}\n\n";
 	  }
@@ -64,6 +66,15 @@ public class Node {
 			  outString += e.getRudiCode() + "\n";
 		  }
 	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof ProbabilityEdge) {
+			  outString += e.getRudiCode() + "\n";
+		  }
+	  }
+	  
+	  outString += "\t\t" + this.parent.name + ".imminent_simple_children -= \"" + this.name + "\";\n\n";
+
 	  	  
 	  for (Edge e : this.outgoingEdges) {
 		  if (e instanceof ConditionalEdge) {
@@ -110,34 +121,27 @@ public class Node {
 	  try {
 		while( (line=bufReader.readLine()) != null )
 		  {
-			
 			String cleanedLine = line;
 			Pattern VAR_TAG_PATTERN = Pattern.compile("<v>(.*?)</v>");
 			Matcher m = VAR_TAG_PATTERN.matcher(cleanedLine);
 			
-			while (true) {
-				if(m.find()) {
-					String varName = m.group(1);			
-					String extendedVarName = this.replaceVarName(varName);
-					String stringToReplace = "<v>" + varName + "</v>";
-					
-					cleanedLine = cleanedLine.replace(stringToReplace, extendedVarName);
-					m = VAR_TAG_PATTERN.matcher(cleanedLine);
-				}
-				else {
-					break;
-				}
+			while (m.find()) {
+				String varName = m.group(1);			
+				String extendedVarName = this.replaceVarName(varName);
+				String stringToReplace = "<v>" + varName + "</v>";
 				
+				cleanedLine = cleanedLine.replace(stringToReplace, extendedVarName);
+				m = VAR_TAG_PATTERN.matcher(cleanedLine);
 			}
 			
 			rudiCode += "\t\t\t" + cleanedLine + "\n";
 		  }
+	
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
 	  
 	  return rudiCode;
-	  
   }
   
 }

@@ -26,8 +26,10 @@ public abstract class Edge {
   public String getRudiCode() {
 	  
 	  String rudiCode = "\t\t";
+
 	  String startNodeString = this.startNode.name;
 	  String startNodeParentString = this.startNode.parent.name;
+	  String targetNodeIsSupernode = "false";
 	  
 	  if (this.startNode.isSupernode) {
 		  startNodeString += "_out";
@@ -35,15 +37,12 @@ public abstract class Edge {
 	  }
 	  
 	  if (this.endNode.isSupernode) {
-		  
-		  rudiCode += "super_transition(\"" + startNodeString + "\", ";
-		  rudiCode += startNodeParentString;
-		  rudiCode += ", \"" + this.endNode.name + "\");\n";	  
-	  } else {
-		  
-		  rudiCode += "transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
-		  rudiCode += startNodeParentString + ", " + this.endNode.parent.name + ");\n";
+		  targetNodeIsSupernode = "true";
 	  }
+	  
+	  rudiCode += "transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
+	  rudiCode += startNodeParentString + ", " + this.endNode.parent.name; 
+	  rudiCode += ", " + targetNodeIsSupernode + ");\n";
 	  
 	  return rudiCode;
   }

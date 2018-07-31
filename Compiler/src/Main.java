@@ -1,7 +1,7 @@
 import java.io.File;
 
 public class Main {
-
+	
   /**
    * For test purposes only.
    * @param args Not used here anyway ;)
@@ -11,6 +11,7 @@ public class Main {
     
     @SuppressWarnings("unused")
     SceneMakerAutomaton a = parser.getSceneMakerAutomaton();
+    a.ensureNodeNamesAreLowerCase();
     
     ntFileGenerator ntg = new ntFileGenerator(a, "http://www.semanticweb.org/jana/ontologies/2018/6/untitled-ontology-6", "./ontology/ontology.nt");
     
@@ -22,4 +23,5 @@ public class Main {
     
     System.out.println("Done");
   }
+  
 }

@@ -22,8 +22,10 @@ public class ProbabilityEdge extends Edge {
   public String getRudiCode() {
 	  
 	  String rudiCode = "\t\t";
+
 	  String startNodeString = this.startNode.name;
 	  String startNodeParentString = this.startNode.parent.name;
+	  String targetNodeIsSupernode = "false";
 	  
 	  if (this.startNode.isSupernode) {
 		  startNodeString += "_out";
@@ -31,15 +33,12 @@ public class ProbabilityEdge extends Edge {
 	  }
 	  
 	  if (this.endNode.isSupernode) {
-		  
-		  rudiCode += "probability_super_transition(\"" + startNodeString + "\", ";
-		  rudiCode += startNodeParentString;
-		  rudiCode += ", \"" + this.endNode.name + "\");\n";	  
-	  } else {
-		  
-		  rudiCode += "probability_transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
-		  rudiCode += startNodeParentString + ", " + this.endNode.parent.name + ");\n";
+		  targetNodeIsSupernode = "true";
 	  }
+	  
+	  rudiCode += "probability_transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
+	  rudiCode += startNodeParentString + ", " + this.endNode.parent.name; 
+	  rudiCode += ", " + targetNodeIsSupernode + ");\n";
 	  
 	  return rudiCode;
   }
