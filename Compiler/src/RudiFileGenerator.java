@@ -14,14 +14,21 @@ public class RudiFileGenerator {
 	
 	public void writeSupernodeToFile(BufferedWriter fw, Supernode m) {
 		try {
+			if(m.parent == null) {
+				fw.write("import Functions;\n");
+			}
 			fw.write(m.getSetupCode());
-			fw.write(m.getPassByCode());
+			if(m.parent != null) {
+				fw.write(m.getPassByCode());
+			}
 			fw.write(m.getInterruptiveEdgesCode());
 			fw.write(m.getPseudoInCode());
 			fw.write(m.getPseudoOutCode());
 			
 			for (Node n : m.nodes) {
-				fw.write(n.getNodeCode());
+				if(n.isSupernode == false) {
+					fw.write(n.getNodeCode());
+				}
 			}
 			
 			fw.write(m.getImportCode());	
@@ -219,7 +226,7 @@ public class RudiFileGenerator {
 	
 	public void generateSupernodeFile(Supernode m) {
 		
-		String filePath = this.outPath + m.name + ".rudi";
+		String filePath = this.outPath + m.name.substring(0,1).toUpperCase() + m.name.substring(1) + ".rudi";
 		BufferedWriter fw = this.getFileWriter(filePath);
 		this.writeSupernodeToFile(fw, m);
 	}

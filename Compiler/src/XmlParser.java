@@ -45,8 +45,8 @@ public class XmlParser {
 
   private void parse(Document doc) {
     this.topLevel = new SceneMakerAutomaton();
-    doc.getRootElement().setAttribute("id", "MainAgent");
-    this.nodes.put("MainAgent", this.topLevel);
+    doc.getRootElement().setAttribute("id", "mainAgent");
+    this.nodes.put("mainAgent", this.topLevel);
     // NB: topLevel is not put in this.nodeElements
   
     // variables / declares
@@ -60,7 +60,7 @@ public class XmlParser {
     parseSupernodes(doc.getRootElement().getChildren("SuperNode"));
     
     this.topLevel.startNodes = parseStart(doc.getRootElement().getAttributeValue("start"));
-    this.topLevel.name = "MainAgent";
+    this.topLevel.name = "mainAgent";
     this.topLevel.allSupernodes.add(this.topLevel);
   
     // iterate over this.nodeElements to generate edges

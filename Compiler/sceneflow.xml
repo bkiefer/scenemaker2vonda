@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SceneFlow id="" name="default" comment="" hideLocalVar="false" hideGlobalVar="false" modifDate="Thu, 19 Jul 2018 13:12:51" start="N15;N2;" context="" package="" xmlns="xml.sceneflow.dfki.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xml.sceneflow.dfki.de res/xsd/sceneflow.xsd">
+<SceneFlow id="" name="default" comment="" hideLocalVar="false" hideGlobalVar="false" modifDate="Tue, 31 Jul 2018 08:48:23" start="S1;" context="" package="" xmlns="xml.sceneflow.dfki.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xml.sceneflow.dfki.de res/xsd/sceneflow.xsd">
   <Define>
   </Define>
   <Declare>
@@ -21,6 +21,11 @@
     <Declare>
     </Declare>
     <Commands>
+      <CallingExpression name="emitDA">
+        <CallingExpression name="Valediction">
+          <SimpleVariable name="Bye"/>
+        </CallingExpression>
+      </CallingExpression>
     </Commands>
     <Graphics>
       <Position xPos="443" yPos="233"/>
@@ -33,7 +38,11 @@
     </Declare>
     <Commands>
       <CallingExpression name="emitDA">
-        <StringLiteral><![CDATA[I have to go now]]></StringLiteral>
+        <CallingExpression name="InitialGoodbye">
+          <SimpleVariable name="Leave"/>
+        </CallingExpression>
+      </CallingExpression>
+      <CallingExpression name="lastDAprocessed">
       </CallingExpression>
     </Commands>
     <EEdge target="N2" start ="">
@@ -115,7 +124,9 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[hi]]></StringLiteral>
+          <CallingExpression name="InitialGreeting">
+            <SimpleVariable name="Greet"/>
+          </CallingExpression>
         </CallingExpression>
         <Assignment>
           <SimpleVariable name="timedOut"/>
@@ -123,6 +134,8 @@
             <BoolLiteral value="false"/>
           </Expression>
         </Assignment>
+        <CallingExpression name="lastDAprocessed">
+        </CallingExpression>
       </Commands>
       <CEdge target="N3" start="">
         <Graphics>
@@ -160,7 +173,9 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[I'm fine; thanks]]></StringLiteral>
+          <CallingExpression name="Inform">
+            <SimpleVariable name="Mood"/>
+          </CallingExpression>
         </CallingExpression>
         <Assignment>
           <SimpleVariable name="nice"/>
@@ -171,6 +186,8 @@
             </Add>
           </Expression>
         </Assignment>
+        <CallingExpression name="lastDAprocessed">
+        </CallingExpression>
       </Commands>
       <EEdge target="N14" start ="">
       <Graphics>
@@ -199,11 +216,24 @@
           </Connection>
         </Graphics>
         <ParenExpression>
-          <Eq>
-            <CallingExpression name="lastDA">
-            </CallingExpression>
-            <StringLiteral><![CDATA[positive]]></StringLiteral>
-          </Eq>
+          <AndAnd>
+            <ParenExpression>
+              <Ge>
+                <CallingExpression name="lastDA">
+                </CallingExpression>
+                <CallingExpression name="Inform">
+                  <SimpleVariable name="Mood"/>
+                </CallingExpression>
+              </Ge>
+            </ParenExpression>
+            <ParenExpression>
+              <Eq>
+                <CallingExpression name="lastDA">
+                </CallingExpression>
+                <StringLiteral><![CDATA[positive]]></StringLiteral>
+              </Eq>
+            </ParenExpression>
+          </AndAnd>
         </ParenExpression>
       </CEdge>
       <CEdge target="S3" start="">
@@ -214,11 +244,24 @@
           </Connection>
         </Graphics>
         <ParenExpression>
-          <Eq>
-            <CallingExpression name="lastDA">
-            </CallingExpression>
-            <StringLiteral><![CDATA[negative]]></StringLiteral>
-          </Eq>
+          <AndAnd>
+            <ParenExpression>
+              <Ge>
+                <CallingExpression name="lastDA">
+                </CallingExpression>
+                <CallingExpression name="Inform">
+                  <SimpleVariable name="Mood"/>
+                </CallingExpression>
+              </Ge>
+            </ParenExpression>
+            <ParenExpression>
+              <Eq>
+                <CallingExpression name="lastDA">
+                </CallingExpression>
+                <StringLiteral><![CDATA[negative]]></StringLiteral>
+              </Eq>
+            </ParenExpression>
+          </AndAnd>
         </ParenExpression>
       </CEdge>
       <CEdge target="N6" start="">
@@ -257,7 +300,11 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[Is there something else you want to talk about?]]></StringLiteral>
+          <CallingExpression name="Question">
+            <SimpleVariable name="MoreTalking"/>
+          </CallingExpression>
+        </CallingExpression>
+        <CallingExpression name="lastDAprocessed">
         </CallingExpression>
       </Commands>
       <CEdge target="N19" start="">
@@ -271,8 +318,8 @@
           <Ge>
             <CallingExpression name="lastDA">
             </CallingExpression>
-            <CallingExpression name="Answer">
-              <SimpleVariable name="No"/>
+            <CallingExpression name="Disconfirm">
+              <SimpleVariable name="MoreTalking"/>
             </CallingExpression>
           </Ge>
         </ParenExpression>
@@ -288,8 +335,8 @@
           <Ge>
             <CallingExpression name="lastDA">
             </CallingExpression>
-            <CallingExpression name="Answer">
-              <SimpleVariable name="Yes"/>
+            <CallingExpression name="Confirm">
+              <SimpleVariable name="MoreTalking"/>
             </CallingExpression>
           </Ge>
         </ParenExpression>
@@ -330,7 +377,11 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[How are you?]]></StringLiteral>
+          <CallingExpression name="ChoiceQuestion">
+            <SimpleVariable name="Mood"/>
+          </CallingExpression>
+        </CallingExpression>
+        <CallingExpression name="lastDAprocessed">
         </CallingExpression>
       </Commands>
       <EEdge target="N13" start ="">
@@ -366,6 +417,8 @@
             </Sub>
           </Expression>
         </Assignment>
+        <CallingExpression name="lastDAprocessed">
+        </CallingExpression>
       </Commands>
       <EEdge target="N3" start ="">
       <Graphics>
@@ -386,7 +439,11 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[Ok, see you next time then. It was nice talking to you!]]></StringLiteral>
+          <CallingExpression name="InitialGoodbye">
+            <SimpleVariable name="Nice"/>
+          </CallingExpression>
+        </CallingExpression>
+        <CallingExpression name="lastDAprocessed">
         </CallingExpression>
       </Commands>
       <Graphics>
@@ -400,7 +457,11 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[I can't stand talking to you any longer anyway.]]></StringLiteral>
+          <CallingExpression name="InitialGoodbye">
+            <SimpleVariable name="Mean"/>
+          </CallingExpression>
+        </CallingExpression>
+        <CallingExpression name="lastDAprocessed">
         </CallingExpression>
       </Commands>
       <Graphics>
@@ -453,7 +514,9 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[Thanks for sharing this with me.]]></StringLiteral>
+          <CallingExpression name="Thanking">
+            <SimpleVariable name="Sharing"/>
+          </CallingExpression>
         </CallingExpression>
         <Assignment>
           <SimpleVariable name="nice"/>
@@ -464,6 +527,8 @@
             </Add>
           </Expression>
         </Assignment>
+        <CallingExpression name="lastDAprocessed">
+        </CallingExpression>
       </Commands>
       <EEdge target="N14" start ="">
       <Graphics>
@@ -484,7 +549,9 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[I see, you probably don't trust me yet.]]></StringLiteral>
+          <CallingExpression name="SocialFunction">
+            <SimpleVariable name="NoTrust"/>
+          </CallingExpression>
         </CallingExpression>
         <Assignment>
           <SimpleVariable name="nice"/>
@@ -495,6 +562,8 @@
             </Sub>
           </Expression>
         </Assignment>
+        <CallingExpression name="lastDAprocessed">
+        </CallingExpression>
       </Commands>
       <EEdge target="N14" start ="">
       <Graphics>
@@ -515,7 +584,11 @@
       </Declare>
       <Commands>
         <CallingExpression name="emitDA">
-          <StringLiteral><![CDATA[Alright, please tell me what is on your mind]]></StringLiteral>
+          <CallingExpression name="Suggestion">
+            <SimpleVariable name="MoreTalking"/>
+          </CallingExpression>
+        </CallingExpression>
+        <CallingExpression name="lastDAprocessed">
         </CallingExpression>
       </Commands>
       <CEdge target="N25" start="">
@@ -529,7 +602,9 @@
           <Ge>
             <CallingExpression name="lastDA">
             </CallingExpression>
-            <SimpleVariable name="Nevermind"/>
+            <CallingExpression name="DeclineSuggestion">
+              <SimpleVariable name="MoreTalking"/>
+            </CallingExpression>
           </Ge>
         </ParenExpression>
       </CEdge>
@@ -593,7 +668,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[Cool]]></StringLiteral>
+            <CallingExpression name="Connecting">
+              <SimpleVariable name="PositiveFeeling"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <EEdge target="N8" start ="">
@@ -615,7 +694,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[Why are you so happy?]]></StringLiteral>
+            <CallingExpression name="WHQuestion">
+              <SimpleVariable name="PositiveMood"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <CEdge target="N20" start="">
@@ -651,7 +734,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[That's great]]></StringLiteral>
+            <CallingExpression name="Connecting">
+              <SimpleVariable name="Enthusiastic"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <Graphics>
@@ -665,10 +752,14 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[Please give me an answer this time]]></StringLiteral>
+            <CallingExpression name="Urge">
+              <SimpleVariable name="Answer"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
-        <TEdge target="N9" start="" timeout="15000">
+        <TEdge target="N9" start="" timeout="12000">
         <Graphics>
           <Connection>
             <ControlPoint xPos="368" yPos="76" ctrlXPos="431" ctrlYPos="113"/>
@@ -729,7 +820,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[Oh no!]]></StringLiteral>
+            <CallingExpression name="Connecting">
+              <SimpleVariable name="NegativeFeeling"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <PEdge target="N10" start="" probability="50">
@@ -767,7 +862,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[joke]]></StringLiteral>
+            <CallingExpression name="Encouragement">
+              <SimpleVariable name="Joke"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <Graphics>
@@ -781,7 +880,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[I'm so sorry]]></StringLiteral>
+            <CallingExpression name="Connecting">
+              <SimpleVariable name="Sorry"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <Graphics>
@@ -795,7 +898,11 @@
         </Declare>
         <Commands>
           <CallingExpression name="emitDA">
-            <StringLiteral><![CDATA[Tomorrow will be a happy day again]]></StringLiteral>
+            <CallingExpression name="Encouragement">
+              <SimpleVariable name="Tomorrow"/>
+            </CallingExpression>
+          </CallingExpression>
+          <CallingExpression name="lastDAprocessed">
           </CallingExpression>
         </Commands>
         <Graphics>

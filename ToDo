@@ -1,8 +1,7 @@
 
-- Allgemein: Sehr sorgfältig abstimmen, dass Datenbankobjekte, Knotennamen, Variablennamen etc. konsistent benutzt werden (im Parser, in Rudi [Regel-Namen, Objektaufrufe, Stringrepräsentationen, Importstatements], in der Datenbank)
-
 - Nochmal darüber nachdenken, ob man ohne eine "super_"-Transition für jede Kantenart auskommen kann -> Falls ja, dann VonDa- und CompilerCode ändern! (etwas nervig im Moment)
 - Konzeptionelle Frage: Könnte es passieren, dass Prozesse sterben, wenn von mehreren Knoten aus ProbabilityEdges proposed werden? Dann ist ja nicht garantiert, dass eine Edge aus jedem Knoten auch tatsächlich ausgeführt wird. Wie könnten wir das ändern?
 
+- Problem: Im Scenemaker-Editor kann man keinen Code eingeben, der Hashtags enthält. Dadurch werden Dialogakte nicht korrekt übersetzt!
 
 

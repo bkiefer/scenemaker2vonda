@@ -152,7 +152,7 @@ public class Supernode extends Node {
 	  String outString = "";
 	  for (Node n : this.nodes) {
 		  if(n.isSupernode) {
-			  outString += "import " + n.name + ";\n";
+			  outString += "import " + n.name.substring(0,1).toUpperCase() + n.name.substring(1) + ";\n";
 		  }
 	  }
 	  

@@ -57,7 +57,7 @@ public abstract class ChatAgent extends Agent implements Constants {
     hello_node = proxy.getRdf("<cat:hello_node>");
     pos_node = proxy.getRdf("<cat:pos_node>");
     neg_node = proxy.getRdf("<cat:neg_node>");
-    //this.newData();
+
   }
 
   public void shutdown() {
