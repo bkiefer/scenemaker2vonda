@@ -61,12 +61,14 @@ public class ntFileGenerator {
 	
 	
 	private void write_property(String name, String type, String domain, String range, BufferedWriter bw, boolean functional) throws IOException {
+		String class_domain = StringUtils.capitalize(domain);
 		this.write_line(name, "type", type, bw);
-		this.write_line(name, "domain", domain, bw);
-		this.write_line(name, "range", range, bw);
 		if (functional) {
 			this.write_line(name, "type", "FunctionalProperty", bw);
 		}
+		this.write_line(name, "domain", class_domain, bw);
+		this.write_line(name, "range", range, bw);
+		
 	}
 	
 	
@@ -100,7 +102,7 @@ public class ntFileGenerator {
 		this.write_property("simple_children", "DatatypeProperty", "Supernode", "string", bw, false);
 		// create Data Properties from variables
 		for (Variable variable : this.automat.allVariables) {
-			this.write_property(variable.name, "DataTypeProperty", variable.domain.name, variable.range.toString(), bw, true);
+			this.write_property(variable.name, "DatatypeProperty", variable.domain.name, variable.range.toString(), bw, true);
 		}
 		// create Classes
 		this.write_line("Supernode", "type", "Class", bw);
