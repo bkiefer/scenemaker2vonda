@@ -1,3 +1,4 @@
+
 void set_inactive(Supernode m) {
 
 	for (String x : m.simple_children) {removeTimeout(x);}
@@ -98,6 +99,7 @@ void interruptive_super_transition(Supernode m, Supernode parent, String target_
 	set_inactive(m);	
 	parent.initiated += target_supernode;
 }
+
 
 setup_mainAgent: 
 	if(!mainAgent.active) {

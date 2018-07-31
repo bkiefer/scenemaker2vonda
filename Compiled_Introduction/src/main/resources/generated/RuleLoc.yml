@@ -9,7 +9,7 @@ children:
   - 0
   id: 0
   label: setup_mainAgent
-  line: 102
+  line: 104
   parent: *id001
 - !!de.dfki.mlt.rudimant.common.RuleInfo
   baseterms:
@@ -19,7 +19,7 @@ children:
   - 0
   id: 1
   label: mainAgent_in
-  line: 114
+  line: 116
   parent: *id001
 - !!de.dfki.mlt.rudimant.common.RuleInfo
   baseterms:
@@ -29,7 +29,7 @@ children:
   - 0
   id: 2
   label: mainAgent_out
-  line: 123
+  line: 125
   parent: *id001
 - !!de.dfki.mlt.rudimant.common.RuleInfo
   baseterms:
@@ -39,7 +39,7 @@ children:
   - 0
   id: 3
   label: excuse_node
-  line: 130
+  line: 132
   parent: *id001
 - !!de.dfki.mlt.rudimant.common.RuleInfo
   baseterms:
@@ -49,7 +49,7 @@ children:
   - 0
   id: 4
   label: bye_node
-  line: 144
+  line: 146
   parent: *id001
 - &id002 !!de.dfki.mlt.rudimant.common.ImportInfo
   children:
@@ -432,7 +432,7 @@ children:
     relativePath: []
   errors: []
   label: Hello_node
-  line: 156
+  line: 158
   parent: *id001
   relativePath: []
 errors: []

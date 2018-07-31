@@ -1,0 +1,39 @@
+- Operatoren:
+  - Unterstützung in Vonda?
+    - ^ (XOR)
+    - % (mod)
+    - ++ (Inc)
+    - -- (Dec)
+  - Funktion in Scenemaker?
+    - & (And)
+    - | (Or)
+
+------------------
+
+- Nochmal darüber nachdenken, ob man ohne eine "super_"-Transition für jede Kantenart auskommen kann -> Falls ja, dann VonDa- und CompilerCode ändern! (etwas nervig im Moment)
+
+- Konzeptionelle Frage: Könnte es passieren, dass Prozesse sterben, wenn von mehreren Knoten aus ProbabilityEdges proposed werden? Dann ist ja nicht garantiert, dass eine Edge aus jedem Knoten auch tatsächlich ausgeführt wird. Wie könnten wir das ändern?
+
+- Problem: Im Scenemaker-Editor kann man keinen Code eingeben, der Hashtags enthält. Dadurch werden Dialogakte nicht korrekt übersetzt!
+	-> Außerdem: Vielleicht keine Punkte, und aus irgendeinem Grund auch nicht lastDA()what == "negative" usw...
+
+- Aktuell geht unser Programm davon aus, dass Superknoten mit einem Kleinbuchstaben starten (in Scenemaker). Wir wissen noch nicht, ob es auch anders geht -> Namen immer lowerCase?
+
+- Parser: Member (Object.attribute.something usw...) parsen können
+
+------------------
+
+Was muss man noch machen nach dem Kompilieren?
+
+	- rudi-Dateien und ontology.nt-file in den richtigen Ordner verschieben (dabei ontology.nt zu introduction.nt umbenennen)
+	- Im compile-Skript den Namen der Main-Klasse (MainAgent.rudi) einstellen
+	- Im Ontology-Ordner in der Datei "introduction.ini" den Default-Namespace ("cat =") an die uri aus ontology.nt anpassen
+	- In der Java-Datei "ChatAgent" alle Supernode-Objekte einmal als Variablen definieren (oben) und in der init-Methode die Variablen mit dem entsprechenden Datenbankobjekt verknüpfen
+	- In der Java-Datei "StubClient" das Attribut "_agent" als Instanz der Klasse "MainAgent" deklarieren und in der init-Methode die Zeile "_agent = new MainAgent()" hinzufügen
+
+	Obiges ist in "Compiled_Introduction" schon geschehen, Folgendes muss aber jedes Mal neu gemacht werden:
+
+		- In der rudi-Datei "Hello_node" an der wait_node noch das ".what" nach lastDA() ergänzen  
+		- Sicherstellen, dass der target Ordner und der src/main/gen-java Unterordner gelöscht sind, bevor neu kompiliert wird!
+		- Den gesamten Ordner nach vonda/examples verschieben (und dort "./compile", "mvn install" und "./openGUI" ausführen)
+
