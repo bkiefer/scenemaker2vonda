@@ -54,7 +54,7 @@ public class Node {
 	  
 	  if (!this.code.isEmpty()) {
 		  
-		  outString += "\t\tif(!hasActiveTimeout("+ this.name + ")) {\n\n";
+		  outString += "\t\tif(!hasActiveTimeout(\""+ this.name + "\")) {\n\n";
 		  outString += this.convertCodeToRudi();
 		  outString += "\t\t}\n\n";
 	  }

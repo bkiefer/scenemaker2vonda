@@ -61,7 +61,7 @@ hello_node_out:
 something_else_node:
 	if(hello_node.simple_children.contains("something_else_node")) {
 
-		if(!hasActiveTimeout(something_else_node)) {
+		if(!hasActiveTimeout("something_else_node")) {
 
 			emitDA(#Question(MoreTalking));
 			lastDAprocessed();
@@ -88,7 +88,7 @@ something_else_node:
 what_node:
 	if(hello_node.simple_children.contains("what_node")) {
 
-		if(!hasActiveTimeout(what_node)) {
+		if(!hasActiveTimeout("what_node")) {
 
 			emitDA(#Suggestion(MoreTalking));
 			lastDAprocessed();
@@ -107,7 +107,7 @@ what_node:
 nevermind_node:
 	if(hello_node.simple_children.contains("nevermind_node")) {
 
-		if(!hasActiveTimeout(nevermind_node)) {
+		if(!hasActiveTimeout("nevermind_node")) {
 
 			emitDA(#SocialFunction(NoTrust));
 			mainAgent.nice = mainAgent.nice - 1;
@@ -122,7 +122,7 @@ nevermind_node:
 mean_leave_node:
 	if(hello_node.simple_children.contains("mean_leave_node")) {
 
-		if(!hasActiveTimeout(mean_leave_node)) {
+		if(!hasActiveTimeout("mean_leave_node")) {
 
 			emitDA(#InitialGoodbye(Mean));
 			lastDAprocessed();
@@ -135,7 +135,7 @@ mean_leave_node:
 timed_out_node:
 	if(hello_node.simple_children.contains("timed_out_node")) {
 
-		if(!hasActiveTimeout(timed_out_node)) {
+		if(!hasActiveTimeout("timed_out_node")) {
 
 			hello_node.timedOut = true;
 			mainAgent.nice = mainAgent.nice - 1;
@@ -150,7 +150,7 @@ timed_out_node:
 nice_leave_node:
 	if(hello_node.simple_children.contains("nice_leave_node")) {
 
-		if(!hasActiveTimeout(nice_leave_node)) {
+		if(!hasActiveTimeout("nice_leave_node")) {
 
 			emitDA(#InitialGoodbye(Nice));
 			lastDAprocessed();
@@ -163,7 +163,7 @@ nice_leave_node:
 answer_node:
 	if(hello_node.simple_children.contains("answer_node")) {
 
-		if(!hasActiveTimeout(answer_node)) {
+		if(!hasActiveTimeout("answer_node")) {
 
 			emitDA(#Inform(Mood));
 			mainAgent.nice = mainAgent.nice + 2;
@@ -193,7 +193,7 @@ choose_valediction_node:
 thanks_node:
 	if(hello_node.simple_children.contains("thanks_node")) {
 
-		if(!hasActiveTimeout(thanks_node)) {
+		if(!hasActiveTimeout("thanks_node")) {
 
 			emitDA(#Thanking(Sharing));
 			mainAgent.nice = mainAgent.nice + 1;
@@ -208,7 +208,7 @@ thanks_node:
 hi_node:
 	if(hello_node.simple_children.contains("hi_node")) {
 
-		if(!hasActiveTimeout(hi_node)) {
+		if(!hasActiveTimeout("hi_node")) {
 
 			emitDA(#InitialGreeting(Greet));
 			hello_node.timedOut = false;
@@ -228,7 +228,7 @@ hi_node:
 how_node:
 	if(hello_node.simple_children.contains("how_node")) {
 
-		if(!hasActiveTimeout(how_node)) {
+		if(!hasActiveTimeout("how_node")) {
 
 			emitDA(#ChoiceQuestion(Mood));
 			lastDAprocessed();

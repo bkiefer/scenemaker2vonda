@@ -56,7 +56,7 @@ public class StubClient implements CommunicationHub {
 
   private boolean isRunning = true;
 
-  private IntroAgentMain _agent;
+  private MainAgent _agent;
 
   private Deque<Object> inQueue = new ArrayDeque<>();
   private Deque<Object> itemsToSend = new ArrayDeque<>();
@@ -68,7 +68,7 @@ public class StubClient implements CommunicationHub {
   public void init(File configDir, Map<String, Object> configs)
       throws IOException, WrongFormatException {
     //RdfProxy proxy = startClient(configDir, configs);
-    _agent = new IntroAgentMain();
+    _agent = new MainAgent();
     _agent.init(configDir, "eng", configs);
     _agent.setCommunicationHub(this);
   }

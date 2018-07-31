@@ -52,7 +52,7 @@ pos_node_out:
 great_node:
 	if(pos_node.simple_children.contains("great_node")) {
 
-		if(!hasActiveTimeout(great_node)) {
+		if(!hasActiveTimeout("great_node")) {
 
 			emitDA(#Connecting(Enthusiastic));
 			lastDAprocessed();
@@ -65,7 +65,7 @@ great_node:
 demand_answer_node:
 	if(pos_node.simple_children.contains("demand_answer_node")) {
 
-		if(!hasActiveTimeout(demand_answer_node)) {
+		if(!hasActiveTimeout("demand_answer_node")) {
 
 			emitDA(#Urge(Answer));
 			lastDAprocessed();
@@ -80,7 +80,7 @@ demand_answer_node:
 why_node:
 	if(pos_node.simple_children.contains("why_node")) {
 
-		if(!hasActiveTimeout(why_node)) {
+		if(!hasActiveTimeout("why_node")) {
 
 			emitDA(#WHQuestion(PositiveMood));
 			lastDAprocessed();
@@ -99,7 +99,7 @@ why_node:
 cool_node:
 	if(pos_node.simple_children.contains("cool_node")) {
 
-		if(!hasActiveTimeout(cool_node)) {
+		if(!hasActiveTimeout("cool_node")) {
 
 			emitDA(#Connecting(PositiveFeeling));
 			lastDAprocessed();
