@@ -4,4 +4,15 @@
 
 - Problem: Im Scenemaker-Editor kann man keinen Code eingeben, der Hashtags enthält. Dadurch werden Dialogakte nicht korrekt übersetzt!
 
+- Bugfixes, so dass es kompiliert!
+
+------------------
+
+Was muss man noch machen nach dem Kompilieren?
+
+- Alle Hashtags in den Dialogakten ergänzen (in den .rudi-Dateien)
+- rudi-Dateien und ontology.nt-file in den richtigen Ordner verschieben (dabei ontology.nt zu introduction.nt umbenennen)
+- Im compile-Skript den Namen der Main-Klasse (MainAgent.rudi) einstellen
+- Im Ontology-Ordner in der Datei "introduction.ini" den Default-Namespace ("cat =") an die uri aus ontology.nt anpassen
+- Den gesamten Ordner nach vonda/examples verschieben (und dort "./compile", "mvn install" und "./openGUI" ausführen)
 

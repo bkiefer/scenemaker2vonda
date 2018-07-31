@@ -1,0 +1,57 @@
+import Functions;
+
+setup_mainAgent: 
+	if(!mainAgent.active) {
+
+		timeout("MainAgentStart", 1400) {
+
+			mainAgent.active = true;
+			mainAgent.simple_children += "mainAgent_in";
+
+			mainAgent.nice = 0;
+		}
+	}
+
+mainAgent_in:
+	if(mainAgent.simple_children.contains("mainAgent_in")) {
+
+
+			super_transition("mainAgent_in", mainAgent, "hello_node");
+
+			check_out_transition("mainAgent_in", "mainAgent_out", mainAgent, mainAgent);
+	}
+
+mainAgent_out: 
+	if(mainAgent.simple_children.contains("mainAgent_out")) {
+
+		set_inactive(mainAgent);
+		shutdown();
+	}
+
+excuse_node:
+	if(mainAgent.simple_children.contains("excuse_node")) {
+
+		if(!hasActiveTimeout(excuse_node)) {
+
+			emitDA(#InitialGoodbye(Leave));
+			lastDAprocessed();
+		}
+
+		transition("excuse_node", "bye_node", mainAgent, mainAgent);
+
+		check_out_transition("excuse_node", "mainAgent_out", mainAgent, mainAgent);
+	}
+
+bye_node:
+	if(mainAgent.simple_children.contains("bye_node")) {
+
+		if(!hasActiveTimeout(bye_node)) {
+
+			emitDA(#Valediction(Bye));
+		}
+
+
+		check_out_transition("bye_node", "mainAgent_out", mainAgent, mainAgent);
+	}
+
+import Hello_node;
