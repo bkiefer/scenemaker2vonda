@@ -100,6 +100,7 @@ public class ntFileGenerator {
 		this.write_property("active", "DatatypeProperty", "Supernode", "boolean", bw, true);
 		this.write_property("initiated", "DatatypeProperty", "Supernode", "string", bw, false);
 		this.write_property("simple_children", "DatatypeProperty", "Supernode", "string", bw, false);
+		this.write_property("imminent_simple_children","DatatypeProperty","Supernode","string",bw,false);
 		// create Data Properties from variables
 		for (Variable variable : this.automat.allVariables) {
 			this.write_property(variable.name, "DatatypeProperty", variable.domain.name, variable.range.toString(), bw, true);
