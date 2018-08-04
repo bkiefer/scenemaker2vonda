@@ -40,7 +40,7 @@ public class Supernode extends Node {
 	  }
 	  
 	  outString += "\t\t}\n\n";
-	  outString += "\t\t" + this.name + ".active_simple_children += \"" + this.name + "_in\";\n";
+	  outString += "\t\t" + this.name + ".simple_children += \"" + this.name + "_in\";\n";
 	  outString += "\t\t" + this.name + ".imminent_simple_children += \"" + this.name + "_in\";\n";
 	  outString += "\t\t" + this.parent.name + ".initiated -= \"" + this.name + "\";\n";
 	  outString += "\t}\n\n";

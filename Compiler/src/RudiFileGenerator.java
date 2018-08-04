@@ -32,7 +32,7 @@ public class RudiFileGenerator {
 			"\n" + 
 			"}\n" + 
 			"\n" + 
-			"void super_transition(String node_a, Supernode a_parent, String supernode_b) {\n" + 
+			"void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {\n" + 
 			"\n" + 
 			"	cancelTimeout(node_a);\n" + 
 			"\n" + 
@@ -40,74 +40,49 @@ public class RudiFileGenerator {
 			"		a_parent.simple_children -= node_a;\n" + 
 			"	}\n" + 
 			"\n" + 
-			"	a_parent.initiated += supernode_b;\n" + 
-			"}\n" + 
-			"\n" + 
-			"void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent) {\n" + 
-			"\n" + 
-			"	cancelTimeout(node_a);\n" + 
-			"\n" + 
-			"	if(a_parent.simple_children.contains(node_a)) {\n" + 
-			"		a_parent.simple_children -= node_a;\n" + 
+			"	if(targetNodeIsSupernode) {\n" + 
+			"		b_parent.initiated += node_b;\n" + 
+			"	} else {\n" + 
+			"		b_parent.simple_children += node_b;\n" + 
+			"		b_parent.imminent_simple_children += node_b;\n" + 
 			"	}\n" + 
-			"\n" + 
-			"	b_parent.simple_children += node_b;\n" + 
-			"	b_parent.imminent_simple_children += node_b;\n" + 
 			"}\n" + 
 			"\n" + 
 			"void check_out_transition(String a, String b, Supernode a_parent, Supernode b_parent) {\n" + 
 			"\n" + 
 			"	if (!hasActiveTimeout(a) && a_parent.simple_children.contains(a)) { \n" + 
 			"	\n" + 
-			"		transition(a, b, a_parent, b_parent);\n" + 
+			"		transition(a, b, a_parent, b_parent, false);\n" + 
 			"	}\n" + 
 			"}\n" + 
 			"\n" + 
-			"void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, int duration) {\n" + 
+			"void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode, int duration) {\n" + 
 			"\n" + 
 			"	timeout(node_a, duration) {\n" + 
 			"\n" + 
-			"		transition(node_a, node_b, a_parent, b_parent);\n" + 
+			"		transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);\n" + 
 			"	}\n" + 
 			"}\n" + 
 			"\n" + 
-			"void timeout_super_transition(String node_a, Supernode a_parent, String supernode_b, int duration) {\n" + 
-			"\n" + 
-			"	timeout(node_a, duration) {\n" + 
-			"\n" + 
-			"		super_transition(node_a, a_parent, supernode_b);\n" + 
-			"	}\n" + 
-			"}\n" + 
-			"\n" + 
-			"void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {\n" + 
+			"void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {\n" + 
 			"\n" + 
 			"	propose_id = \"propose_\"+ node_a;\n" + 
 			"\n" + 
 			"	propose(propose_id) {					\n" + 
-			"		transition(node_a, node_b, a_parent, b_parent);\n" + 
+			"		transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);\n" + 
 			"	}\n" + 
 			"}\n" + 
 			"\n" + 
-			"void probability_super_transition(String node_a, Supernode a_parent, String node_b) {\n" + 
-			"\n" + 
-			"	propose_id = \"propose_\"+ node_a;\n" + 
-			"\n" + 
-			"	propose(propose_id) {					\n" + 
-			"		super_transition(node_a, a_parent, node_b);\n" + 
+			"void interruptive_transition(Supernode m, Supernode parent, String target_node, boolean targetNodeIsSupernode) {\n" + 
+			"						\n" + 
+			"	set_inactive(m);	\n" + 
+			"	if(targetNodeIsSupernode) {\n" + 
+			"		parent.initiated += target_node;\n" + 
+			"	} else {\n" + 
+			"		parent.simple_children += target_node;\n" + 
 			"	}\n" + 
 			"}\n" + 
-			"\n" + 
-			"void interruptive_transition(Supernode m, Supernode parent, String target_node) {\n" + 
-			"						\n" + 
-			"	set_inactive(m);	\n" + 
-			"	parent.simple_children += target_node;\n" + 
-			"}\n" + 
-			"\n" + 
-			"void interruptive_super_transition(Supernode m, Supernode parent, String target_supernode) {\n" + 
-			"						\n" + 
-			"	set_inactive(m);	\n" + 
-			"	parent.initiated += target_supernode;\n" + 
-			"}";
+			"";
 	
 	public void writeSupernodeToFile(BufferedWriter fw, Supernode m) {
 		try {
