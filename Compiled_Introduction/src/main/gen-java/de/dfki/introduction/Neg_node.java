@@ -62,6 +62,7 @@ setup_neg_node:
     }
 
     ((Set<Object>)mainAgent.neg_node.getValue("<cat:simple_children>")).add("neg_node_in");
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).add("neg_node_in");
     ((Set<Object>)mainAgent.hello_node.getValue("<cat:initiated>")).remove("neg_node");
   }
 
@@ -88,7 +89,7 @@ public int neg_node_interruptive_edge_1()
   mainAgent.logRule(34, __x34);
 neg_node_interruptive_edge_1:
   if (__x34[0]) {
-    mainAgent.interruptive_transition(mainAgent.neg_node, mainAgent.hello_node, "answer_node");
+    mainAgent.interruptive_transition(mainAgent.neg_node, mainAgent.hello_node, "answer_node", false);
     return 1;
   }
 
@@ -102,7 +103,8 @@ public int neg_node_in()
   mainAgent.logRule(35, __x35);
 neg_node_in:
   if (__x35[0]) {
-    mainAgent.transition("neg_node_in", "no_node", mainAgent.neg_node, mainAgent.neg_node);
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).remove("neg_node_in");
+    mainAgent.transition("neg_node_in", "no_node", mainAgent.neg_node, mainAgent.neg_node, false);
     mainAgent.check_out_transition("neg_node_in", "neg_node_out", mainAgent.neg_node, mainAgent.neg_node);
   }
 
@@ -116,7 +118,8 @@ public int neg_node_out()
   mainAgent.logRule(36, __x36);
 neg_node_out:
   if (__x36[0]) {
-    mainAgent.transition("neg_node_out", "something_else_node", mainAgent.neg_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).remove("neg_node_out");
+    mainAgent.transition("neg_node_out", "something_else_node", mainAgent.neg_node, mainAgent.hello_node, false);
     if (mainAgent.test_inactive(mainAgent.neg_node)) {
       ((Set<Object>)mainAgent.hello_node.getValue("<cat:super_children>")).remove(mainAgent.neg_node);
       mainAgent.set_inactive(mainAgent.neg_node);
@@ -135,14 +138,18 @@ public int no_node()
   mainAgent.logRule(37, __x37);
 no_node:
   if (__x37[0]) {
-    if (!(mainAgent.hasActiveTimeout("no_node"))) {
+    if (mainAgent.neg_node != null && mainAgent.exists(((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).contains("no_node")) {
       mainAgent.emitDA(new DialogueAct("Connecting", "NegativeFeeling"));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.probability_transition("no_node", "happy_node", mainAgent.neg_node, mainAgent.neg_node);
-    mainAgent.probability_transition("no_node", "joke_node", mainAgent.neg_node, mainAgent.neg_node);
-    mainAgent.probability_transition("no_node", "sorry_node", mainAgent.neg_node, mainAgent.neg_node);
+    mainAgent.probability_transition("no_node", "happy_node", mainAgent.neg_node, mainAgent.neg_node, false);
+    mainAgent.probability_transition("no_node", "joke_node", mainAgent.neg_node, mainAgent.neg_node, false);
+    mainAgent.probability_transition("no_node", "sorry_node", mainAgent.neg_node, mainAgent.neg_node, false);
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).remove("no_node");
+    mainAgent.probability_transition("no_node", "happy_node", mainAgent.neg_node, mainAgent.neg_node, false);
+    mainAgent.probability_transition("no_node", "joke_node", mainAgent.neg_node, mainAgent.neg_node, false);
+    mainAgent.probability_transition("no_node", "sorry_node", mainAgent.neg_node, mainAgent.neg_node, false);
     mainAgent.check_out_transition("no_node", "neg_node_out", mainAgent.neg_node, mainAgent.neg_node);
   }
 
@@ -156,11 +163,12 @@ public int sorry_node()
   mainAgent.logRule(38, __x38);
 sorry_node:
   if (__x38[0]) {
-    if (!(mainAgent.hasActiveTimeout("sorry_node"))) {
+    if (mainAgent.neg_node != null && mainAgent.exists(((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).contains("sorry_node")) {
       mainAgent.emitDA(new DialogueAct("Connecting", "Sorry"));
       mainAgent.lastDAprocessed();
     }
 
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).remove("sorry_node");
     mainAgent.check_out_transition("sorry_node", "neg_node_out", mainAgent.neg_node, mainAgent.neg_node);
   }
 
@@ -174,11 +182,12 @@ public int joke_node()
   mainAgent.logRule(39, __x39);
 joke_node:
   if (__x39[0]) {
-    if (!(mainAgent.hasActiveTimeout("joke_node"))) {
+    if (mainAgent.neg_node != null && mainAgent.exists(((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).contains("joke_node")) {
       mainAgent.emitDA(new DialogueAct("Encouragement", "Joke"));
       mainAgent.lastDAprocessed();
     }
 
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).remove("joke_node");
     mainAgent.check_out_transition("joke_node", "neg_node_out", mainAgent.neg_node, mainAgent.neg_node);
   }
 
@@ -192,11 +201,12 @@ public int happy_node()
   mainAgent.logRule(40, __x40);
 happy_node:
   if (__x40[0]) {
-    if (!(mainAgent.hasActiveTimeout("happy_node"))) {
+    if (mainAgent.neg_node != null && mainAgent.exists(((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).contains("happy_node")) {
       mainAgent.emitDA(new DialogueAct("Encouragement", "Tomorrow"));
       mainAgent.lastDAprocessed();
     }
 
+    ((Set<Object>)mainAgent.neg_node.getValue("<cat:imminent_simple_children>")).remove("happy_node");
     mainAgent.check_out_transition("happy_node", "neg_node_out", mainAgent.neg_node, mainAgent.neg_node);
   }
 

@@ -10,6 +10,7 @@ setup_hello_node:
 		}
 
 		hello_node.simple_children += "hello_node_in";
+		hello_node.imminent_simple_children += "hello_node_in";
 		mainAgent.initiated -= "hello_node";
 	}
 
@@ -22,7 +23,7 @@ pass_by_hello_node:
 hello_node_interruptive_edge_1:
 	if( lastDA() >= #InitialGoodbye(Bye) ) {
 
-		interruptive_transition(hello_node, mainAgent, "bye_node");
+		interruptive_transition(hello_node, mainAgent, "bye_node", false);
 
 		cancel;
 	}
@@ -30,7 +31,7 @@ hello_node_interruptive_edge_1:
 hello_node_interruptive_edge_2:
 	if( mainAgent.nice < -1 ) {
 
-		interruptive_transition(hello_node, mainAgent, "excuse_node");
+		interruptive_transition(hello_node, mainAgent, "excuse_node", false);
 
 		cancel;
 	}
@@ -39,7 +40,10 @@ hello_node_in:
 	if(hello_node.simple_children.contains("hello_node_in")) {
 
 
-			transition("hello_node_in", "hi_node", hello_node, hello_node);
+
+		hello_node.imminent_simple_children -= "hello_node_in";
+
+			transition("hello_node_in", "hi_node", hello_node, hello_node, false);
 
 			check_out_transition("hello_node_in", "hello_node_out", hello_node, hello_node);
 	}
@@ -47,7 +51,9 @@ hello_node_in:
 hello_node_out: 
 	if(hello_node.simple_children.contains("hello_node_out")) {
 
-		transition("hello_node_out", "bye_node", hello_node, mainAgent);
+		hello_node.imminent_simple_children -= "hello_node_out";
+
+		transition("hello_node_out", "bye_node", hello_node, mainAgent, false);
 
 		if(test_inactive(hello_node)) {
 
@@ -61,24 +67,26 @@ hello_node_out:
 something_else_node:
 	if(hello_node.simple_children.contains("something_else_node")) {
 
-		if(!hasActiveTimeout("something_else_node")) {
+		if(hello_node.imminent_simple_children.contains("something_else_node")) {
 
 			emitDA(#Question(MoreTalking));
 			lastDAprocessed();
 		}
 
-		timeout_transition("something_else_node", "choose_valediction_node", hello_node, hello_node, 20000);
+		timeout_transition("something_else_node", "choose_valediction_node", hello_node, hello_node, false, 20000);
+
+		hello_node.imminent_simple_children -= "something_else_node";
 
 		if ( lastDA() >= #Confirm(MoreTalking) ) {
-			transition("something_else_node", "what_node", hello_node, hello_node);
+			transition("something_else_node", "what_node", hello_node, hello_node, false);
 		}
 
 		if ( lastDA() >= #Disconfirm(MoreTalking) ) {
-			transition("something_else_node", "choose_valediction_node", hello_node, hello_node);
+			transition("something_else_node", "choose_valediction_node", hello_node, hello_node, false);
 		}
 
 		if ( lastDA() >= #Question(Mood) ) {
-			transition("something_else_node", "answer_node", hello_node, hello_node);
+			transition("something_else_node", "answer_node", hello_node, hello_node, false);
 		}
 
 
@@ -88,16 +96,18 @@ something_else_node:
 what_node:
 	if(hello_node.simple_children.contains("what_node")) {
 
-		if(!hasActiveTimeout("what_node")) {
+		if(hello_node.imminent_simple_children.contains("what_node")) {
 
 			emitDA(#Suggestion(MoreTalking));
 			lastDAprocessed();
 		}
 
-		timeout_transition("what_node", "thanks_node", hello_node, hello_node, 20000);
+		timeout_transition("what_node", "thanks_node", hello_node, hello_node, false, 20000);
+
+		hello_node.imminent_simple_children -= "what_node";
 
 		if ( lastDA() >= #DeclineSuggestion(MoreTalking) ) {
-			transition("what_node", "nevermind_node", hello_node, hello_node);
+			transition("what_node", "nevermind_node", hello_node, hello_node, false);
 		}
 
 
@@ -107,14 +117,16 @@ what_node:
 nevermind_node:
 	if(hello_node.simple_children.contains("nevermind_node")) {
 
-		if(!hasActiveTimeout("nevermind_node")) {
+		if(hello_node.imminent_simple_children.contains("nevermind_node")) {
 
 			emitDA(#SocialFunction(NoTrust));
 			mainAgent.nice = mainAgent.nice - 1;
 			lastDAprocessed();
 		}
 
-		transition("nevermind_node", "something_else_node", hello_node, hello_node);
+		hello_node.imminent_simple_children -= "nevermind_node";
+
+		transition("nevermind_node", "something_else_node", hello_node, hello_node, false);
 
 		check_out_transition("nevermind_node", "hello_node_out", hello_node, hello_node);
 	}
@@ -122,11 +134,13 @@ nevermind_node:
 mean_leave_node:
 	if(hello_node.simple_children.contains("mean_leave_node")) {
 
-		if(!hasActiveTimeout("mean_leave_node")) {
+		if(hello_node.imminent_simple_children.contains("mean_leave_node")) {
 
 			emitDA(#InitialGoodbye(Mean));
 			lastDAprocessed();
 		}
+
+		hello_node.imminent_simple_children -= "mean_leave_node";
 
 
 		check_out_transition("mean_leave_node", "hello_node_out", hello_node, hello_node);
@@ -135,14 +149,16 @@ mean_leave_node:
 timed_out_node:
 	if(hello_node.simple_children.contains("timed_out_node")) {
 
-		if(!hasActiveTimeout("timed_out_node")) {
+		if(hello_node.imminent_simple_children.contains("timed_out_node")) {
 
 			hello_node.timedOut = true;
 			mainAgent.nice = mainAgent.nice - 1;
 			lastDAprocessed();
 		}
 
-		transition("timed_out_node", "how_node", hello_node, hello_node);
+		hello_node.imminent_simple_children -= "timed_out_node";
+
+		transition("timed_out_node", "how_node", hello_node, hello_node, false);
 
 		check_out_transition("timed_out_node", "hello_node_out", hello_node, hello_node);
 	}
@@ -150,11 +166,13 @@ timed_out_node:
 nice_leave_node:
 	if(hello_node.simple_children.contains("nice_leave_node")) {
 
-		if(!hasActiveTimeout("nice_leave_node")) {
+		if(hello_node.imminent_simple_children.contains("nice_leave_node")) {
 
 			emitDA(#InitialGoodbye(Nice));
 			lastDAprocessed();
 		}
+
+		hello_node.imminent_simple_children -= "nice_leave_node";
 
 
 		check_out_transition("nice_leave_node", "hello_node_out", hello_node, hello_node);
@@ -163,14 +181,16 @@ nice_leave_node:
 answer_node:
 	if(hello_node.simple_children.contains("answer_node")) {
 
-		if(!hasActiveTimeout("answer_node")) {
+		if(hello_node.imminent_simple_children.contains("answer_node")) {
 
 			emitDA(#Inform(Mood));
 			mainAgent.nice = mainAgent.nice + 2;
 			lastDAprocessed();
 		}
 
-		transition("answer_node", "something_else_node", hello_node, hello_node);
+		hello_node.imminent_simple_children -= "answer_node";
+
+		transition("answer_node", "something_else_node", hello_node, hello_node, false);
 
 		check_out_transition("answer_node", "hello_node_out", hello_node, hello_node);
 	}
@@ -178,12 +198,14 @@ answer_node:
 choose_valediction_node:
 	if(hello_node.simple_children.contains("choose_valediction_node")) {
 
+		hello_node.imminent_simple_children -= "choose_valediction_node";
+
 		if ( mainAgent.nice > 0 ) {
-			transition("choose_valediction_node", "nice_leave_node", hello_node, hello_node);
+			transition("choose_valediction_node", "nice_leave_node", hello_node, hello_node, false);
 		}
 
 		if ( mainAgent.nice <= 0 ) {
-			transition("choose_valediction_node", "mean_leave_node", hello_node, hello_node);
+			transition("choose_valediction_node", "mean_leave_node", hello_node, hello_node, false);
 		}
 
 
@@ -193,14 +215,16 @@ choose_valediction_node:
 thanks_node:
 	if(hello_node.simple_children.contains("thanks_node")) {
 
-		if(!hasActiveTimeout("thanks_node")) {
+		if(hello_node.imminent_simple_children.contains("thanks_node")) {
 
 			emitDA(#Thanking(Sharing));
 			mainAgent.nice = mainAgent.nice + 1;
 			lastDAprocessed();
 		}
 
-		transition("thanks_node", "something_else_node", hello_node, hello_node);
+		hello_node.imminent_simple_children -= "thanks_node";
+
+		transition("thanks_node", "something_else_node", hello_node, hello_node, false);
 
 		check_out_transition("thanks_node", "hello_node_out", hello_node, hello_node);
 	}
@@ -208,17 +232,19 @@ thanks_node:
 hi_node:
 	if(hello_node.simple_children.contains("hi_node")) {
 
-		if(!hasActiveTimeout("hi_node")) {
+		if(hello_node.imminent_simple_children.contains("hi_node")) {
 
 			emitDA(#InitialGreeting(Greet));
 			hello_node.timedOut = false;
 			lastDAprocessed();
 		}
 
-		timeout_transition("hi_node", "timed_out_node", hello_node, hello_node, 5000);
+		timeout_transition("hi_node", "timed_out_node", hello_node, hello_node, false, 5000);
+
+		hello_node.imminent_simple_children -= "hi_node";
 
 		if ( lastDA() >= #InitialGreeting(Greet) ) {
-			transition("hi_node", "how_node", hello_node, hello_node);
+			transition("hi_node", "how_node", hello_node, hello_node, false);
 		}
 
 
@@ -228,13 +254,15 @@ hi_node:
 how_node:
 	if(hello_node.simple_children.contains("how_node")) {
 
-		if(!hasActiveTimeout("how_node")) {
+		if(hello_node.imminent_simple_children.contains("how_node")) {
 
 			emitDA(#ChoiceQuestion(Mood));
 			lastDAprocessed();
 		}
 
-		transition("how_node", "wait_node", hello_node, hello_node);
+		hello_node.imminent_simple_children -= "how_node";
+
+		transition("how_node", "wait_node", hello_node, hello_node, false);
 
 		check_out_transition("how_node", "hello_node_out", hello_node, hello_node);
 	}
@@ -242,18 +270,20 @@ how_node:
 wait_node:
 	if(hello_node.simple_children.contains("wait_node")) {
 
-		timeout_transition("wait_node", "timed_out_node", hello_node, hello_node, 20000);
+		timeout_transition("wait_node", "timed_out_node", hello_node, hello_node, false, 20000);
 
-		if ( ( lastDA() >= #Inform(Mood) ) && ( lastDA().what == "negative" ) ) {
-			super_transition("wait_node", hello_node, "neg_node");
-		}
+		hello_node.imminent_simple_children -= "wait_node";
 
 		if ( lastDA() >= #Question(Mood) ) {
-			transition("wait_node", "answer_node", hello_node, hello_node);
+			transition("wait_node", "answer_node", hello_node, hello_node, false);
+		}
+
+		if ( ( lastDA() >= #Inform(Mood) ) && ( lastDA().what == "negative" ) ) {
+			transition("wait_node", "neg_node", hello_node, hello_node, true);
 		}
 
 		if ( ( lastDA() >= #Inform(Mood) ) && ( lastDA().what == "positive" ) ) {
-			super_transition("wait_node", hello_node, "pos_node");
+			transition("wait_node", "pos_node", hello_node, hello_node, true);
 		}
 
 

@@ -94,6 +94,7 @@ setup_hello_node:
     }
 
     ((Set<Object>)mainAgent.hello_node.getValue("<cat:simple_children>")).add("hello_node_in");
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).add("hello_node_in");
     ((Set<Object>)mainAgent.mainAgent.getValue("<cat:initiated>")).remove("hello_node");
   }
 
@@ -120,7 +121,7 @@ public int hello_node_interruptive_edge_1()
   mainAgent.logRule(7, __x7);
 hello_node_interruptive_edge_1:
   if (__x7[0]) {
-    mainAgent.interruptive_transition(mainAgent.hello_node, mainAgent.mainAgent, "bye_node");
+    mainAgent.interruptive_transition(mainAgent.hello_node, mainAgent.mainAgent, "bye_node", false);
     return 1;
   }
 
@@ -134,7 +135,7 @@ public int hello_node_interruptive_edge_2()
   mainAgent.logRule(8, __x8);
 hello_node_interruptive_edge_2:
   if (__x8[0]) {
-    mainAgent.interruptive_transition(mainAgent.hello_node, mainAgent.mainAgent, "excuse_node");
+    mainAgent.interruptive_transition(mainAgent.hello_node, mainAgent.mainAgent, "excuse_node", false);
     return 1;
   }
 
@@ -148,7 +149,8 @@ public int hello_node_in()
   mainAgent.logRule(9, __x9);
 hello_node_in:
   if (__x9[0]) {
-    mainAgent.transition("hello_node_in", "hi_node", mainAgent.hello_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("hello_node_in");
+    mainAgent.transition("hello_node_in", "hi_node", mainAgent.hello_node, mainAgent.hello_node, false);
     mainAgent.check_out_transition("hello_node_in", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -162,7 +164,8 @@ public int hello_node_out()
   mainAgent.logRule(10, __x10);
 hello_node_out:
   if (__x10[0]) {
-    mainAgent.transition("hello_node_out", "bye_node", mainAgent.hello_node, mainAgent.mainAgent);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("hello_node_out");
+    mainAgent.transition("hello_node_out", "bye_node", mainAgent.hello_node, mainAgent.mainAgent, false);
     if (mainAgent.test_inactive(mainAgent.hello_node)) {
       ((Set<Object>)mainAgent.mainAgent.getValue("<cat:super_children>")).remove(mainAgent.hello_node);
       mainAgent.set_inactive(mainAgent.hello_node);
@@ -181,22 +184,23 @@ public int something_else_node()
   mainAgent.logRule(11, __x11);
 something_else_node:
   if (__x11[0]) {
-    if (!(mainAgent.hasActiveTimeout("something_else_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("something_else_node")) {
       mainAgent.emitDA(new DialogueAct("Question", "MoreTalking"));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.timeout_transition("something_else_node", "choose_valediction_node", mainAgent.hello_node, mainAgent.hello_node, 20000);
+    mainAgent.timeout_transition("something_else_node", "choose_valediction_node", mainAgent.hello_node, mainAgent.hello_node, false, 20000);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("something_else_node");
     if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("Confirm", "MoreTalking"))) {
-      mainAgent.transition("something_else_node", "what_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("something_else_node", "what_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("Disconfirm", "MoreTalking"))) {
-      mainAgent.transition("something_else_node", "choose_valediction_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("something_else_node", "choose_valediction_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("Question", "Mood"))) {
-      mainAgent.transition("something_else_node", "answer_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("something_else_node", "answer_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     mainAgent.check_out_transition("something_else_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
@@ -212,14 +216,15 @@ public int what_node()
   mainAgent.logRule(12, __x12);
 what_node:
   if (__x12[0]) {
-    if (!(mainAgent.hasActiveTimeout("what_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("what_node")) {
       mainAgent.emitDA(new DialogueAct("Suggestion", "MoreTalking"));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.timeout_transition("what_node", "thanks_node", mainAgent.hello_node, mainAgent.hello_node, 20000);
+    mainAgent.timeout_transition("what_node", "thanks_node", mainAgent.hello_node, mainAgent.hello_node, false, 20000);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("what_node");
     if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("DeclineSuggestion", "MoreTalking"))) {
-      mainAgent.transition("what_node", "nevermind_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("what_node", "nevermind_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     mainAgent.check_out_transition("what_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
@@ -235,13 +240,14 @@ public int nevermind_node()
   mainAgent.logRule(13, __x13);
 nevermind_node:
   if (__x13[0]) {
-    if (!(mainAgent.hasActiveTimeout("nevermind_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("nevermind_node")) {
       mainAgent.emitDA(new DialogueAct("SocialFunction", "NoTrust"));
       mainAgent.mainAgent.setValue("<cat:nice>", (((Integer)mainAgent.mainAgent.getSingleValue("<cat:nice>"))-1));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.transition("nevermind_node", "something_else_node", mainAgent.hello_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("nevermind_node");
+    mainAgent.transition("nevermind_node", "something_else_node", mainAgent.hello_node, mainAgent.hello_node, false);
     mainAgent.check_out_transition("nevermind_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -255,11 +261,12 @@ public int mean_leave_node()
   mainAgent.logRule(14, __x14);
 mean_leave_node:
   if (__x14[0]) {
-    if (!(mainAgent.hasActiveTimeout("mean_leave_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("mean_leave_node")) {
       mainAgent.emitDA(new DialogueAct("InitialGoodbye", "Mean"));
       mainAgent.lastDAprocessed();
     }
 
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("mean_leave_node");
     mainAgent.check_out_transition("mean_leave_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -273,13 +280,14 @@ public int timed_out_node()
   mainAgent.logRule(15, __x15);
 timed_out_node:
   if (__x15[0]) {
-    if (!(mainAgent.hasActiveTimeout("timed_out_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("timed_out_node")) {
       mainAgent.hello_node.setValue("<cat:timedOut>", true);
       mainAgent.mainAgent.setValue("<cat:nice>", (((Integer)mainAgent.mainAgent.getSingleValue("<cat:nice>"))-1));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.transition("timed_out_node", "how_node", mainAgent.hello_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("timed_out_node");
+    mainAgent.transition("timed_out_node", "how_node", mainAgent.hello_node, mainAgent.hello_node, false);
     mainAgent.check_out_transition("timed_out_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -293,11 +301,12 @@ public int nice_leave_node()
   mainAgent.logRule(16, __x16);
 nice_leave_node:
   if (__x16[0]) {
-    if (!(mainAgent.hasActiveTimeout("nice_leave_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("nice_leave_node")) {
       mainAgent.emitDA(new DialogueAct("InitialGoodbye", "Nice"));
       mainAgent.lastDAprocessed();
     }
 
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("nice_leave_node");
     mainAgent.check_out_transition("nice_leave_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -311,13 +320,14 @@ public int answer_node()
   mainAgent.logRule(17, __x17);
 answer_node:
   if (__x17[0]) {
-    if (!(mainAgent.hasActiveTimeout("answer_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("answer_node")) {
       mainAgent.emitDA(new DialogueAct("Inform", "Mood"));
       mainAgent.mainAgent.setValue("<cat:nice>", (((Integer)mainAgent.mainAgent.getSingleValue("<cat:nice>"))+2));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.transition("answer_node", "something_else_node", mainAgent.hello_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("answer_node");
+    mainAgent.transition("answer_node", "something_else_node", mainAgent.hello_node, mainAgent.hello_node, false);
     mainAgent.check_out_transition("answer_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -331,12 +341,13 @@ public int choose_valediction_node()
   mainAgent.logRule(18, __x18);
 choose_valediction_node:
   if (__x18[0]) {
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("choose_valediction_node");
     if (((Integer)mainAgent.mainAgent.getSingleValue("<cat:nice>")) > 0) {
-      mainAgent.transition("choose_valediction_node", "nice_leave_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("choose_valediction_node", "nice_leave_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     if (((Integer)mainAgent.mainAgent.getSingleValue("<cat:nice>")) <= 0) {
-      mainAgent.transition("choose_valediction_node", "mean_leave_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("choose_valediction_node", "mean_leave_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     mainAgent.check_out_transition("choose_valediction_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
@@ -352,13 +363,14 @@ public int thanks_node()
   mainAgent.logRule(19, __x19);
 thanks_node:
   if (__x19[0]) {
-    if (!(mainAgent.hasActiveTimeout("thanks_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("thanks_node")) {
       mainAgent.emitDA(new DialogueAct("Thanking", "Sharing"));
       mainAgent.mainAgent.setValue("<cat:nice>", (((Integer)mainAgent.mainAgent.getSingleValue("<cat:nice>"))+1));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.transition("thanks_node", "something_else_node", mainAgent.hello_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("thanks_node");
+    mainAgent.transition("thanks_node", "something_else_node", mainAgent.hello_node, mainAgent.hello_node, false);
     mainAgent.check_out_transition("thanks_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -372,15 +384,16 @@ public int hi_node()
   mainAgent.logRule(20, __x20);
 hi_node:
   if (__x20[0]) {
-    if (!(mainAgent.hasActiveTimeout("hi_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("hi_node")) {
       mainAgent.emitDA(new DialogueAct("InitialGreeting", "Greet"));
       mainAgent.hello_node.setValue("<cat:timedOut>", false);
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.timeout_transition("hi_node", "timed_out_node", mainAgent.hello_node, mainAgent.hello_node, 5000);
+    mainAgent.timeout_transition("hi_node", "timed_out_node", mainAgent.hello_node, mainAgent.hello_node, false, 5000);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("hi_node");
     if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("InitialGreeting", "Greet"))) {
-      mainAgent.transition("hi_node", "how_node", mainAgent.hello_node, mainAgent.hello_node);
+      mainAgent.transition("hi_node", "how_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
     mainAgent.check_out_transition("hi_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
@@ -396,12 +409,13 @@ public int how_node()
   mainAgent.logRule(21, __x21);
 how_node:
   if (__x21[0]) {
-    if (!(mainAgent.hasActiveTimeout("how_node"))) {
+    if (mainAgent.hello_node != null && mainAgent.exists(((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).contains("how_node")) {
       mainAgent.emitDA(new DialogueAct("ChoiceQuestion", "Mood"));
       mainAgent.lastDAprocessed();
     }
 
-    mainAgent.transition("how_node", "wait_node", mainAgent.hello_node, mainAgent.hello_node);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("how_node");
+    mainAgent.transition("how_node", "wait_node", mainAgent.hello_node, mainAgent.hello_node, false);
     mainAgent.check_out_transition("how_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);
   }
 
@@ -415,17 +429,18 @@ public int wait_node()
   mainAgent.logRule(22, __x22);
 wait_node:
   if (__x22[0]) {
-    mainAgent.timeout_transition("wait_node", "timed_out_node", mainAgent.hello_node, mainAgent.hello_node, 20000);
-    if ((mainAgent.lastDA().isSubsumedBy(new DialogueAct("Inform", "Mood"))) && (((String)mainAgent.lastDA().getValue("what")).equals("negative"))) {
-      mainAgent.super_transition("wait_node", mainAgent.hello_node, "neg_node");
+    mainAgent.timeout_transition("wait_node", "timed_out_node", mainAgent.hello_node, mainAgent.hello_node, false, 20000);
+    ((Set<Object>)mainAgent.hello_node.getValue("<cat:imminent_simple_children>")).remove("wait_node");
+    if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("Question", "Mood"))) {
+      mainAgent.transition("wait_node", "answer_node", mainAgent.hello_node, mainAgent.hello_node, false);
     }
 
-    if (mainAgent.lastDA().isSubsumedBy(new DialogueAct("Question", "Mood"))) {
-      mainAgent.transition("wait_node", "answer_node", mainAgent.hello_node, mainAgent.hello_node);
+    if ((mainAgent.lastDA().isSubsumedBy(new DialogueAct("Inform", "Mood"))) && (((String)mainAgent.lastDA().getValue("what")).equals("negative"))) {
+      mainAgent.transition("wait_node", "neg_node", mainAgent.hello_node, mainAgent.hello_node, true);
     }
 
     if ((mainAgent.lastDA().isSubsumedBy(new DialogueAct("Inform", "Mood"))) && (((String)mainAgent.lastDA().getValue("what")).equals("positive"))) {
-      mainAgent.super_transition("wait_node", mainAgent.hello_node, "pos_node");
+      mainAgent.transition("wait_node", "pos_node", mainAgent.hello_node, mainAgent.hello_node, true);
     }
 
     mainAgent.check_out_transition("wait_node", "hello_node_out", mainAgent.hello_node, mainAgent.hello_node);

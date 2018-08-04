@@ -51,6 +51,7 @@ public MainAgent()
   }
   m.setValue("<cat:active>", false);
   m.setValue("<cat:simple_children>", new LinkedHashSet<>());
+  m.setValue("<cat:imminent_simple_children>", new LinkedHashSet<>());
   m.setValue("<cat:super_children>", new LinkedHashSet<>());
   m.setValue("<cat:initiated>", new LinkedHashSet<>());
 }
@@ -60,93 +61,57 @@ public boolean test_inactive(Rdf m)
   return (!(m != null && exists(((Set<Object>)m.getValue("<cat:super_children>"))))) && (!(m != null && exists(((Set<Object>)m.getValue("<cat:simple_children>"))))) && (!(m != null && exists(((Set<Object>)m.getValue("<cat:initiated>")))));
 }
 
-public void super_transition(String node_a, Rdf a_parent, String supernode_b)
+public void transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent, boolean targetNodeIsSupernode)
 {
   cancelTimeout(node_a);
   if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
     ((Set<Object>)a_parent.getValue("<cat:simple_children>")).remove(node_a);
   }
 
-  ((Set<Object>)a_parent.getValue("<cat:initiated>")).add(supernode_b);
-}
-
-public void transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent)
-{
-  cancelTimeout(node_a);
-  if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
-    ((Set<Object>)a_parent.getValue("<cat:simple_children>")).remove(node_a);
+  if (targetNodeIsSupernode) {
+    ((Set<Object>)b_parent.getValue("<cat:initiated>")).add(node_b);
+  } else {
+    ((Set<Object>)b_parent.getValue("<cat:simple_children>")).add(node_b);
+    ((Set<Object>)b_parent.getValue("<cat:imminent_simple_children>")).add(node_b);
   }
-
-  ((Set<Object>)b_parent.getValue("<cat:simple_children>")).add(node_b);
 }
 
 public void check_out_transition(String a, String b, Rdf a_parent, Rdf b_parent)
 {
   if (!(hasActiveTimeout(a)) && a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(a)) {
-    transition(a, b, a_parent, b_parent);
+    transition(a, b, a_parent, b_parent, false);
   }
 }
 
-public void timeout_transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent, int duration)
+public void timeout_transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent, boolean targetNodeIsSupernode, int duration)
 {
   newTimeout(node_a, duration, new Proposal() {
                public void run()
                {
-                 transition(node_a, node_b, a_parent, b_parent);
+                 transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);
                }
              });
 }
 
-public void timeout_super_transition(String node_a, Rdf a_parent, String supernode_b, int duration)
-{
-  newTimeout(node_a, duration, new Proposal() {
-               public void run()
-               {
-                 super_transition(node_a, a_parent, supernode_b);
-               }
-             });
-}
-
-public void probability_transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent)
+public void probability_transition(String node_a, String node_b, Rdf a_parent, Rdf b_parent, boolean targetNodeIsSupernode)
 {
   String propose_id = ("propose_"+node_a);
-  if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
-    ((Set<Object>)a_parent.getValue("<cat:simple_children>")).remove(node_a);
-  }
-
   propose(propose_id, new Proposal() {
             public void run()
             {
-              transition(node_a, node_b, a_parent, b_parent);
+              transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);
             }
           });
 }
 
-public void probability_super_transition(String node_a, Rdf a_parent, String node_b)
+public void interruptive_transition(Rdf m, Rdf parent, String target_node, boolean targetNodeIsSupernode)
 {
-  String propose_id = ("propose_"+node_a);
-  if (a_parent != null && exists(((Set<Object>)a_parent.getValue("<cat:simple_children>"))) && ((Set<Object>)a_parent.getValue("<cat:simple_children>")).contains(node_a)) {
-    ((Set<Object>)a_parent.getValue("<cat:simple_children>")).remove(node_a);
+  set_inactive(m);
+  if (targetNodeIsSupernode) {
+    ((Set<Object>)parent.getValue("<cat:initiated>")).add(target_node);
+  } else {
+    ((Set<Object>)parent.getValue("<cat:simple_children>")).add(target_node);
   }
-
-  propose(propose_id, new Proposal() {
-            public void run()
-            {
-              super_transition(node_a, a_parent, node_b);
-            }
-          });
-}
-
-public void interruptive_transition(Rdf m, Rdf parent, String target_node)
-{
-  set_inactive(m);
-  ((Set<Object>)parent.getValue("<cat:simple_children>")).add(target_node);
-}
-
-public void interruptive_super_transition(Rdf m, Rdf parent, String target_supernode)
-{
-  set_inactive(m);
-  ((Set<Object>)parent.getValue("<cat:initiated>")).add(target_supernode);
 }
 
 public int setup_mainAgent()
@@ -176,7 +141,8 @@ public int mainAgent_in()
   logRule(1, __x1);
 mainAgent_in:
   if (__x1[0]) {
-    super_transition("mainAgent_in", mainAgent, "hello_node");
+    ((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>")).remove("mainAgent_in");
+    transition("mainAgent_in", "hello_node", mainAgent, mainAgent, true);
     check_out_transition("mainAgent_in", "mainAgent_out", mainAgent, mainAgent);
   }
 
@@ -204,12 +170,13 @@ public int excuse_node()
   logRule(3, __x3);
 excuse_node:
   if (__x3[0]) {
-    if (!(hasActiveTimeout("excuse_node"))) {
+    if (mainAgent != null && exists(((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>")).contains("excuse_node")) {
       emitDA(new DialogueAct("InitialGoodbye", "Leave"));
       lastDAprocessed();
     }
 
-    transition("excuse_node", "bye_node", mainAgent, mainAgent);
+    ((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>")).remove("excuse_node");
+    transition("excuse_node", "bye_node", mainAgent, mainAgent, false);
     check_out_transition("excuse_node", "mainAgent_out", mainAgent, mainAgent);
   }
 
@@ -223,10 +190,11 @@ public int bye_node()
   logRule(4, __x4);
 bye_node:
   if (__x4[0]) {
-    if (!(hasActiveTimeout("bye_node"))) {
+    if (mainAgent != null && exists(((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>"))) && ((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>")).contains("bye_node")) {
       emitDA(new DialogueAct("Valediction", "Bye"));
     }
 
+    ((Set<Object>)mainAgent.getValue("<cat:imminent_simple_children>")).remove("bye_node");
     check_out_transition("bye_node", "mainAgent_out", mainAgent, mainAgent);
   }
 

@@ -9,6 +9,7 @@ setup_neg_node:
 		}
 
 		neg_node.simple_children += "neg_node_in";
+		neg_node.imminent_simple_children += "neg_node_in";
 		hello_node.initiated -= "neg_node";
 	}
 
@@ -21,7 +22,7 @@ pass_by_neg_node:
 neg_node_interruptive_edge_1:
 	if( lastDA() >= #Question(Mood) ) {
 
-		interruptive_transition(neg_node, hello_node, "answer_node");
+		interruptive_transition(neg_node, hello_node, "answer_node", false);
 
 		cancel;
 	}
@@ -30,7 +31,10 @@ neg_node_in:
 	if(neg_node.simple_children.contains("neg_node_in")) {
 
 
-			transition("neg_node_in", "no_node", neg_node, neg_node);
+
+		neg_node.imminent_simple_children -= "neg_node_in";
+
+			transition("neg_node_in", "no_node", neg_node, neg_node, false);
 
 			check_out_transition("neg_node_in", "neg_node_out", neg_node, neg_node);
 	}
@@ -38,7 +42,9 @@ neg_node_in:
 neg_node_out: 
 	if(neg_node.simple_children.contains("neg_node_out")) {
 
-		transition("neg_node_out", "something_else_node", neg_node, hello_node);
+		neg_node.imminent_simple_children -= "neg_node_out";
+
+		transition("neg_node_out", "something_else_node", neg_node, hello_node, false);
 
 		if(test_inactive(neg_node)) {
 
@@ -52,15 +58,23 @@ neg_node_out:
 no_node:
 	if(neg_node.simple_children.contains("no_node")) {
 
-		if(!hasActiveTimeout("no_node")) {
+		if(neg_node.imminent_simple_children.contains("no_node")) {
 
 			emitDA(#Connecting(NegativeFeeling));
 			lastDAprocessed();
 		}
 
-		probability_transition("no_node", "happy_node", neg_node, neg_node);
-		probability_transition("no_node", "joke_node", neg_node, neg_node);
-		probability_transition("no_node", "sorry_node", neg_node, neg_node);
+		probability_transition("no_node", "happy_node", neg_node, neg_node, false);
+
+		probability_transition("no_node", "joke_node", neg_node, neg_node, false);
+
+		probability_transition("no_node", "sorry_node", neg_node, neg_node, false);
+
+		neg_node.imminent_simple_children -= "no_node";
+
+		probability_transition("no_node", "happy_node", neg_node, neg_node, false);
+		probability_transition("no_node", "joke_node", neg_node, neg_node, false);
+		probability_transition("no_node", "sorry_node", neg_node, neg_node, false);
 
 		check_out_transition("no_node", "neg_node_out", neg_node, neg_node);
 	}
@@ -68,11 +82,13 @@ no_node:
 sorry_node:
 	if(neg_node.simple_children.contains("sorry_node")) {
 
-		if(!hasActiveTimeout("sorry_node")) {
+		if(neg_node.imminent_simple_children.contains("sorry_node")) {
 
 			emitDA(#Connecting(Sorry));
 			lastDAprocessed();
 		}
+
+		neg_node.imminent_simple_children -= "sorry_node";
 
 
 		check_out_transition("sorry_node", "neg_node_out", neg_node, neg_node);
@@ -81,11 +97,13 @@ sorry_node:
 joke_node:
 	if(neg_node.simple_children.contains("joke_node")) {
 
-		if(!hasActiveTimeout("joke_node")) {
+		if(neg_node.imminent_simple_children.contains("joke_node")) {
 
 			emitDA(#Encouragement(Joke));
 			lastDAprocessed();
 		}
+
+		neg_node.imminent_simple_children -= "joke_node";
 
 
 		check_out_transition("joke_node", "neg_node_out", neg_node, neg_node);
@@ -94,11 +112,13 @@ joke_node:
 happy_node:
 	if(neg_node.simple_children.contains("happy_node")) {
 
-		if(!hasActiveTimeout("happy_node")) {
+		if(neg_node.imminent_simple_children.contains("happy_node")) {
 
 			emitDA(#Encouragement(Tomorrow));
 			lastDAprocessed();
 		}
+
+		neg_node.imminent_simple_children -= "happy_node";
 
 
 		check_out_transition("happy_node", "neg_node_out", neg_node, neg_node);

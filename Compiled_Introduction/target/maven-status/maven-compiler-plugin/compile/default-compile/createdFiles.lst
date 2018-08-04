@@ -13,7 +13,6 @@ de/dfki/introduction/ui/RecorderGui$4.class
 de/dfki/introduction/StubClient.class
 de/dfki/introduction/ui/Listener.class
 de/dfki/introduction/MainAgent$3.class
-de/dfki/introduction/MainAgent$4.class
 de/dfki/introduction/SrgsParser.class
 de/dfki/introduction/ui/GUI$2.class
 de/dfki/introduction/ui/RecorderGui$1.class
@@ -28,7 +27,6 @@ de/dfki/introduction/ui/RecorderGui.class
 de/dfki/introduction/ui/ChatProtocol$RecentQueryModel.class
 de/dfki/introduction/MainAgent$1.class
 de/dfki/introduction/Pos_node.class
-de/dfki/introduction/MainAgent$5.class
 de/dfki/introduction/ChatAgent.class
 de/dfki/introduction/Neg_node.class
 de/dfki/introduction/ui/GUI$5.class

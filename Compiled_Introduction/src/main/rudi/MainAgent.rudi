@@ -6,6 +6,7 @@ void set_inactive(Supernode m) {
 	
 	m.active = false;
 	m.simple_children = {};
+	m.imminent_simple_children = {};
 	m.super_children = {};
 	m.initiated = {};
 }
@@ -16,7 +17,7 @@ boolean test_inactive(Supernode m) {
 
 }
 
-void super_transition(String node_a, Supernode a_parent, String supernode_b) {
+void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {
 
 	cancelTimeout(node_a);
 
@@ -24,82 +25,48 @@ void super_transition(String node_a, Supernode a_parent, String supernode_b) {
 		a_parent.simple_children -= node_a;
 	}
 
-	a_parent.initiated += supernode_b;
-}
-
-void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
-
-	cancelTimeout(node_a);
-
-	if(a_parent.simple_children.contains(node_a)) {
-		a_parent.simple_children -= node_a;
+	if(targetNodeIsSupernode) {
+		b_parent.initiated += node_b;
+	} else {
+		b_parent.simple_children += node_b;
+		b_parent.imminent_simple_children += node_b;
 	}
-
-	b_parent.simple_children += node_b;
 }
 
 void check_out_transition(String a, String b, Supernode a_parent, Supernode b_parent) {
 
 	if (!hasActiveTimeout(a) && a_parent.simple_children.contains(a)) { 
 	
-		transition(a, b, a_parent, b_parent);
+		transition(a, b, a_parent, b_parent, false);
 	}
 }
 
-void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, int duration) {
+void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode, int duration) {
 
 	timeout(node_a, duration) {
 
-		transition(node_a, node_b, a_parent, b_parent);
+		transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);
 	}
 }
 
-void timeout_super_transition(String node_a, Supernode a_parent, String supernode_b, int duration) {
-
-	timeout(node_a, duration) {
-
-		super_transition(node_a, a_parent, supernode_b);
-	}
-}
-
-void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent) {
+void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {
 
 	propose_id = "propose_"+ node_a;
-	
-	if(a_parent.simple_children.contains(node_a)) {
-		a_parent.simple_children -= node_a;
-	}
 
 	propose(propose_id) {					
-		transition(node_a, node_b, a_parent, b_parent);
+		transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);
 	}
 }
 
-void probability_super_transition(String node_a, Supernode a_parent, String node_b) {
-
-	propose_id = "propose_"+ node_a;
-	
-	if(a_parent.simple_children.contains(node_a)) {
-		a_parent.simple_children -= node_a;
-	}
-
-	propose(propose_id) {					
-		super_transition(node_a, a_parent, node_b);
-	}
-}
-
-void interruptive_transition(Supernode m, Supernode parent, String target_node) {
+void interruptive_transition(Supernode m, Supernode parent, String target_node, boolean targetNodeIsSupernode) {
 						
 	set_inactive(m);	
-	parent.simple_children += target_node;
+	if(targetNodeIsSupernode) {
+		parent.initiated += target_node;
+	} else {
+		parent.simple_children += target_node;
+	}
 }
-
-void interruptive_super_transition(Supernode m, Supernode parent, String target_supernode) {
-						
-	set_inactive(m);	
-	parent.initiated += target_supernode;
-}
-
 
 setup_mainAgent: 
 	if(!mainAgent.active) {
@@ -117,7 +84,10 @@ mainAgent_in:
 	if(mainAgent.simple_children.contains("mainAgent_in")) {
 
 
-			super_transition("mainAgent_in", mainAgent, "hello_node");
+
+		mainAgent.imminent_simple_children -= "mainAgent_in";
+
+			transition("mainAgent_in", "hello_node", mainAgent, mainAgent, true);
 
 			check_out_transition("mainAgent_in", "mainAgent_out", mainAgent, mainAgent);
 	}
@@ -132,13 +102,15 @@ mainAgent_out:
 excuse_node:
 	if(mainAgent.simple_children.contains("excuse_node")) {
 
-		if(!hasActiveTimeout("excuse_node")) {
+		if(mainAgent.imminent_simple_children.contains("excuse_node")) {
 
 			emitDA(#InitialGoodbye(Leave));
 			lastDAprocessed();
 		}
 
-		transition("excuse_node", "bye_node", mainAgent, mainAgent);
+		mainAgent.imminent_simple_children -= "excuse_node";
+
+		transition("excuse_node", "bye_node", mainAgent, mainAgent, false);
 
 		check_out_transition("excuse_node", "mainAgent_out", mainAgent, mainAgent);
 	}
@@ -146,10 +118,12 @@ excuse_node:
 bye_node:
 	if(mainAgent.simple_children.contains("bye_node")) {
 
-		if(!hasActiveTimeout("bye_node")) {
+		if(mainAgent.imminent_simple_children.contains("bye_node")) {
 
 			emitDA(#Valediction(Bye));
 		}
+
+		mainAgent.imminent_simple_children -= "bye_node";
 
 
 		check_out_transition("bye_node", "mainAgent_out", mainAgent, mainAgent);
