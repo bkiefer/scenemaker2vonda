@@ -7,9 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import com.sun.xml.internal.ws.util.StringUtils;
 
+/**
+ * Generates the ontology in form of an nt-File for a given SceneMakerAutomaton.
+ * @author Jana Jungbluth
+ *
+ */
 public class ntFileGenerator {
 	
 	private SceneMakerAutomaton automat;
@@ -121,7 +125,9 @@ public class ntFileGenerator {
 		}
 	}
 	
-	
+	/**
+	 * Creates a new ontology in form of a nt-File.
+	 */
 	public void generateNtFile() {
 		BufferedWriter writer = null;
 	    try {
@@ -148,7 +154,12 @@ public class ntFileGenerator {
 			} 
 	}
 	
-	
+	/**
+	 * Creates a new {@code ntFileGenerator} based on {@code automat}. The generated file will use {@code uri} and be stored at {@code filepath}.
+	 * @param automat The SceneMakerAutomaton the ontology is to be generated for.
+	 * @param uri The uri used for nodes and variables in the ontology.
+	 * @param filepath The path for the nt-File that will be generated.
+	 */
 	public ntFileGenerator(SceneMakerAutomaton automat, String uri, String filepath) {
 		this.automat = automat;
 		this.uri_own = uri;

@@ -1,6 +1,6 @@
 
 /**
- * Enum for node's ranges.
+ * Enum for variable's ranges, e.g. their type.
  * @author Max Depenbrock
  */
 public enum Type {
