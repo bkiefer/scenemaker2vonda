@@ -8,6 +8,18 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
+import compiler.automaton.Node;
+import compiler.automaton.SceneMakerAutomaton;
+import compiler.automaton.Supernode;
+import compiler.automaton.Type;
+import compiler.automaton.Variable;
+import edges.ConditionalEdge;
+import edges.EpsilonEdge;
+import edges.ForkEdge;
+import edges.InterruptiveEdge;
+import edges.ProbabilityEdge;
+import edges.TimeoutEdge;
+
 /**
  * A parser for sceneflow XML files.
  * @author Max Depenbrock
@@ -88,7 +100,7 @@ public class XmlParser {
   }
 
   private void parseSupernode(Element e, Supernode node) {
-    node.isSupernode = true;
+    node.setSupernode(true);;
     node.name = e.getAttributeValue("name");
     
     parseDeclare(e.getChild("Declare"), node);
@@ -114,7 +126,7 @@ public class XmlParser {
   }
 
   private void parseNode(Element e, Node node) {
-    node.isSupernode = false;
+    node.setSupernode(false);
     node.name = e.getAttributeValue("name");
 
     parseDeclare(e.getChild("Declare"), node);

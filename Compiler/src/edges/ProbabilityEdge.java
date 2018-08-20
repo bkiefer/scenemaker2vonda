@@ -1,3 +1,6 @@
+package edges;
+
+import compiler.automaton.Node;
 
 /**
  * A probability edge.
@@ -27,12 +30,12 @@ public class ProbabilityEdge extends Edge {
 	  String startNodeParentString = this.startNode.parent.name;
 	  String targetNodeIsSupernode = "false";
 	  
-	  if (this.startNode.isSupernode) {
+	  if (this.startNode.isSupernode()) {
 		  startNodeString += "_out";
 		  startNodeParentString = this.startNode.name;
 	  }
 	  
-	  if (this.endNode.isSupernode) {
+	  if (this.endNode.isSupernode()) {
 		  targetNodeIsSupernode = "true";
 	  }
 	  

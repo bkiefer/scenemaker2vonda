@@ -1,0 +1,17 @@
+Für jeden Knoten n:
+n:
+	Für jede interruptive edge an n mit condition c und index i und Ziel traget_node:
+		interruptive_i:
+			if c:
+				cancel_timeout(n)
+				if (n.parent.simple_children.contains(n)) {
+					n.parent.simple_children -= n
+				}
+				if (target_node.isSupernode()) {
+					target_node.parent.initiated += target_node
+				} else {
+					target_node.parent.simple_children += target_node
+					target_node.parent.parent.imminent_simple_children += target_node
+				}
+
+	restlicher Code für n wie bisher					

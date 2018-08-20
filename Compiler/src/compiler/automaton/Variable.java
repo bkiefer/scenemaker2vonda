@@ -1,3 +1,4 @@
+package compiler.automaton;
 
 public class Variable {
   

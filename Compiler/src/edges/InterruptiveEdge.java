@@ -1,5 +1,8 @@
+package edges;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import compiler.automaton.Node;
 
 /**
  * An interruptive edge.

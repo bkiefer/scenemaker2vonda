@@ -3,11 +3,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.sun.xml.internal.ws.util.StringUtils;
+
+import compiler.automaton.Node;
+import compiler.automaton.SceneMakerAutomaton;
+import compiler.automaton.Supernode;
 
 public class RudiFileGenerator {
 
@@ -101,7 +102,7 @@ public class RudiFileGenerator {
 			fw.write(this.postProcessDialogueActs(m.getPseudoOutCode()));
 			
 			for (Node n : m.nodes) {
-				if(n.isSupernode == false) {
+				if(n.isSupernode() == false) {
 					fw.write(this.postProcessDialogueActs(n.getNodeCode()));
 				}
 			}

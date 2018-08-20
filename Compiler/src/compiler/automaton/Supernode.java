@@ -1,7 +1,14 @@
+package compiler.automaton;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.sun.xml.internal.ws.util.StringUtils;
+
+import edges.ConditionalEdge;
+import edges.Edge;
+import edges.InterruptiveEdge;
+import edges.ProbabilityEdge;
+import edges.TimeoutEdge;
 
 /**
  * A scenemaker supernode.
@@ -23,7 +30,7 @@ public class Supernode extends Node {
    * Creates a new {@code Supernode}.
    */
   public Supernode() {
-    this.isSupernode = true;
+    this.setSupernode(true);
     this.nodes = new HashSet<>();
   }
   
@@ -74,7 +81,7 @@ public class Supernode extends Node {
 			  
 			  Node n = edge.endNode;
 			  
-			  if(n.isSupernode) {
+			  if(n.isSupernode()) {
 				  targetNodeIsSupernode = "true";
 			  }
 			 
@@ -102,7 +109,7 @@ public class Supernode extends Node {
 		  
 		  String targetNodeIsSupernode = "false";
 		  
-		  if(n.isSupernode) {
+		  if(n.isSupernode()) {
 			  targetNodeIsSupernode = "true";
 		  }
 		  
@@ -162,7 +169,7 @@ public class Supernode extends Node {
 	 
 	  String outString = "";
 	  for (Node n : this.nodes) {
-		  if(n.isSupernode) {
+		  if(n.isSupernode()) {
 			  outString += "import " + n.name.substring(0,1).toUpperCase() + n.name.substring(1) + ";\n";
 		  }
 	  }
@@ -174,7 +181,7 @@ public void ensureNodeNamesAreLowerCase() {
 	for (Node n: this.nodes) {
 		n.name = StringUtils.decapitalize(n.name);
 		
-		if(n.isSupernode) {
+		if(n.isSupernode()) {
 			Supernode m = (Supernode) n;
 			m.ensureNodeNamesAreLowerCase();
 		}

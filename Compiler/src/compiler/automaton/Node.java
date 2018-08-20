@@ -1,3 +1,4 @@
+package compiler.automaton;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +8,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sun.xml.internal.ws.util.StringUtils;
+import edges.ConditionalEdge;
+import edges.Edge;
+import edges.ProbabilityEdge;
+import edges.TimeoutEdge;
 
 /**
  * A scenemaker node.
@@ -38,9 +42,17 @@ public class Node {
   /**
    * Whether the {@code Node} is a {@code Supernode}.
    */
-  boolean isSupernode;
+  private boolean isSupernode;
 
-  /**
+  public boolean isSupernode() {
+	return isSupernode;
+}
+
+public void setSupernode(boolean isSupernode) {
+	this.isSupernode = isSupernode;
+}
+
+/**
    * Creates a new {@code Node}.
    */
   public Node() {

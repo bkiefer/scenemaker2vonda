@@ -9,6 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import com.sun.xml.internal.ws.util.StringUtils;
 
+import compiler.automaton.SceneMakerAutomaton;
+import compiler.automaton.Supernode;
+import compiler.automaton.Variable;
+
 /**
  * Generates the ontology in form of an nt-File for a given SceneMakerAutomaton.
  * @author Jana Jungbluth

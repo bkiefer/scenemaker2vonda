@@ -1,3 +1,6 @@
+package edges;
+
+import compiler.automaton.Node;
 
 /**
  * An epsilon edge.

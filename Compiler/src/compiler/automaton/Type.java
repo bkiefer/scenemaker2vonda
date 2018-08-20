@@ -1,3 +1,4 @@
+package compiler.automaton;
 
 /**
  * Enum for variable's ranges, e.g. their type.
