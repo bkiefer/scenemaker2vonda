@@ -13,9 +13,17 @@ public class ConditionalEdge extends Edge {
   /**
    * Condition of the conditional edge.
    */
-  public String condition;
+  private String condition;
   
-  /**
+  public String getCondition() {
+	return condition;
+  }
+
+  public void setCondition(String condition) {
+	this.condition = condition;
+  }
+
+/**
    * Creates a new {@code ConditionalEdge} starting at {@code start} and ending at {@code end}.
    * @param start {@code Node} at which the edge starts
    * @param end {@code Node} at which the edge ends
@@ -65,7 +73,7 @@ public class ConditionalEdge extends Edge {
 		while (true) {
 			if(m.find()) {
 				String varName = m.group(1);			
-				String extendedVarName = this.startNode.replaceVarName(varName);
+				String extendedVarName = this.getStartNode().replaceVarName(varName);
 				String stringToReplace = "<v>" + varName + "</v>";
 				
 				rudiCondition = rudiCondition.replace(stringToReplace, extendedVarName);

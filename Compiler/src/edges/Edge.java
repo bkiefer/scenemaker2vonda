@@ -11,13 +11,29 @@ public abstract class Edge {
   /** 
    * {@code Node} at which the edge starts.
    */
-  public Node startNode;
+  private Node startNode;
   /** 
    * {@code Node} at which the edge ends. 
    */
-  public Node endNode;
+  private Node endNode;
   
-  /**
+  public Node getStartNode() {
+	return startNode;
+  }
+
+  public void setStartNode(Node startNode) {
+	this.startNode = startNode;
+  }
+
+  public Node getEndNode() {
+	return endNode;
+  }
+
+  public void setEndNode(Node endNode) {
+	this.endNode = endNode;
+  }
+
+/**
    * Creates a new {@code Edge} starting at {@code start} and ending at {@code end}.
    * @param start {@code Node} at which the edge starts
    * @param end {@code Node} at which the edge ends
@@ -31,21 +47,21 @@ public abstract class Edge {
 	  
 	  String rudiCode = "\t\t";
 
-	  String startNodeString = this.startNode.name;
-	  String startNodeParentString = this.startNode.parent.name;
+	  String startNodeString = this.startNode.getName();
+	  String startNodeParentString = this.startNode.getParent().getName();
 	  String targetNodeIsSupernode = "false";
 	  
 	  if (this.startNode.isSupernode()) {
 		  startNodeString += "_out";
-		  startNodeParentString = this.startNode.name;
+		  startNodeParentString = this.startNode.getName();
 	  }
 	  
 	  if (this.endNode.isSupernode()) {
 		  targetNodeIsSupernode = "true";
 	  }
 	  
-	  rudiCode += "transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
-	  rudiCode += startNodeParentString + ", " + this.endNode.parent.name; 
+	  rudiCode += "transition(\"" + startNodeString + "\", \"" + this.endNode.getName() + "\", ";
+	  rudiCode += startNodeParentString + ", " + this.endNode.getParent().getName(); 
 	  rudiCode += ", " + targetNodeIsSupernode + ");\n";
 	  
 	  return rudiCode;

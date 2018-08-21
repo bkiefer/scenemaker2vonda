@@ -110,21 +110,21 @@ public class ntFileGenerator {
 		this.write_property("simple_children", "DatatypeProperty", "Supernode", "string", bw, false);
 		this.write_property("imminent_simple_children","DatatypeProperty","Supernode","string",bw,false);
 		// create Data Properties from variables
-		for (Variable variable : this.automat.allVariables) {
-			this.write_property(variable.name, "DatatypeProperty", variable.domain.name, variable.range.toString(), bw, true);
+		for (Variable variable : this.automat.getAllVariables()) {
+			this.write_property(variable.getName(), "DatatypeProperty", variable.getDomain().getName(), variable.getRange().toString(), bw, true);
 		}
 		// create Classes
 		this.write_line("Supernode", "type", "Class", bw);
-		for (Supernode supernode : this.automat.allSupernodes) {
-			String class_name = StringUtils.capitalize(supernode.name);
+		for (Supernode supernode : this.automat.getAllSupernodes()) {
+			String class_name = StringUtils.capitalize(supernode.getName());
 			this.write_class(class_name, bw);
 		}
 		// create NamedIndividuals
-		for (Supernode supernode: this.automat.allSupernodes) {
-			if (supernode.parent != null){
-				this.write_instance(supernode.name, supernode.parent.name, bw);
+		for (Supernode supernode: this.automat.getAllSupernodes()) {
+			if (supernode.getParent() != null){
+				this.write_instance(supernode.getName(), supernode.getParent().getName(), bw);
 			}else{
-				this.write_instance(supernode.name, "", bw);
+				this.write_instance(supernode.getName(), "", bw);
 			}
 		}
 	}

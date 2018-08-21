@@ -12,30 +12,47 @@ public class SceneMakerAutomaton extends Supernode {
   /**
    * A set of all variables used in this {@code SceneMakerAutomaton} and all of its sub nodes.
    */
-  public Set<Variable> allVariables;
+  private Set<Variable> allVariables;
   /**
    * A set of all super nodes used in this {@code SceneMakerAutomaton} and all of its sub nodes.
    */
-  public Set<Supernode> allSupernodes;
+  private Set<Supernode> allSupernodes;
   
+  public Set<Variable> getAllVariables() {
+	  return allVariables;
+  }
+
+  public void setAllVariables(Set<Variable> allVariables) {
+	  this.allVariables = allVariables;
+  }
+
+  public Set<Supernode> getAllSupernodes() {
+	  return allSupernodes;
+  }
+
+  public void setAllSupernodes(Set<Supernode> allSupernodes) {
+	  this.allSupernodes = allSupernodes;
+  }
+
   /**
    * Creates a new SceneMakerAutomaton.
    */
   public SceneMakerAutomaton() {
-    this.allVariables = new HashSet<>();
-    this.allSupernodes = new HashSet<>();
+	  
+	  this.allVariables = new HashSet<>();
+	  this.allSupernodes = new HashSet<>();
   }
   
   public String getSetupCode() {
 	  
-	  String outString = "\nsetup_" + this.name + ": \n";
-	  outString += "\tif(!" + this.name + ".active) {\n\n";
+	  String outString = "\nsetup_" + this.getName() + ": \n";
+	  outString += "\tif(!" + this.getName() + ".active) {\n\n";
 	  outString += "\t\ttimeout(\"MainAgentStart\", 1400) {\n\n";
-	  outString += "\t\t\t" + this.name + ".active = true;\n";
-	  outString += "\t\t\t" + this.name + ".simple_children += \"" + this.name + "_in\";\n\n";
+	  outString += "\t\t\t" + this.getName() + ".active = true;\n";
+	  outString += "\t\t\t" + this.getName() + ".simple_children += \"" + this.getName() + "_in\";\n\n";
 	  
-	  for (Variable v : this.variables) {
-		  outString += "\t\t\t" + this.name + "." + v.name + " = " + v.value + ";\n";
+	  for (Variable v : this.getVariables()) {
+		  outString += "\t\t\t" + this.getName() + "." + v.getName() + " = " + v.getValue() + ";\n";
 	  }
 	  
 	  outString += "\t\t}\n";
@@ -46,11 +63,11 @@ public class SceneMakerAutomaton extends Supernode {
 
 public String getPseudoOutCode() {
 	  
-	  String outString = this.name + "_out: \n";
-	  outString += "\tif("+ this.name + ".simple_children.contains(\"" + this.name + "_out\")) {\n\n";
+	  String outString = this.getName() + "_out: \n";
+	  outString += "\tif("+ this.getName() + ".simple_children.contains(\"" + this.getName() + "_out\")) {\n\n";
 	  
 	  
-	  outString += "\t\tset_inactive("+ this.name + ");\n";
+	  outString += "\t\tset_inactive("+ this.getName() + ");\n";
 	  outString += "\t\tshutdown();\n";
 
 	  outString += "\t}\n\n";

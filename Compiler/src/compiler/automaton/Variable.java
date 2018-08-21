@@ -5,18 +5,54 @@ public class Variable {
   /**
    * The name of the {@code Variable}.
    */
-  public String name;
+  private String name;
   /**
    * The value of the {@code Variable}.
    */
-  public String value;
+  private String value;
   /**
    * The domain of the {@code Variable}, i.e. which {@code Node} it belongs to.
    */
-  public Node domain;
+  private Node domain;
   /**
    * The range (= type) of the {@code Variable}.
    */
-  public Type range;
+  private Type range;
+  	
+  public String getName() {
+	return name;
+  }
+  
+  public void setName(String name) {
+	this.name = name;
+  }
+  
+  public String getValue() {
+	return value;
+  }
+  
+  public void setValue(String value) {
+	this.value = value;
+  }
+  
+  public Node getDomain() {
+	return domain;
+  }
+  
+  public void setDomain(Node domain) {
+	this.domain = domain;
+  }
+  
+  public Type getRange() {
+	return range;
+  }
+  
+  public void setRange(Type range) {
+	this.range = range;
+  }
+  
+  
+  
+  
 
 }

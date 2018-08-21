@@ -13,7 +13,15 @@ public class InterruptiveEdge extends Edge {
   /**
    * Condition of the interruptive edge.
    */
-  public String condition;
+  private String condition;
+  
+  public String getCondition() {
+	return condition;
+  }
+
+  public void setCondition(String condition) {
+	this.condition = condition;
+  }
 
   /**
    * Creates a new {@code InterruptiveEdge} starting at {@code start} and ending at {@code end}.
@@ -34,7 +42,7 @@ public class InterruptiveEdge extends Edge {
 		while (true) {
 			if(m.find()) {
 				String varName = m.group(1);			
-				String extendedVarName = this.startNode.replaceVarName(varName);
+				String extendedVarName = this.getStartNode().replaceVarName(varName);
 				String stringToReplace = "<v>" + varName + "</v>";
 				
 				rudiCondition = rudiCondition.replace(stringToReplace, extendedVarName);

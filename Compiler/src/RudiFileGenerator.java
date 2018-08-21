@@ -87,13 +87,13 @@ public class RudiFileGenerator {
 	
 	public void writeSupernodeToFile(BufferedWriter fw, Supernode m) {
 		try {
-			if(m.parent == null) {
+			if(m.getParent() == null) {
 				fw.write(this.preface);
 			}
 			
 			fw.write(m.getSetupCode());
 			
-			if(m.parent != null) {
+			if(m.getParent() != null) {
 				fw.write(m.getPassByCode());
 			}
 			
@@ -101,7 +101,7 @@ public class RudiFileGenerator {
 			fw.write(this.postProcessDialogueActs(m.getPseudoInCode()));
 			fw.write(this.postProcessDialogueActs(m.getPseudoOutCode()));
 			
-			for (Node n : m.nodes) {
+			for (Node n : m.getNodes()) {
 				if(n.isSupernode() == false) {
 					fw.write(this.postProcessDialogueActs(n.getNodeCode()));
 				}
@@ -151,8 +151,8 @@ public class RudiFileGenerator {
 		
 		try {
 			
-			for (Supernode m : this.automaton.allSupernodes) {
-				fw.write(StringUtils.capitalize(m.name) + " " + m.name + ";\n");
+			for (Supernode m : this.automaton.getAllSupernodes()) {
+				fw.write(StringUtils.capitalize(m.getName()) + " " + m.getName() + ";\n");
 			}
 						
 		} catch (IOException ioe) {
@@ -171,7 +171,7 @@ public class RudiFileGenerator {
 	
 	public void generateSupernodeFile(Supernode m) {
 		
-		String filePath = this.outPath + StringUtils.capitalize(m.name) + ".rudi";
+		String filePath = this.outPath + StringUtils.capitalize(m.getName()) + ".rudi";
 		BufferedWriter fw = this.getFileWriter(filePath);
 		this.writeSupernodeToFile(fw, m);
 	}
@@ -180,7 +180,7 @@ public class RudiFileGenerator {
 		
 		this.generateChatAgentFile();
 		
-		for (Supernode m : this.automaton.allSupernodes) {
+		for (Supernode m : this.automaton.getAllSupernodes()) {
 			generateSupernodeFile(m);
 		}
 		

@@ -11,9 +11,17 @@ public class ProbabilityEdge extends Edge {
   /**
    * Probability of the probability edge.
    */
-  public float probability;
+  private float probability;
   
-  /**
+  public float getProbability() {
+	return probability;
+  }
+
+  public void setProbability(float probability) {
+	this.probability = probability;
+  }
+
+/**
    * Creates a new {@code ProbabilityEdge} starting at {@code start} and ending at {@code end}.
    * @param start {@code Node} at which the edge starts
    * @param end {@code Node} at which the edge ends
@@ -26,21 +34,21 @@ public class ProbabilityEdge extends Edge {
 	  
 	  String rudiCode = "\t\t";
 
-	  String startNodeString = this.startNode.name;
-	  String startNodeParentString = this.startNode.parent.name;
+	  String startNodeString = this.getStartNode().getName();
+	  String startNodeParentString = this.getStartNode().getParent().getName();
 	  String targetNodeIsSupernode = "false";
 	  
-	  if (this.startNode.isSupernode()) {
+	  if (this.getStartNode().isSupernode()) {
 		  startNodeString += "_out";
-		  startNodeParentString = this.startNode.name;
+		  startNodeParentString = this.getStartNode().getName();
 	  }
 	  
-	  if (this.endNode.isSupernode()) {
+	  if (this.getEndNode().isSupernode()) {
 		  targetNodeIsSupernode = "true";
 	  }
 	  
-	  rudiCode += "probability_transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
-	  rudiCode += startNodeParentString + ", " + this.endNode.parent.name; 
+	  rudiCode += "probability_transition(\"" + startNodeString + "\", \"" + this.getEndNode().getName() + "\", ";
+	  rudiCode += startNodeParentString + ", " + this.getEndNode().getParent().getName(); 
 	  rudiCode += ", " + targetNodeIsSupernode + ");\n";
 	  
 	  return rudiCode;
