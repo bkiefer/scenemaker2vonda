@@ -114,6 +114,7 @@ public class ExpressionParser {
         return "<v>" + e.getAttributeValue("name") + "</v>";
         
       default:
+        System.err.println("Cannot parse " + e.getName());
         return "";
     }
   }
