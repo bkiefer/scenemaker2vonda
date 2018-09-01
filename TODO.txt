@@ -1,0 +1,16 @@
+1. Javadoc vervollständigen
+2. Code aufräumen
+3. Dafür sorgen, dass test2 durchläuft -> eventuell auftretende Bugs fixen
+4. Interruptive Edges für einfache Knoten umsetzen
+5. Main.py "ersetzen"; Projekt als Shell-Script ausführbar machen
+6. Konfigurationen als Kommandozeilenparameter oder Konfigurationsdatei? Umsetzen
+7. Kurzanleitung: Wie baut man den Compiler, was ist im Hauptverzeichnis wo, wofür
+8. ca. 2-4 Seiten Projektdokumentation: 
+	- Welche Knoten / Kanten gibt es
+	- Wie und wo kann man Variablen definieren, was ist der Scope?
+	- Wie funktioniert die Übersetzung, so dass die Funktionalität des Automaten entsteht, z.B., wie funktioniert das "multi-process" Modell?
+	- Was wird in der Ontologie wie dargestellt?
+	- (Eventuell) Was muss man noch tun, um ein komplettes System zu erhalten (NICHT ASR/Interpretation/Generierung etc.), d.h.welche Teile fehlen, wenn man den 			Automaten kompiliert hat
+	- Was fehlt oder sollte bald hinzugefügt werden?
+	- Was könnte/sollte längerfristig hinzugefügt werden?
+
