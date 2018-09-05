@@ -121,12 +121,6 @@ public class Node {
 		  }
 	  }
 	  
-	  for (Edge e : this.outgoingEdges) {
-		  if (e instanceof ProbabilityEdge) {
-			  outString += e.getRudiCode() + "\n";
-		  }
-	  }
-	  
 	  outString += "\t\t" + this.parent.getName() + ".imminent_simple_children -= \"" + this.name + "\";\n\n";
 
 	  	  

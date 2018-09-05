@@ -1,0 +1,78 @@
+// test grammar to check if working with grammar works
+// should greet back:
+
+raw:InitialGreeting ^ Greet
+->
+# =  :canned ^ <string>"Hello fellow human!".
+
+raw:Valediction ^ Bye
+->
+# =  :canned ^ <string>"Goodbye".
+
+raw:Inform ^ Mood
+->
+# =  :canned ^ <string>"I feel great, thanks".
+
+raw:ChoiceQuestion ^ Mood
+->
+# =  :canned ^ <string>"How do you feel today?".
+
+raw:Encouragement ^ Joke
+->
+# =  :canned ^ <string>"Best Joke Ever".
+
+raw:Encouragement ^ Tomorrow
+->
+# =  :canned ^ <string>"Tomorrow will be a happy day again!".
+
+raw:Connecting ^ Sorry
+->
+# =  :canned ^ <string>"I am so sorry!".
+
+raw:Connecting ^ NegativeFeeling
+->
+# =  :canned ^ <string>"Oh no!".
+
+raw:InitialGoodbye ^ Leave
+->
+# =  :canned ^ <string>"I have to go now".
+
+raw:Connecting ^ PositiveFeeling
+->
+# =  :canned ^ <string>"Cool".
+
+raw:Connecting ^ Enthusiastic
+->
+# =  :canned ^ <string>"Great!".
+
+raw:WHQuestion ^ PositiveMood
+->
+# =  :canned ^ <string>"Why are you so happy today?".
+
+raw:Suggestion ^ MoreTalking
+->
+# =  :canned ^ <string>"Alright, please tell me what is on your mind".
+
+raw:Thanking ^ Sharing
+->
+# =  :canned ^ <string>"Thank you for sharing this with me".
+
+raw:SocialFunction ^ NoTrust
+->
+# =  :canned ^ <string>"I see. You probably don't trust me yet".
+
+raw:InitialGoodbye ^ Nice
+->
+# =  :canned ^ <string>"Ok, see you next time! It was nice talking with you".
+
+raw:InitialGoodbye ^ Mean
+->
+# =  :canned ^ <string>"I cannot stand talking to you any longer anyways".
+
+raw:Urge ^ Answer
+->
+# =  :canned ^ <string>"Please give me an answer this time".
+
+raw:Question ^ MoreTalking
+->
+# =  :canned ^ <string>"Is there anything else you want to talk about?".

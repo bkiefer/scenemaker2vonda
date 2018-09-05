@@ -83,11 +83,11 @@
     <Declare>
     </Declare>
     <Commands>
-      <UserCommand name="emitDA">
-        <UserCommand name="Inform">
-          <Variable name="Mood"/>
-        </UserCommand>
-      </UserCommand>
+      <CallingExpression name="emitDA">
+        <CallingExpression name="Inform">
+          <SimpleVariable name="Mood"/>
+        </CallingExpression>
+      </CallingExpression>
     </Commands>
     <Graphics>
       <Position x-pos="570" y-pos="30"/>
@@ -99,11 +99,11 @@
     <Declare>
     </Declare>
     <Commands>
-      <UserCommand name="emitDA">
-        <UserCommand name="Question">
-          <Variable name="MoreTalking"/>
-        </UserCommand>
-      </UserCommand>
+      <CallingExpression name="emitDA">
+            <CallingExpression name="Question">
+              <SimpleVariable name="MoreTalking"/>
+            </CallingExpression>
+          </CallingExpression>
     </Commands>
     <Graphics>
       <Position x-pos="570" y-pos="300"/>

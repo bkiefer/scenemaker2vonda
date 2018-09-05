@@ -1,0 +1,2 @@
+#!/bin/sh
+java -jar target/introduction-jar-with-dependencies.jar
