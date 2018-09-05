@@ -39,6 +39,12 @@ public class ExpressionParser {
       case "ParenExpression":
         return "( " + parse(e.getChildren().get(0)) + " )";
         
+      case "UserCommand":
+        return e.getAttributeValue("name") + "(" + parse(e.getChildren().get(0)) + ")";
+        
+      case "Variable":
+        return e.getAttributeValue("name");
+        
       // LOGICAL OPERATORS
       case "Not":
         return "!" + parse(e.getChildren().get(0));
@@ -108,6 +114,7 @@ public class ExpressionParser {
         return "<v>" + e.getAttributeValue("name") + "</v>";
         
       default:
+        System.err.println("Cannot parse " + e.getName());
         return "";
     }
   }
