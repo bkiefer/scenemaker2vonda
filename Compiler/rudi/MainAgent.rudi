@@ -76,6 +76,8 @@ setup_mainAgent:
 			mainAgent.active = true;
 			mainAgent.simple_children += "mainAgent_in";
 
+			mainAgent.imminent_simple_children += "mainAgent_in";
+			mainAgent.nice = 0;
 		}
 	}
 
@@ -86,7 +88,7 @@ mainAgent_in:
 
 		mainAgent.imminent_simple_children -= "mainAgent_in";
 
-			transition("mainAgent_in", "n2", mainAgent, mainAgent, false);
+			transition("mainAgent_in", "hello_node", mainAgent, mainAgent, true);
 
 			check_out_transition("mainAgent_in", "mainAgent_out", mainAgent, mainAgent);
 	}
@@ -98,66 +100,34 @@ mainAgent_out:
 		shutdown();
 	}
 
-n5:
-	if(mainAgent.simple_children.contains("n5")) {
+excuse_node:
+	if(mainAgent.simple_children.contains("excuse_node")) {
 
-		if(mainAgent.imminent_simple_children.contains("n5")) {
+		if(mainAgent.imminent_simple_children.contains("excuse_node")) {
 
-			emitDA(#Inform(Mood));
+			emitDA(#InitialGoodbye(Leave));
+			lastDAprocessed();
 		}
 
-		mainAgent.imminent_simple_children -= "n5";
+		mainAgent.imminent_simple_children -= "excuse_node";
 
+		transition("excuse_node", "bye_node", mainAgent, mainAgent, false);
 
-		check_out_transition("n5", "mainAgent_out", mainAgent, mainAgent);
+		check_out_transition("excuse_node", "mainAgent_out", mainAgent, mainAgent);
 	}
 
-n2:
-	if(mainAgent.simple_children.contains("n2")) {
+bye_node:
+	if(mainAgent.simple_children.contains("bye_node")) {
 
-		mainAgent.imminent_simple_children -= "n2";
+		if(mainAgent.imminent_simple_children.contains("bye_node")) {
 
-		transition("n2", "n3", mainAgent, mainAgent, false);
-		transition("n2", "n4", mainAgent, mainAgent, false);
-
-		check_out_transition("n2", "mainAgent_out", mainAgent, mainAgent);
-	}
-
-n6:
-	if(mainAgent.simple_children.contains("n6")) {
-
-		if(mainAgent.imminent_simple_children.contains("n6")) {
-
-			emitDA(#Question(MoreTalking));
+			emitDA(#Valediction(Bye));
 		}
 
-		mainAgent.imminent_simple_children -= "n6";
+		mainAgent.imminent_simple_children -= "bye_node";
 
 
-		check_out_transition("n6", "mainAgent_out", mainAgent, mainAgent);
+		check_out_transition("bye_node", "mainAgent_out", mainAgent, mainAgent);
 	}
 
-n4:
-	if(mainAgent.simple_children.contains("n4")) {
-
-		probability_transition("n4", "n6", mainAgent, mainAgent, false);
-
-		mainAgent.imminent_simple_children -= "n4";
-
-		probability_transition("n4", "n6", mainAgent, mainAgent, false);
-
-		check_out_transition("n4", "mainAgent_out", mainAgent, mainAgent);
-	}
-
-n3:
-	if(mainAgent.simple_children.contains("n3")) {
-
-		probability_transition("n3", "n5", mainAgent, mainAgent, false);
-
-		mainAgent.imminent_simple_children -= "n3";
-
-		probability_transition("n3", "n5", mainAgent, mainAgent, false);
-
-		check_out_transition("n3", "mainAgent_out", mainAgent, mainAgent);
-	}
-
+import Hello_node;

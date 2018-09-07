@@ -8,9 +8,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edges.ConditionalEdge;
-import edges.Edge;
-import edges.TimeoutEdge;
+import compiler.edges.ConditionalEdge;
+import compiler.edges.Edge;
+import compiler.edges.InterruptiveEdge;
+import compiler.edges.TimeoutEdge;
 
 /**
  * A scenemaker node.
@@ -140,57 +141,74 @@ public class Node {
 	 * @return the rudi-code that imitates the functionality of the {@code Node} as a String.
 	 */
 	public String getNodeCode() {
-		String outString = this.name + ":\n";
-		outString += "\tif("+ this.parent.getName() + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
-		  
-		if (!this.code.isEmpty()) {
-			outString += "\t\tif("+ this.parent.getName() + ".imminent_simple_children.contains(\"" + this.name + "\")) {\n\n";
-			outString += this.convertCodeToRudi();
-			outString += "\t\t}\n\n";
-		}
-		  
-		for (Edge e : this.outgoingEdges) {
-			if (e instanceof TimeoutEdge) {
-				outString += e.getRudiCode() + "\n";
-			}
-		}
-		  
-		outString += "\t\t" + this.parent.getName() + ".imminent_simple_children -= \"" + this.name + "\";\n\n";
-		  	  
-		for (Edge e : this.outgoingEdges) {
-			if (e instanceof ConditionalEdge) {
-				outString += e.getRudiCode();
-			}
-		}
-		  
-		for (Edge e : this.outgoingEdges) {
-			 if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge)) {
-				 outString += e.getRudiCode();
-			 }
-		}
-		outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ");\n";			  
-		outString += "\t}\n\n";
-		return outString;
-	}
+
+	  String outString = "";
+	  boolean canDieHere = true;
+	  int index = 0;
 	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof InterruptiveEdge) {
+			  index += 1;
+			  outString +=  this.name + "_interruptive_edge_" + Integer.toString(index) + ":\n";
+			  outString += e.getRudiCode();
+		  }
+	  }
+	  
+	  outString += this.name + ":\n";
+	  
+	  outString += "\tif("+ this.parent.getName() + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
+	  
+	  if (!this.code.isEmpty()) {
+		  
+		  outString += "\t\tif("+ this.parent.getName() + ".imminent_simple_children.contains(\"" + this.name + "\")) {\n\n";
+		  outString += this.convertCodeToRudi();
+		  outString += "\t\t}\n\n";
+	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof TimeoutEdge) {
+			  outString += e.getRudiCode() + "\n";
+			  canDieHere = false;
+		  }
+	  }
+	  
+	  for (Edge e : this.outgoingEdges) {
+		  if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge) && !(e instanceof InterruptiveEdge)) {
+			  outString += e.getRudiCode();
+			  canDieHere = false;
+		  }
+	  }
+	  
+	  if(canDieHere) {
+		  outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ");\n";			  		  
+	  }
+	  
+	  outString += "\t}\n\n";
+	  return outString;
+  }
+  
 	/**
 	 * Changes the name of the given {@code Variable} to rudi syntax.
 	 * @param varName The name of the {@code Variable} that is to be replaced in the code.
 	 * @return String The variable call in rudi syntax.
 	 */
 	public String replaceVarName(String varName) {
-		  for (Variable v : this.variables) {
-				if (v.getName().equals(varName)) {
-					return this.name + "." + varName;
-				}
-		  }
-		  if (this.parent != null) {
-			  return this.parent.replaceVarName(varName);
-		  }
-		  else {
-			  return varName;
-		  } 
+	  
+	  for (Variable v : this.variables) {
+			if (v.getName().equals(varName)) {
+				return this.name + "." + varName;
+			}
 	  }
+	  
+	  if (this.parent != null) {
+		  return this.parent.replaceVarName(varName);
+	  }
+	  
+	  else {
+		  return varName;
+	  }
+	  
+  }
   
 	/**
 	 * Converts the code that is executed when reaching the {@code Node} into rudi syntax.

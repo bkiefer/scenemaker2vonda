@@ -1,10 +1,10 @@
-1. Code aufräumen
-2. Dafür sorgen, dass test2 durchläuft -> eventuell auftretende Bugs fixen
-3. Interruptive Edges für einfache Knoten umsetzen
-4. Main.py "ersetzen"; Projekt als Shell-Script ausführbar machen
-5. Konfigurationen als Kommandozeilenparameter oder Konfigurationsdatei? Umsetzen
-6. Kurzanleitung: Wie baut man den Compiler, was ist im Hauptverzeichnis wo, wofür
-7. ca. 2-4 Seiten Projektdokumentation: 
+
+2. Code aufräumen
+3. Ggf. weitere Tests überlegen
+5. Main.py "ersetzen"; Projekt als Shell-Script ausführbar machen (schöneres Handling von Kommandozeilenparametern!)
+6. Konfigurationen als Kommandozeilenparameter oder Konfigurationsdatei? Umsetzen
+7. Kurzanleitung: Wie baut man den Compiler, was ist im Hauptverzeichnis wo, wofür
+8. ca. 2-4 Seiten Projektdokumentation: 
 	- Welche Knoten / Kanten gibt es
 	- Wie und wo kann man Variablen definieren, was ist der Scope?
 	- Wie funktioniert die Übersetzung, so dass die Funktionalität des Automaten entsteht, z.B., wie funktioniert das "multi-process" Modell?
@@ -13,3 +13,13 @@
 	- Was fehlt oder sollte bald hinzugefügt werden?
 	- Was könnte/sollte längerfristig hinzugefügt werden?
 
+
+
+Anmerkungen und Dinge zum nochmal anschauen:
+
+
+- Wir haben jetzt eine Methode, um sicherzustellen, dass Knotennamen immer LowerCase sind (ensureNodeNamesAreLowerCase in der Supernode-Klasse). Sollte das eine Option sein? Sollten wir in der Spezifikation erwähnen, dass Knotennamen klein geschrieben werden sollten?
+
+- Hashtag-Lösung: Bisher Quickfix -> Kann/Soll der irgendwie raus? (Methode postProcessDialogueActs von RudiFileGenerator, wird benutzt in writeSupernodeToFile)
+
+- Simple_interruptive_edges: Problem bei der bisherigen Lösung ist, dass imminent_simple_children jetzt keine Untermenge von simple_children mehr ist

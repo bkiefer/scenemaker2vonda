@@ -1,0 +1,161 @@
+
+void set_inactive(Supernode m) {
+
+	for (String x : m.simple_children) {removeTimeout(x);}
+	for (Supernode y : m.super_children) {set_inactive(y);}
+	
+	m.active = false;
+	m.simple_children = {};
+	m.imminent_simple_children = {};
+	m.super_children = {};
+	m.initiated = {};
+}
+
+boolean test_inactive(Supernode m) {
+ 
+	return ((!m.super_children) && (!m.simple_children) && (!m.initiated));
+
+}
+
+void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {
+
+	cancelTimeout(node_a);
+
+	if(a_parent.simple_children.contains(node_a)) {
+		a_parent.simple_children -= node_a;
+	}
+
+	if(targetNodeIsSupernode) {
+		b_parent.initiated += node_b;
+	} else {
+		b_parent.simple_children += node_b;
+		b_parent.imminent_simple_children += node_b;
+	}
+}
+
+void check_out_transition(String a, String b, Supernode a_parent, Supernode b_parent) {
+
+	if (!hasActiveTimeout(a) && a_parent.simple_children.contains(a)) { 
+	
+		transition(a, b, a_parent, b_parent, false);
+	}
+}
+
+void timeout_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode, int duration) {
+
+	timeout(node_a, duration) {
+
+		transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);
+	}
+}
+
+void probability_transition(String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {
+
+	propose_id = "propose_"+ node_a;
+
+	propose(propose_id) {					
+		transition(node_a, node_b, a_parent, b_parent, targetNodeIsSupernode);
+	}
+}
+
+void interruptive_transition(Supernode m, Supernode parent, String target_node, boolean targetNodeIsSupernode) {
+						
+	set_inactive(m);	
+	if(targetNodeIsSupernode) {
+		parent.initiated += target_node;
+	} else {
+		parent.simple_children += target_node;
+	}
+}
+
+setup_mainAgent: 
+	if(!mainAgent.active) {
+
+		timeout("MainAgentStart", 1400) {
+
+			mainAgent.active = true;
+			mainAgent.simple_children += "mainAgent_in";
+
+			mainAgent.imminent_simple_children += "mainAgent_in";
+		}
+	}
+
+mainAgent_in:
+	if(mainAgent.simple_children.contains("mainAgent_in")) {
+
+
+
+		mainAgent.imminent_simple_children -= "mainAgent_in";
+
+			transition("mainAgent_in", "n1", mainAgent, mainAgent, false);
+
+			check_out_transition("mainAgent_in", "mainAgent_out", mainAgent, mainAgent);
+	}
+
+mainAgent_out: 
+	if(mainAgent.simple_children.contains("mainAgent_out")) {
+
+
+		if(test_inactive(mainAgent)) {
+
+			set_inactive(mainAgent);
+			shutdown();
+		}
+
+	}
+
+n4:
+	if(mainAgent.simple_children.contains("n4")) {
+
+		if(mainAgent.imminent_simple_children.contains("n4")) {
+
+			emitDA(#Inform(Mood));
+			lastDAprocessed();
+		}
+
+		mainAgent.imminent_simple_children -= "n4";
+
+
+		check_out_transition("n4", "mainAgent_out", mainAgent, mainAgent);
+	}
+
+n1:
+	if(mainAgent.simple_children.contains("n1")) {
+
+		mainAgent.imminent_simple_children -= "n1";
+
+		transition("n1", "n2", mainAgent, mainAgent, false);
+		transition("n1", "n3", mainAgent, mainAgent, false);
+	}
+
+n5:
+	if(mainAgent.simple_children.contains("n5")) {
+
+		if(mainAgent.imminent_simple_children.contains("n5")) {
+
+			emitDA(#Question(MoreTalking));
+			lastDAprocessed();
+		}
+
+		mainAgent.imminent_simple_children -= "n5";
+
+
+		check_out_transition("n5", "mainAgent_out", mainAgent, mainAgent);
+	}
+
+n3:
+	if(mainAgent.simple_children.contains("n3")) {
+
+		mainAgent.imminent_simple_children -= "n3";
+
+		probability_transition("n3", "n5", mainAgent, mainAgent, false);
+	}
+
+n2:
+	if(mainAgent.simple_children.contains("n2")) {
+
+		mainAgent.imminent_simple_children -= "n2";
+
+		probability_transition("n2", "n4", mainAgent, mainAgent, false);
+	}
+
