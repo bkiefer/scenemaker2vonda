@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SceneFlow id="" name="default" comment="" hideLocalVar="false" hideGlobalVar="false" modifDate="Fri, 7 Sep 2018 16:37:19" start="N1;" context="" package="" xmlns="xml.sceneflow.dfki.de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xml.sceneflow.dfki.de res/xsd/sceneflow.xsd">
+  <Define>
+  </Define>
+  <Declare>
+  </Declare>
+  <Commands>
+  </Commands>
+  <LocalVariableBadge>
+    <Position xPos="10" yPos="10"/>
+  </LocalVariableBadge>
+  <GlobalVariableBadge>
+    <Position xPos="10" yPos="10"/>
+  </GlobalVariableBadge>
+  <Node id="N1" name="N1" history="false">
+    <Define>
+    </Define>
+    <Declare>
+    </Declare>
+    <Commands>
+    </Commands>
+    <FEdge target="N2" start="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="294" yPos="232" ctrlXPos="322" ctrlYPos="215"/>
+          <ControlPoint xPos="396" yPos="187" ctrlXPos="367" ctrlYPos="203"/>
+        </Connection>
+      </Graphics>
+    </FEdge>
+    <FEdge target="N3" start="">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="294" yPos="278" ctrlXPos="322" ctrlYPos="294"/>
+          <ControlPoint xPos="396" yPos="322" ctrlXPos="367" ctrlYPos="305"/>
+        </Connection>
+      </Graphics>
+    </FEdge>
+    <Graphics>
+      <Position xPos="210" yPos="210"/>
+    </Graphics>
+  </Node>
+  <Node id="N2" name="N2" history="false">
+    <Define>
+    </Define>
+    <Declare>
+    </Declare>
+    <Commands>
+    </Commands>
+    <PEdge target="N4" start="" probability="100">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="480" yPos="165" ctrlXPos="592" ctrlYPos="165"/>
+          <ControlPoint xPos="750" yPos="165" ctrlXPos="637" ctrlYPos="165"/>
+        </Connection>
+      </Graphics>
+    </PEdge>
+    <Graphics>
+      <Position xPos="390" yPos="120"/>
+    </Graphics>
+  </Node>
+  <Node id="N3" name="N3" history="false">
+    <Define>
+    </Define>
+    <Declare>
+    </Declare>
+    <Commands>
+    </Commands>
+    <PEdge target="N5" start="" probability="100">
+      <Graphics>
+        <Connection>
+          <ControlPoint xPos="480" yPos="345" ctrlXPos="592" ctrlYPos="345"/>
+          <ControlPoint xPos="750" yPos="345" ctrlXPos="637" ctrlYPos="345"/>
+        </Connection>
+      </Graphics>
+    </PEdge>
+    <Graphics>
+      <Position xPos="390" yPos="300"/>
+    </Graphics>
+  </Node>
+  <Node id="N4" name="N4" history="false">
+    <Define>
+    </Define>
+    <Declare>
+    </Declare>
+    <Commands>
+      <CallingExpression name="emitDA">
+        <CallingExpression name="Inform">
+          <SimpleVariable name="Mood"/>
+        </CallingExpression>
+      </CallingExpression>
+      <CallingExpression name="lastDAprocessed">
+      </CallingExpression>
+    </Commands>
+    <Graphics>
+      <Position xPos="750" yPos="120"/>
+    </Graphics>
+  </Node>
+  <Node id="N5" name="N5" history="false">
+    <Define>
+    </Define>
+    <Declare>
+    </Declare>
+    <Commands>
+      <CallingExpression name="emitDA">
+        <CallingExpression name="Question">
+          <SimpleVariable name="MoreTalking"/>
+        </CallingExpression>
+      </CallingExpression>
+      <CallingExpression name="lastDAprocessed">
+      </CallingExpression>
+    </Commands>
+    <Graphics>
+      <Position xPos="750" yPos="300"/>
+    </Graphics>
+  </Node>
+  <ClassPath>
+  </ClassPath>
+  <InitContext></InitContext>
+</SceneFlow>
