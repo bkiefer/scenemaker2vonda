@@ -1,34 +1,37 @@
-package edges;
+package compiler.edges;
 
 import compiler.automaton.Node;
 
 /**
- * A probability edge.
+ * A timeout edge.
  * @author Max Depenbrock
  */
-public class ProbabilityEdge extends Edge {
+public class TimeoutEdge extends Edge {
 
   /**
-   * Probability of the probability edge.
+   * Timeout of the timeout edge in milliseconds.
    */
-  private float probability;
+  private int timeout;
   
-  public float getProbability() {
-	return probability;
+  
+  public int getTimeout() {
+	return timeout;
   }
 
-  public void setProbability(float probability) {
-	this.probability = probability;
+  public void setTimeout(int timeout) {
+	this.timeout = timeout;
   }
+
 
 /**
-   * Creates a new {@code ProbabilityEdge} starting at {@code start} and ending at {@code end}.
+   * Creates a new {@code TimeoutEdge} starting at {@code start} and ending at {@code end}.
    * @param start {@code Node} at which the edge starts
    * @param end {@code Node} at which the edge ends
    */
-  public ProbabilityEdge(Node start, Node end) {
+  public TimeoutEdge(Node start, Node end) {
     super(start, end);
   }
+
 
   public String getRudiCode() {
 	  
@@ -47,9 +50,10 @@ public class ProbabilityEdge extends Edge {
 		  targetNodeIsSupernode = "true";
 	  }
 	  
-	  rudiCode += "probability_transition(\"" + startNodeString + "\", \"" + this.getEndNode().getName() + "\", ";
+	  rudiCode += "timeout_transition(\"" + startNodeString + "\", \"" + this.getEndNode().getName() + "\", ";
 	  rudiCode += startNodeParentString + ", " + this.getEndNode().getParent().getName(); 
-	  rudiCode += ", " + targetNodeIsSupernode + ");\n";
+	  rudiCode += ", " + targetNodeIsSupernode;
+	  rudiCode += ", " + Integer.toString(this.timeout) + ");\n";
 	  
 	  return rudiCode;
   }

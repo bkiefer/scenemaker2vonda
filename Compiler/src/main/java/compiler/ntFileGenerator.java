@@ -1,3 +1,4 @@
+package compiler;
 
 
 import java.io.BufferedWriter;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import compiler.automaton.SceneMakerAutomaton;

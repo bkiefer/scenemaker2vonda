@@ -4,11 +4,11 @@ import java.util.Set;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 
-import edges.ConditionalEdge;
-import edges.Edge;
-import edges.InterruptiveEdge;
-import edges.ProbabilityEdge;
-import edges.TimeoutEdge;
+import compiler.edges.ConditionalEdge;
+import compiler.edges.Edge;
+import compiler.edges.InterruptiveEdge;
+import compiler.edges.ProbabilityEdge;
+import compiler.edges.TimeoutEdge;
 
 /**
  * A scenemaker supernode.

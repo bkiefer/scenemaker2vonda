@@ -50,6 +50,8 @@ public class SceneMakerAutomaton extends Supernode {
 	  outString += "\t\ttimeout(\"MainAgentStart\", 1400) {\n\n";
 	  outString += "\t\t\t" + this.getName() + ".active = true;\n";
 	  outString += "\t\t\t" + this.getName() + ".simple_children += \"" + this.getName() + "_in\";\n\n";
+	  outString += "\t\t\t" + this.getName() + ".imminent_simple_children += \"" + this.getName() + "_in\";\n";
+
 	  
 	  for (Variable v : this.getVariables()) {
 		  outString += "\t\t\t" + this.getName() + "." + v.getName() + " = " + v.getValue() + ";\n";
@@ -66,10 +68,11 @@ public String getPseudoOutCode() {
 	  String outString = this.getName() + "_out: \n";
 	  outString += "\tif("+ this.getName() + ".simple_children.contains(\"" + this.getName() + "_out\")) {\n\n";
 	  
+	  outString += "\n\t\tif(test_inactive("+ this.getName() + ")) {\n\n";
+	  outString += "\t\t\tset_inactive("+ this.getName() + ");\n";
+	  outString += "\t\t\tshutdown();\n";
+	  outString += "\t\t}\n\n";
 	  
-	  outString += "\t\tset_inactive("+ this.getName() + ");\n";
-	  outString += "\t\tshutdown();\n";
-
 	  outString += "\t}\n\n";
 
 	  return outString;

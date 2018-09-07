@@ -1,4 +1,4 @@
-package edges;
+package compiler.edges;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,25 +37,6 @@ public class ConditionalEdge extends Edge {
 	  String rudiCode = "\t\tif " + this.convertConditionToRudi() + " {\n\t";
 	  
 	  rudiCode += super.getRudiCode();
-	  
-	  /*String startNodeString = this.startNode.name;
-	  String startNodeParentString = this.startNode.parent.name;
-	  String targetNodeIsSupernode = "false";
-	  
-	  if (this.startNode.isSupernode) {
-		  startNodeString += "_out";
-		  startNodeParentString = this.startNode.name;
-	  }
-	  
-	  if (this.endNode.isSupernode) {
-		  targetNodeIsSupernode = "true";
-	  }
-	  
-	  rudiCode += "transition(\"" + startNodeString + "\", \"" + this.endNode.name + "\", ";
-	  rudiCode += startNodeParentString + ", " + this.endNode.parent.name; 
-	  rudiCode += ", " + targetNodeIsSupernode + ");\n";
-	  
-	  */
 	  
 	  rudiCode += "\t\t}\n\n";
 	  

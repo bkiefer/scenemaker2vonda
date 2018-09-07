@@ -1,3 +1,4 @@
+package compiler;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,12 +14,12 @@ import compiler.automaton.SceneMakerAutomaton;
 import compiler.automaton.Supernode;
 import compiler.automaton.Type;
 import compiler.automaton.Variable;
-import edges.ConditionalEdge;
-import edges.EpsilonEdge;
-import edges.ForkEdge;
-import edges.InterruptiveEdge;
-import edges.ProbabilityEdge;
-import edges.TimeoutEdge;
+import compiler.edges.ConditionalEdge;
+import compiler.edges.EpsilonEdge;
+import compiler.edges.ForkEdge;
+import compiler.edges.InterruptiveEdge;
+import compiler.edges.ProbabilityEdge;
+import compiler.edges.TimeoutEdge;
 
 /**
  * A parser for sceneflow XML files.

@@ -8,10 +8,11 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edges.ConditionalEdge;
-import edges.Edge;
-import edges.ProbabilityEdge;
-import edges.TimeoutEdge;
+import compiler.edges.ConditionalEdge;
+import compiler.edges.Edge;
+import compiler.edges.InterruptiveEdge;
+import compiler.edges.ProbabilityEdge;
+import compiler.edges.TimeoutEdge;
 
 /**
  * A scenemaker node.
@@ -103,8 +104,20 @@ public class Node {
   }
 
   public String getNodeCode() {
+
+	  String outString = "";
+	  boolean canDieHere = true;
+	  int index = 0;
 	  
-	  String outString = this.name + ":\n";
+	  for (Edge e : this.outgoingEdges) {
+		  if (e instanceof InterruptiveEdge) {
+			  index += 1;
+			  outString +=  this.name + "_interruptive_edge_" + Integer.toString(index) + ":\n";
+			  outString += e.getRudiCode();
+		  }
+	  }
+	  
+	  outString += this.name + ":\n";
 	  
 	  outString += "\tif("+ this.parent.getName() + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
 	  
@@ -118,6 +131,7 @@ public class Node {
 	  for (Edge e : this.outgoingEdges) {
 		  if (e instanceof TimeoutEdge) {
 			  outString += e.getRudiCode() + "\n";
+			  canDieHere = false;
 		  }
 	  }
 	  
@@ -131,12 +145,16 @@ public class Node {
 	  }
 	  
 	  for (Edge e : this.outgoingEdges) {
-		  if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge)) {
+		  if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge) && !(e instanceof InterruptiveEdge)) {
 			  outString += e.getRudiCode();
+			  canDieHere = false;
 		  }
 	  }
 	  
-	  outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ");\n";			  
+	  if(canDieHere) {
+		  outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ");\n";			  		  
+	  }
+	  
 	  outString += "\t}\n\n";
 
 	  return outString;

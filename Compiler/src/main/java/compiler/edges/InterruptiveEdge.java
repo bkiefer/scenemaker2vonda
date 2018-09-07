@@ -1,4 +1,4 @@
-package edges;
+package compiler.edges;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
