@@ -10,10 +10,22 @@ import compiler.automaton.Node;
 import compiler.automaton.SceneMakerAutomaton;
 import compiler.automaton.Supernode;
 
+/**
+ * Generates the rudi files that imitate the functionality of a given {@code SceneMakerAutomaton}.
+ */
 public class RudiFileGenerator {
-
+	
+	/**
+	 * The {@code SceneMakerautomaton} for which the rudi files are generated.
+	 */
 	private SceneMakerAutomaton automaton;
+	/**
+	 * The file path where the generated files are stored.
+	 */
 	private String outPath;
+	/**
+	 * The static preface for the code setup.
+	 */
 	private String preface = "\n" + 
 			"void set_inactive(Supernode m) {\n" + 
 			"\n" + 
@@ -85,30 +97,29 @@ public class RudiFileGenerator {
 			"}\n" + 
 			"";
 	
+	/**
+	 * Writes the code needed for the imitation of a {@code Supernode's} functionality.
+	 * @param fw The Buffered Writer the output is written into.
+	 * @param m The {@code Supernode} which the imitating code is generated for.
+	 */
 	public void writeSupernodeToFile(BufferedWriter fw, Supernode m) {
 		try {
 			if(m.getParent() == null) {
 				fw.write(this.preface);
 			}
-			
 			fw.write(m.getSetupCode());
-			
 			if(m.getParent() != null) {
 				fw.write(m.getPassByCode());
 			}
-			
 			fw.write(this.postProcessDialogueActs(m.getInterruptiveEdgesCode()));
 			fw.write(this.postProcessDialogueActs(m.getPseudoInCode()));
 			fw.write(this.postProcessDialogueActs(m.getPseudoOutCode()));
-			
 			for (Node n : m.getNodes()) {
 				if(n.isSupernode() == false) {
 					fw.write(this.postProcessDialogueActs(n.getNodeCode()));
 				}
 			}
-			
 			fw.write(m.getImportCode());
-			
 		} catch (IOException ioe) {
 			   ioe.printStackTrace();
 			}
@@ -123,6 +134,9 @@ public class RudiFileGenerator {
 			} 
 	}
 	
+	/**
+	 * Returns a BufferedWriter object for the given file path.
+	 */
 	public BufferedWriter getFileWriter(String filePath) {
 		BufferedWriter writer = null;
 	    try {
@@ -130,31 +144,26 @@ public class RudiFileGenerator {
 	    	if (file.exists()) {
 	    		file.delete();
 	    	}
-	    
 	      file.getParentFile().mkdirs();
     	  file.createNewFile();
-
 		  FileWriter fw = new FileWriter(file);
-		  writer = new BufferedWriter(fw);
-		 		  
+		  writer = new BufferedWriter(fw);  
 	    } catch (IOException ioe) {
 			   ioe.printStackTrace();
-			}
-	    
+		}
 	    return writer;
 	}
-
+	
+	/**
+	 * Generates the 'ChatAgent' file for the generated rudi-project.
+	 */
 	public void generateChatAgentFile() {
-		
 		String filePath = this.outPath + "ChatAgent.rudi";
 		BufferedWriter fw = this.getFileWriter(filePath);
-		
 		try {
-			
 			for (Supernode m : this.automaton.getAllSupernodes()) {
 				fw.write(StringUtils.capitalize(m.getName()) + " " + m.getName() + ";\n");
-			}
-						
+			}			
 		} catch (IOException ioe) {
 			   ioe.printStackTrace();
 			}
@@ -169,35 +178,44 @@ public class RudiFileGenerator {
 			} 
 	}
 	
+	/**
+	 * Generates the rudi-file which contains the code imitating the functionality of a {@code Supernode}.
+	 * @param m The {@code Supernode} which the file is generated for.
+	 */
 	public void generateSupernodeFile(Supernode m) {
-		
 		String filePath = this.outPath + StringUtils.capitalize(m.getName()) + ".rudi";
 		BufferedWriter fw = this.getFileWriter(filePath);
 		this.writeSupernodeToFile(fw, m);
 	}
 	
+	/**
+	 * Generates the rudi-files that imitate the functionality of the {@code SceneMakerAutomaton}.
+	 */
 	public void generateRudiFiles() {
-		
 		this.generateChatAgentFile();
-		
 		for (Supernode m : this.automaton.getAllSupernodes()) {
 			generateSupernodeFile(m);
 		}
 		
 	}
 	
+	/**
+	 * Changes the given code from Scenemaker syntax to rudi syntax.
+	 * @param str The string converted to rudi syntax.
+	 */
 	public String postProcessDialogueActs(String str) {
-		
 		String cleanedString = str.replaceAll("emitDA\\(", "emitDA(#");
 		cleanedString = cleanedString.replaceAll("lastDA\\(\\)\\s*>=\\s*", "lastDA() >= #");
-		
 		return cleanedString;
 	}
 	
+	/**
+	 * Creates rudi files at the given {@code outPath} that imitate the functionality of the given {@code SceneMakerAutomaton}.
+	 * @param automaton The {@code SceneMakerAutomaton} of which the functionality will be imitated by the generated rudi files.
+	 * @param outPath the File path were the generated rudi files will be stored.
+	 */
 	public RudiFileGenerator(SceneMakerAutomaton automaton, String outPath) {
 		this.automaton = automaton;
 		this.outPath = outPath;
 	}  
-	
-	
 }

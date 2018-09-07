@@ -18,18 +18,30 @@ public class SceneMakerAutomaton extends Supernode {
    */
   private Set<Supernode> allSupernodes;
   
+  /**
+   * @return the set of variables used in this {@code SceneMakerAutomaton} and all of its sub nodes.
+   */
   public Set<Variable> getAllVariables() {
 	  return allVariables;
   }
 
+  /**
+   * @param allVariables the allVariables to set
+   */
   public void setAllVariables(Set<Variable> allVariables) {
 	  this.allVariables = allVariables;
   }
 
+  /**
+   * @return the set of  super nodes used in this {@code SceneMakerAutomaton} and all of its sub nodes.
+   */
   public Set<Supernode> getAllSupernodes() {
 	  return allSupernodes;
   }
 
+  /**
+   * @param allSupernodes the allSupernodes to set
+   */
   public void setAllSupernodes(Set<Supernode> allSupernodes) {
 	  this.allSupernodes = allSupernodes;
   }
@@ -38,13 +50,15 @@ public class SceneMakerAutomaton extends Supernode {
    * Creates a new SceneMakerAutomaton.
    */
   public SceneMakerAutomaton() {
-	  
 	  this.allVariables = new HashSet<>();
 	  this.allSupernodes = new HashSet<>();
   }
   
+  /**
+   * Creates the rudi-code fragment that sets up the {@code SceneMakerAutomaton}.
+   * @return the rudi-code fragment that sets up the {@code SceneMakerAutomaton} as a String.
+   */
   public String getSetupCode() {
-	  
 	  String outString = "\nsetup_" + this.getName() + ": \n";
 	  outString += "\tif(!" + this.getName() + ".active) {\n\n";
 	  outString += "\t\ttimeout(\"MainAgentStart\", 1400) {\n\n";
@@ -61,7 +75,11 @@ public class SceneMakerAutomaton extends Supernode {
 	  return outString;
   }
 
-public String getPseudoOutCode() {
+  /**
+   * Creates the rudi-code fragment that shuts down the {@code SceneMakerAutomaton}.
+   * @return the rudi-code fragment that shuts down the {@code SceneMakerAutomaton} as a String.
+   */
+  public String getPseudoOutCode() {
 	  
 	  String outString = this.getName() + "_out: \n";
 	  outString += "\tif("+ this.getName() + ".simple_children.contains(\"" + this.getName() + "_out\")) {\n\n";

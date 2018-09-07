@@ -24,20 +24,31 @@ public class Supernode extends Node {
    * A set of the start nodes.
    */
   private Set<Node> startNodes;
-
-  
+ 
+  /**
+   * @return the nodes
+   */
   public Set<Node> getNodes() {
 	  return nodes;
   }
 
+  /**
+   * @param nodes the nodes to set
+   */
   public void setNodes(Set<Node> nodes) {
 	  this.nodes = nodes;
   }
 
+  /**
+   * @return the startNodes
+   */
   public Set<Node> getStartNodes() {
 	  return startNodes;
   }
 
+  /**
+   * @param startNodes the startNodes to set
+   */
   public void setStartNodes(Set<Node> startNodes) {
 	  this.startNodes = startNodes;
   }
@@ -50,8 +61,11 @@ public class Supernode extends Node {
 	  this.nodes = new HashSet<>();
   }
   
+  /**
+   * Creates the rudi-code fragment that sets up the {@code Supernode}.
+   * @return the rudi-code fragment that sets up the {@code Supernode} as a String.
+   */
   public String getSetupCode() {
-	  
 	  String outString = "\nsetup_" + this.getName() + ": \n";
 	  outString += "\tif("+ this.getParent().getName() + ".initiated.contains(\"" + this.getName() + "\")) {\n";
 	  outString += "\t\tif(!" + this.getName() + ".active) {\n\n";
@@ -71,8 +85,11 @@ public class Supernode extends Node {
 	  return outString;
   }
   
+  /**
+   * Creates the rudi-code fragment that imitates the functionality if the {@code Supernode} is not active.
+   * @return the rudi-code fragment that imitates the functionality if the {@code Supernode} is not active as a String.
+   */
   public String getPassByCode() {
-	  
 	  String outString = "\npass_by_" + this.getName() + ": \n";
 	  outString += "\tif(!" + this.getName() + ".active) {\n";
 	  outString += "\t\tcancel;\n";
@@ -81,8 +98,11 @@ public class Supernode extends Node {
 	  return outString;
   }
 
+  /**
+   * Creates the rudi-code fragment that imitates the functionality of the {@code InterruptiveEdges} of the {@code Supernode}.
+   * @return the rudi-code fragment that imitates the functionality of the {@code InterruptiveEdges} of the {@code Supernode} as a String.
+   */
   public String getInterruptiveEdgesCode() {
-	  
 	  int interruptiveEdgeIndex = 1;
 	  String outString = "";
 
@@ -113,8 +133,11 @@ public class Supernode extends Node {
 	  return outString;
   }
 
+  /**
+   * Creates the rudi-code fragment that imitates entering the {@code Supernode}.
+   * @return the rudi-code fragment that imitates entering the {@code Supernode} as a String.
+   */
   public String getPseudoInCode() {
-	  
 	  String outString = this.getName() + "_in:\n";
 	  outString += "\tif("+ this.getName() + ".simple_children.contains(\"" + this.getName() + "_in\")) {\n\n";
 	  
@@ -139,8 +162,11 @@ public class Supernode extends Node {
 	  return outString;
   }
   
+  /**
+   * Creates the rudi-code fragment that imitates leaving the {@code Supernode}.
+   * @return the rudi-code fragment that imitates leaving the {@code Supernode} as a String.
+   */
   public String getPseudoOutCode() {
-	  
 	  String outString = this.getName() + "_out: \n";
 	  outString += "\tif("+ this.getName() + ".simple_children.contains(\"" + this.getName() + "_out\")) {\n\n";
 	  
@@ -181,8 +207,11 @@ public class Supernode extends Node {
 	  return outString;
   }
   
+  /**
+   * Creates the rudi-code fragment that imports the code for the children of the {@code Supernode}.
+   * @return the rudi-code fragment that imports the code for the children of the {@code Supernode} as a String.
+   */
   public String getImportCode() {
-	 
 	  String outString = "";
 	  for (Node n : this.nodes) {
 		  if(n.isSupernode()) {
@@ -193,7 +222,10 @@ public class Supernode extends Node {
 	  return outString;
   }
 
-public void ensureNodeNamesAreLowerCase() {
+  /**
+   * Ensures that the name of the {@code Supernode} and its children are lower case.
+   */
+  public void ensureNodeNamesAreLowerCase() {
 	for (Node n: this.nodes) {
 		n.setName(StringUtils.decapitalize(n.getName()));
 	
@@ -202,6 +234,6 @@ public void ensureNodeNamesAreLowerCase() {
 			m.ensureNodeNamesAreLowerCase();
 		}
 	}	
-}
+  }
 
 }

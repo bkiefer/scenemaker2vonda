@@ -13,15 +13,21 @@ public class ProbabilityEdge extends Edge {
    */
   private float probability;
   
+  /**
+   * @return the probability
+   */
   public float getProbability() {
-	return probability;
+	  return probability;
   }
 
+  /**
+   * @param probability the probability to set
+   */
   public void setProbability(float probability) {
-	this.probability = probability;
+	  this.probability = probability;
   }
 
-/**
+  /**
    * Creates a new {@code ProbabilityEdge} starting at {@code start} and ending at {@code end}.
    * @param start {@code Node} at which the edge starts
    * @param end {@code Node} at which the edge ends
@@ -30,8 +36,11 @@ public class ProbabilityEdge extends Edge {
     super(start, end);
   }
 
+  /**
+   * Creates the rudi-code fragment that imitates the functionality of the {@code ProbabilityEdge}.
+   * @return the rudi-code fragment that imitates the functionality of the {@code ProbabilityEdge} as a String.
+   */
   public String getRudiCode() {
-	  
 	  String rudiCode = "\t\t";
 
 	  String startNodeString = this.getStartNode().getName();

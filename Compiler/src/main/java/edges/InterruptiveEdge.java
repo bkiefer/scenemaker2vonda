@@ -15,12 +15,18 @@ public class InterruptiveEdge extends Edge {
    */
   private String condition;
   
+  /**
+   * @return the condition
+   */
   public String getCondition() {
-	return condition;
+	  return condition;
   }
 
+  /**
+   * @param condition the condition to set
+   */
   public void setCondition(String condition) {
-	this.condition = condition;
+	  this.condition = condition;
   }
 
   /**
@@ -29,11 +35,14 @@ public class InterruptiveEdge extends Edge {
    * @param end {@code Node} at which the edge ends
    */
   public InterruptiveEdge(Node start, Node end) {
-    super(start, end);
+	  super(start, end);
   }
   
-  public String convertConditionToRudi() {
-	  	 
+  /**
+   * Creates the rudi-code fragment that imitates the functionality of the {@code InterruptiveEdge}.
+   * @return the rudi-code fragment that imitates the functionality of the {@code InterruptiveEdge} as a String.
+   */
+  public String convertConditionToRudi() { 
 	    String rudiCondition = this.condition;
 	    
 		Pattern VAR_TAG_PATTERN = Pattern.compile("<v>(.*?)</v>");
