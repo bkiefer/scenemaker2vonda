@@ -14,11 +14,10 @@
 	- Was könnte/sollte längerfristig hinzugefügt werden?
 
 
-
 Anmerkungen und Dinge zum nochmal anschauen:
 
 
-- Wir haben jetzt eine Methode, um sicherzustellen, dass Knotennamen immer LowerCase sind (ensureNodeNamesAreLowerCase in der Supernode-Klasse). Sollte das eine Option sein? Sollten wir in der Spezifikation erwähnen, dass Knotennamen klein geschrieben werden sollten?
+- Wir haben jetzt eine Methode, um sicherzustellen, dass Knotennamen immer LowerCase sind (ensureNodeNamesAreLowerCase in der Supernode-Klasse). Sollte das eine Option sein? Sollten wir in der Spezifikation erwähnen, dass Knotennamen klein geschrieben werden sollen?
 
 - Hashtag-Lösung: Bisher Quickfix -> Kann/Soll der irgendwie raus? (Methode postProcessDialogueActs von RudiFileGenerator, wird benutzt in writeSupernodeToFile)
 

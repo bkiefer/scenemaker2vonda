@@ -57,7 +57,6 @@ public class RudiFileGenerator {
 	public static String formattedIfOpening(String condition, int numLeadingNewlines, int numLeadingTabs, int numAppendedNewlines) {
   
 	    return formattedExpression("if(" + condition + ") {", numLeadingNewlines, numLeadingTabs, numAppendedNewlines);
-
     }
 	
 	public static String formattedIfClosing(int numLeadingNewlines, int numLeadingTabs, int numAppendedNewlines) {
@@ -68,7 +67,6 @@ public class RudiFileGenerator {
 	public static String formattedRuleLabel(String label, int numLeadingNewlines, int numLeadingTabs, int numAppendedNewlines) {
 
 	    return formattedExpression(label + ":", numLeadingNewlines, numLeadingTabs, numAppendedNewlines);
-
     }	
 	
 	public void writeSupernodeToFile(BufferedWriter fw, Supernode m) throws IOException {

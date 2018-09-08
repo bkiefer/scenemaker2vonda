@@ -216,11 +216,11 @@ public class Node {
 		while( (line=bufReader.readLine()) != null )
 		  {
 			rudiCode += "\t\t\t" + RudiFileGenerator.replaceVarNamesInString(line, this) + "\n";
-		  }
+	  }
 	
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
+	  } catch (IOException e) {
+		  e.printStackTrace();
+	  }					
 	  
 	  return rudiCode;
   }

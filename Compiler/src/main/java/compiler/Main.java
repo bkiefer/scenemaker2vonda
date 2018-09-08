@@ -1,17 +1,38 @@
 package compiler;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import compiler.automaton.SceneMakerAutomaton;
 
 public class Main {
-
-  public static void changeCompileScript(File vondaProject) {
-	  
-  }
   
-  public static String getUriFromIniFile(File vondaProject) {
+  public static String getUriFromIniFile(String pathToOntologyDir) {
 	  String uri = "";
+	  
+	  File ontologyDir = new File(pathToOntologyDir);
+	  for (File f : ontologyDir.listFiles()) {
+		  if(f.toString().endsWith(".ini")) {  
+			  
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(f));
+				String         line = null;
+				
+				while((line = reader.readLine()) != null) {
+			          if(line.startsWith("cat") && line.contains("#")) {
+			        	  uri = line.substring(line.lastIndexOf("=")+1).trim();
+			          }
+			    }			
+				reader.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}   
+		  }
+	  }
+	  
+	  System.out.println(uri);
 	  return uri;
   }
   
@@ -61,8 +82,7 @@ public class Main {
 				e.printStackTrace();
 			}
   			
-  			changeCompileScript(vondaProject);
-  			uri = getUriFromIniFile(vondaProject);
+  			uri = getUriFromIniFile(outPathOntologyFile);
   		}
   		
 	    System.out.println("Parsing Sceneflow...");
