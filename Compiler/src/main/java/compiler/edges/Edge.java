@@ -21,21 +21,33 @@ public abstract class Edge {
   private String transitionString;
   private boolean isInterruptive;
 
-  
+  /**
+   * @return the startNode
+   */
+
   public Node getStartNode() {
-	return startNode;
+	  return startNode;
   }
 
+  /**
+   * @param startNode the startNode to set
+   */
   public void setStartNode(Node startNode) {
-	this.startNode = startNode;
+	  this.startNode = startNode;
   }
 
+  /**
+   * @return the endNode
+   */
   public Node getEndNode() {
-	return endNode;
+	  return endNode;
   }
 
+  /**
+   * @param endNode the endNode to set
+   */
   public void setEndNode(Node endNode) {
-	this.endNode = endNode;
+	  this.endNode = endNode;
   }
   
   public boolean isInterruptive() {
@@ -62,8 +74,12 @@ public abstract class Edge {
     this(start, end, "transition");
   }
   
+  /**
+   * Creates the rudi-code fragment that imitates the functionality of the {@code Edge}.
+   * @return the rudi-code fragment that imitates the functionality of the {@code Edge} as a String.
+   */
   public String getRudiCode(int numLeadingTabs) {
-	  
+	  	
 	  String startNodeString = this.startNode.getName();
 	  String startNodeParentString = this.startNode.getParent().getName();
 	  String targetNodeIsSupernode = "false";
@@ -82,10 +98,5 @@ public abstract class Edge {
 	  
 	  return RudiFileGenerator.formattedLine(transitionCode, 0, numLeadingTabs, 1);
   }
-  
-  /**
-   * Default constructor in oder to support subclasses.
-   */
-  public Edge() {}
   
 }

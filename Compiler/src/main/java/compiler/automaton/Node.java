@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import compiler.RudiFileGenerator;
-import compiler.edges.*;
+import compiler.edges.Edge;
+
 
 /**
  * A scenemaker node.
@@ -42,44 +43,77 @@ public class Node {
   private Set<Edge> conditionalEdges;
   private Set<Edge> interruptiveEdges;
 
+  /**
+  * A boolean indicating if the {@code Node} is a {@code Supernode}.
+  */
   private boolean isSupernode;
   
+  /**
+   * @return the name
+   */
   public String getName() {
 	  return name;
   }
 	
-  public void setName(String name) {
-	  this.name = name;
-  }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 	
-  public Supernode getParent() {
-	  return parent;
-  }
+	/**
+	 * @return the parent
+	 */
+	public Supernode getParent() {
+		return parent;
+	}
+
+	/**
+	 * @param parent the parent to set
+	 */
+	public void setParent(Supernode parent) {
+		this.parent = parent;
+	}
 	
-  public void setParent(Supernode parent) {
-	  this.parent = parent;
-  }
+	/**
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
 	
-  public String getCode() {
-	return code;
-  }
+	/**
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
+	}
 	
-  public void setCode(String code) {
-	this.code = code;
-  }
+	/**
+	 * @return the variables
+	 */
+	public Set<Variable> getVariables() {
+		return variables;
+	}
 	
-  public Set<Variable> getVariables() {
-	return variables;
-  }
+	/**
+	 * @param variables the variables to set
+	 */
+	public void setVariables(Set<Variable> variables) {
+		this.variables = variables;
+	}
 	
-  public void setVariables(Set<Variable> variables) {
-	this.variables = variables;
-  }
+	/**
+	 * @return the outgoingEdges
+	 */
+	public Set<Edge> getOutgoingEdges() {
+		return outgoingEdges;
+	}
 	
-  public Set<Edge> getOutgoingEdges() {
-	return outgoingEdges;
-  }
-	
+  /**
+   * @param outgoingEdges the outgoingEdges to set
+   */
   public void setOutgoingEdges(Set<Edge> outgoingEdges) {
 	this.outgoingEdges = outgoingEdges;
   }
@@ -108,7 +142,6 @@ public class Node {
 	return interruptiveEdges;
   }
 	
-	
   /**
    * Whether the {@code Node} is a {@code Supernode}.
    */
@@ -117,6 +150,9 @@ public class Node {
 	  return isSupernode;
   }
 
+  /**
+   * @param isSupernode the isSupernode to set
+   */
   public void setSupernode(boolean isSupernode) {
 	  this.isSupernode = isSupernode;
   }
@@ -157,8 +193,12 @@ public class Node {
 	  this.interruptiveEdges = new HashSet<>();
 	  this.variables = new HashSet<>();
   }
-
-  public String getNodeCode() {
+	
+	/**
+	 * Creates the rudi-code fragment that imitates the functionality of the {@code Node}.
+	 * @return the rudi-code that imitates the functionality of the {@code Node} as a String.
+	 */
+	public String getNodeCode() {
 
 	  String outString = this.getInterruptiveEdgesCode(this.getInterruptiveEdges(), 1);
 	  
@@ -188,7 +228,13 @@ public class Node {
 	  return outString;
   }
   
-  public String replaceVarName(String varName) {
+	/**
+	 * Changes the name of the given {@code Variable} such that it is a field of the correct supernode object.
+	 * If no supernode of which the variable is a field can be found, the name is left unchanged.
+	 * @param varName The name of the {@code Variable} that is to be replaced in the code.
+	 * @return String The variable call in rudi syntax.
+	 */
+	public String replaceVarName(String varName) {
 	  
 	  for (Variable v : this.variables) {
 			if (v.getName().equals(varName)) {
@@ -203,9 +249,13 @@ public class Node {
 	  else {
 		  return varName;
 	  }
-	  
   }
   
+ /**
+ * Converts the code that is executed when reaching the {@code Node} into rudi syntax, 
+ * replacing variables with fields in supernodes.
+ * @return String the code that is executed when reaching the {@code Node} in rudi syntax.
+ */
   public String convertCodeToRudi() {
 	    
 	  BufferedReader bufReader = new BufferedReader(new StringReader(this.code));
@@ -224,5 +274,4 @@ public class Node {
 	  
 	  return rudiCode;
   }
-  
 }

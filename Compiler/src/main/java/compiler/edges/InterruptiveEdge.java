@@ -17,5 +17,4 @@ public class InterruptiveEdge extends ConditionalEdge {
     super(start, end);
     this.setInterruptive();
   }
- 
 }
