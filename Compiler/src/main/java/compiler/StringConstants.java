@@ -68,7 +68,8 @@ public interface StringConstants {
 			"	if(targetNodeIsSupernode) {\n" + 
 			"		parent.initiated += target_node;\n" + 
 			"	} else {\n" + 
-			"		parent.simple_children += target_node;\n" + 
+			"		parent.simple_children += target_node;\n" +
+			"		parent.imminent_simple_children += target_node;\n" + 
 			"	}\n" + 
 			"}\n" + 
 			"";

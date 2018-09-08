@@ -5,14 +5,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import compiler.edges.ConditionalEdge;
-import compiler.edges.Edge;
-import compiler.edges.InterruptiveEdge;
-import compiler.edges.ProbabilityEdge;
-import compiler.edges.TimeoutEdge;
+import compiler.RudiFileGenerator;
+import compiler.edges.*;
 
 /**
  * A scenemaker node.
@@ -40,7 +35,13 @@ public class Node {
    * A set of outgoing edges.
    */
   private Set<Edge> outgoingEdges;
-  
+  private Set<Edge> epsilonEdges;
+  private Set<Edge> forkEdges;
+  private Set<Edge> probabilityEdges;
+  private Set<Edge> timeoutEdges;
+  private Set<Edge> conditionalEdges;
+  private Set<Edge> interruptiveEdges;
+
   private boolean isSupernode;
   
   public String getName() {
@@ -82,6 +83,31 @@ public class Node {
   public void setOutgoingEdges(Set<Edge> outgoingEdges) {
 	this.outgoingEdges = outgoingEdges;
   }
+  
+  public Set<Edge> getEpsilonEdges() {
+		return epsilonEdges;
+  }
+  
+  public Set<Edge> getForkEdges() {
+	return forkEdges;
+  }
+  
+  public Set<Edge> getProbabilityEdges() {
+		return probabilityEdges;
+  }
+  
+  public Set<Edge> getTimeoutEdges() {
+	return timeoutEdges;
+  }
+  
+  public Set<Edge> getConditionalEdges() {
+		return conditionalEdges;
+  }
+  
+  public Set<Edge> getInterruptiveEdges() {
+	return interruptiveEdges;
+  }
+	
 	
   /**
    * Whether the {@code Node} is a {@code Supernode}.
@@ -94,68 +120,70 @@ public class Node {
   public void setSupernode(boolean isSupernode) {
 	  this.isSupernode = isSupernode;
   }
+  
+  public boolean processCanDieHere() {
+	  return ((this.getEpsilonEdges().isEmpty()) && (this.getForkEdges().isEmpty()) && (this.getProbabilityEdges().isEmpty()) && (this.getTimeoutEdges().isEmpty()));
+  }
+  
+  public String getEdgeCode(Set<Edge> edges) {
+	  String outString = "";
+	  for (Edge e : edges) {
+		  outString += e.getRudiCode(2);
+	  }
+	  return outString;
+  }
+  
+  public String getInterruptiveEdgesCode(Set<Edge> interruptiveEdges, int numLeadingTabs) {
+	  String outString = "";
+	  int index = 0;
+	  for (Edge e : interruptiveEdges) {
+		  index += 1;
+		  outString += RudiFileGenerator.formattedRuleLabel(this.getName() + "_interruptive_edge_" + Integer.toString(index), 0, 0, 1);			  
+		  outString += e.getRudiCode(numLeadingTabs);
+	  }
+	  return outString;
+  }
 
   /**
    * Creates a new {@code Node}.
    */
   public Node() {
 	  this.outgoingEdges = new HashSet<>();
+	  this.epsilonEdges = new HashSet<>();
+	  this.forkEdges = new HashSet<>();
+	  this.probabilityEdges = new HashSet<>();
+	  this.timeoutEdges = new HashSet<>();
+	  this.conditionalEdges = new HashSet<>();
+	  this.interruptiveEdges = new HashSet<>();
 	  this.variables = new HashSet<>();
   }
 
   public String getNodeCode() {
 
-	  String outString = "";
-	  boolean canDieHere = true;
-	  int index = 0;
+	  String outString = this.getInterruptiveEdgesCode(this.getInterruptiveEdges(), 1);
 	  
-	  for (Edge e : this.outgoingEdges) {
-		  if (e instanceof InterruptiveEdge) {
-			  index += 1;
-			  outString +=  this.name + "_interruptive_edge_" + Integer.toString(index) + ":\n";
-			  outString += e.getRudiCode();
-		  }
-	  }
-	  
-	  outString += this.name + ":\n";
-	  
-	  outString += "\tif("+ this.parent.getName() + ".simple_children.contains(\"" + this.name + "\")) {\n\n";
+	  outString += RudiFileGenerator.formattedRuleLabel(this.name, 0, 0, 0);
+	  outString += RudiFileGenerator.formattedIfOpening(this.parent.getName() + ".simple_children.contains(\"" + this.name + "\")", 1, 1, 2);
 	  
 	  if (!this.code.isEmpty()) {
 		  
-		  outString += "\t\tif("+ this.parent.getName() + ".imminent_simple_children.contains(\"" + this.name + "\")) {\n\n";
+		  outString += RudiFileGenerator.formattedIfOpening(this.parent.getName() + ".imminent_simple_children.contains(\"" + this.name + "\")", 0, 2, 2);
 		  outString += this.convertCodeToRudi();
-		  outString += "\t\t}\n\n";
+		  outString += RudiFileGenerator.formattedIfClosing(0, 2, 2);		  
 	  }
 	  
-	  for (Edge e : this.outgoingEdges) {
-		  if (e instanceof TimeoutEdge) {
-			  outString += e.getRudiCode() + "\n";
-			  canDieHere = false;
-		  }
+	  outString += this.getEdgeCode(this.getTimeoutEdges());
+	  outString += RudiFileGenerator.formattedLine(this.parent.getName() + ".imminent_simple_children -= \"" + this.name + "\"", 1, 2, 2);
+	  outString += this.getEdgeCode(this.getConditionalEdges());
+	  outString += this.getEdgeCode(this.getEpsilonEdges());
+	  outString += this.getEdgeCode(this.getForkEdges());
+	  outString += this.getEdgeCode(this.getProbabilityEdges());
+	  
+	  if(this.processCanDieHere()) {
+		  outString +=  RudiFileGenerator.formattedLine("check_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ")", 1, 2, 1);			  		  
 	  }
 	  
-	  outString += "\t\t" + this.parent.getName() + ".imminent_simple_children -= \"" + this.name + "\";\n\n";
-
-	  	  
-	  for (Edge e : this.outgoingEdges) {
-		  if (e instanceof ConditionalEdge) {
-			  outString += e.getRudiCode();
-		  }
-	  }
-	  
-	  for (Edge e : this.outgoingEdges) {
-		  if (!(e instanceof TimeoutEdge) && !(e instanceof ConditionalEdge) && !(e instanceof InterruptiveEdge)) {
-			  outString += e.getRudiCode();
-			  canDieHere = false;
-		  }
-	  }
-	  
-	  if(canDieHere) {
-		  outString += "\n\t\tcheck_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ");\n";			  		  
-	  }
-	  
-	  outString += "\t}\n\n";
+	  outString += RudiFileGenerator.formattedIfClosing(0, 1, 2);		  	  
 
 	  return outString;
   }
@@ -187,20 +215,7 @@ public class Node {
 	  try {
 		while( (line=bufReader.readLine()) != null )
 		  {
-			String cleanedLine = line;
-			Pattern VAR_TAG_PATTERN = Pattern.compile("<v>(.*?)</v>");
-			Matcher m = VAR_TAG_PATTERN.matcher(cleanedLine);
-			
-			while (m.find()) {
-				String varName = m.group(1);			
-				String extendedVarName = this.replaceVarName(varName);
-				String stringToReplace = "<v>" + varName + "</v>";
-				
-				cleanedLine = cleanedLine.replace(stringToReplace, extendedVarName);
-				m = VAR_TAG_PATTERN.matcher(cleanedLine);
-			}
-			
-			rudiCode += "\t\t\t" + cleanedLine + "\n";
+			rudiCode += "\t\t\t" + RudiFileGenerator.replaceVarNamesInString(line, this) + "\n";
 		  }
 	
 	} catch (IOException e) {

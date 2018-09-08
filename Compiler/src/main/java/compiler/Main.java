@@ -1,6 +1,5 @@
 package compiler;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import compiler.automaton.SceneMakerAutomaton;
@@ -59,7 +58,6 @@ public class Main {
 				delete(new File(pathToVondaProject + "./target"));
 				delete(new File(pathToVondaProject + "./src/main/gen-java"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
   			
@@ -91,7 +89,7 @@ public class Main {
 
 	    		String[] compileCmd = new String[1];
 		    	compileCmd[0] = "./compile";
-		    	Process compileProject = Runtime.getRuntime().exec(compileCmd, null, vondaProject);
+		    	Runtime.getRuntime().exec(compileCmd, null, vondaProject);
 		    	
 	    	    System.out.println("Building VonDa project...");
 		    	
@@ -99,10 +97,9 @@ public class Main {
 		    	installCmd[0] = "mvn";
 		    	installCmd[1] = "install";
 		    	
-				Process mvnInstall = Runtime.getRuntime().exec(installCmd, null, vondaProject);
+				Runtime.getRuntime().exec(installCmd, null, vondaProject);
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    }

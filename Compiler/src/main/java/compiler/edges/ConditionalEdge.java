@@ -1,7 +1,6 @@
 package compiler.edges;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import compiler.RudiFileGenerator;
 import compiler.automaton.Node;
 
 /**
@@ -22,7 +21,7 @@ public class ConditionalEdge extends Edge {
   public void setCondition(String condition) {
 	this.condition = condition;
   }
-
+  
 /**
    * Creates a new {@code ConditionalEdge} starting at {@code start} and ending at {@code end}.
    * @param start {@code Node} at which the edge starts
@@ -32,40 +31,19 @@ public class ConditionalEdge extends Edge {
     super(start, end);
   }
 
-  public String getRudiCode() {
+  public String getRudiCode(int numLeadingTabs) {
 	  
-	  String rudiCode = "\t\tif " + this.convertConditionToRudi() + " {\n\t";
-	  
-	  rudiCode += super.getRudiCode();
-	  
-	  rudiCode += "\t\t}\n\n";
+	  String rudiCode = RudiFileGenerator.formattedIfOpening(this.replaceVarNamesInCondition(), 0, numLeadingTabs, 1);	  
+	  rudiCode += super.getRudiCode(numLeadingTabs + 1);
+	  rudiCode += RudiFileGenerator.formattedIfClosing(0, numLeadingTabs, 2);
 	  
 	  return rudiCode;
   }
   
   
-  public String convertConditionToRudi() {
-	  	 
-	    String rudiCondition = this.condition;
-
-		Pattern VAR_TAG_PATTERN = Pattern.compile("<v>(.*?)</v>");
-		Matcher m = VAR_TAG_PATTERN.matcher(rudiCondition);
-		
-		while (true) {
-			if(m.find()) {
-				String varName = m.group(1);			
-				String extendedVarName = this.getStartNode().replaceVarName(varName);
-				String stringToReplace = "<v>" + varName + "</v>";
-				
-				rudiCondition = rudiCondition.replace(stringToReplace, extendedVarName);
-				m = VAR_TAG_PATTERN.matcher(rudiCondition);
-			}
-			else {
-				break;
-			}
-		}
+  public String replaceVarNamesInCondition() {
 	  
-	  return rudiCondition;
+	  return RudiFileGenerator.replaceVarNamesInString(this.getCondition(), this.getStartNode());
   }
 
 }

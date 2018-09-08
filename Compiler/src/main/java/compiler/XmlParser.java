@@ -183,7 +183,8 @@ public class XmlParser {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
       EpsilonEdge edge = new EpsilonEdge(node, target);
       node.getOutgoingEdges().add(edge);
-    }
+      node.getEpsilonEdges().add(edge);
+}
     
     // probability edges
     for (Element edgeElement : e.getChildren("PEdge")) {
@@ -191,7 +192,8 @@ public class XmlParser {
       ProbabilityEdge edge = new ProbabilityEdge(node, target);
       edge.setProbability(Float.valueOf(edgeElement.getAttributeValue("probability")));
       node.getOutgoingEdges().add(edge);
-    }
+      node.getProbabilityEdges().add(edge);
+}
     
     // conditional edges
     for (Element edgeElement : e.getChildren("CEdge")) {
@@ -199,7 +201,8 @@ public class XmlParser {
       ConditionalEdge edge = new ConditionalEdge(node, target);
       edge.setCondition(ExpressionParser.parse(edgeElement.getChild("ParenExpression")));
       node.getOutgoingEdges().add(edge);
-    }
+      node.getConditionalEdges().add(edge);
+}
     
     // timeout edges
     for (Element edgeElement : e.getChildren("TEdge")) {
@@ -207,13 +210,15 @@ public class XmlParser {
       TimeoutEdge edge = new TimeoutEdge(node, target);
       edge.setTimeout(Integer.valueOf(edgeElement.getAttributeValue("timeout")));
       node.getOutgoingEdges().add(edge);
-    }
+      node.getTimeoutEdges().add(edge);
+}
     
     // fork edges
     for (Element edgeElement : e.getChildren("FEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
       ForkEdge edge = new ForkEdge(node, target);
       node.getOutgoingEdges().add(edge);
+      node.getForkEdges().add(edge);
     }
     
     // interruptive edges
@@ -222,6 +227,7 @@ public class XmlParser {
       InterruptiveEdge edge = new InterruptiveEdge(node, target);
       edge.setCondition(ExpressionParser.parse(edgeElement.getChild("ParenExpression")));
       node.getOutgoingEdges().add(edge);
+      node.getInterruptiveEdges().add(edge);
     }
   }
 

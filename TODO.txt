@@ -1,5 +1,5 @@
 1. Javadoc vervollständigen
-2. Code aufräumen
+2. Code aufräumen: Vonda-Build aus chatcat-Ordner vervollständigen + lastDA().what-switch einfügen
 3. Ggf. weitere Tests überlegen
 5. Main.py "ersetzen"; Projekt als Shell-Script ausführbar machen (schöneres Handling von Kommandozeilenparametern!)
 6. Konfigurationen als Kommandozeilenparameter oder Konfigurationsdatei? Umsetzen

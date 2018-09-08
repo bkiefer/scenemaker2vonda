@@ -1,5 +1,6 @@
 package compiler.edges;
 
+import compiler.RudiFileGenerator;
 import compiler.automaton.Node;
 
 /**
@@ -29,33 +30,16 @@ public class TimeoutEdge extends Edge {
    * @param end {@code Node} at which the edge ends
    */
   public TimeoutEdge(Node start, Node end) {
-    super(start, end);
+    super(start, end, "timeout_transition");
   }
 
 
-  public String getRudiCode() {
+  public String getRudiCode(int numLeadingTabs) {
 	  
-	  String rudiCode = "\t\t";
-
-	  String startNodeString = this.getStartNode().getName();
-	  String startNodeParentString = this.getStartNode().getParent().getName();
-	  String targetNodeIsSupernode = "false";
-	  
-	  if (this.getStartNode().isSupernode()) {
-		  startNodeString += "_out";
-		  startNodeParentString = this.getStartNode().getName();
-	  }
-	  
-	  if (this.getEndNode().isSupernode()) {
-		  targetNodeIsSupernode = "true";
-	  }
-	  
-	  rudiCode += "timeout_transition(\"" + startNodeString + "\", \"" + this.getEndNode().getName() + "\", ";
-	  rudiCode += startNodeParentString + ", " + this.getEndNode().getParent().getName(); 
-	  rudiCode += ", " + targetNodeIsSupernode;
-	  rudiCode += ", " + Integer.toString(this.timeout) + ");\n";
-	  
-	  return rudiCode;
+	  String rudiCode = super.getRudiCode(numLeadingTabs);
+	  rudiCode = rudiCode.substring(0, rudiCode.length() - 3) + ", " + Integer.toString(this.timeout) + ")" ;
+	 
+	  return RudiFileGenerator.formattedLine(rudiCode, 0, 0, 1);
   }
   
 }

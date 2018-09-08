@@ -2,6 +2,8 @@ package compiler.automaton;
 import java.util.HashSet;
 import java.util.Set;
 
+import compiler.RudiFileGenerator;
+
 /**
  * A complete Scenemaker automaton. This class represents the "default" super node in Scenemaker.
  * @author Max Depenbrock
@@ -45,35 +47,19 @@ public class SceneMakerAutomaton extends Supernode {
   
   public String getSetupCode() {
 	  
-	  String outString = "\nsetup_" + this.getName() + ": \n";
-	  outString += "\tif(!" + this.getName() + ".active) {\n\n";
-	  outString += "\t\ttimeout(\"MainAgentStart\", 1400) {\n\n";
-	  outString += "\t\t\t" + this.getName() + ".active = true;\n";
-	  outString += "\t\t\t" + this.getName() + ".simple_children += \"" + this.getName() + "_in\";\n\n";
-	  outString += "\t\t\t" + this.getName() + ".imminent_simple_children += \"" + this.getName() + "_in\";\n";
+	  String outString = RudiFileGenerator.formattedRuleLabel("setup_" + this.getName(), 1, 0, 1);	  
 
+	  outString += RudiFileGenerator.formattedIfOpening("!" + this.getName() + ".active", 0, 1, 2);
+	  outString += RudiFileGenerator.formattedExpression("timeout(\"MainAgentStart\", 1400) {", 0, 2, 2);
 	  
-	  for (Variable v : this.getVariables()) {
-		  outString += "\t\t\t" + this.getName() + "." + v.getName() + " = " + v.getValue() + ";\n";
-	  }
+	  outString += RudiFileGenerator.formattedLine(this.getName() + ".active = true", 0, 3, 1);
+	  outString += RudiFileGenerator.formattedLine(this.getName() + ".simple_children += \"" + this.getName() + "_in\"", 0, 3, 2);
+	  outString += RudiFileGenerator.formattedLine(this.getName() + ".imminent_simple_children += \"" + this.getName() + "_in\"", 0, 3, 1);
+ 
+	  outString += this.getVariableSetupCode();
 	  
-	  outString += "\t\t}\n";
-	  outString += "\t}\n\n";
-
-	  return outString;
-  }
-
-public String getPseudoOutCode() {
-	  
-	  String outString = this.getName() + "_out: \n";
-	  outString += "\tif("+ this.getName() + ".simple_children.contains(\"" + this.getName() + "_out\")) {\n\n";
-	  
-	  outString += "\n\t\tif(test_inactive("+ this.getName() + ")) {\n\n";
-	  outString += "\t\t\tset_inactive("+ this.getName() + ");\n";
-	  outString += "\t\t\tshutdown();\n";
-	  outString += "\t\t}\n\n";
-	  
-	  outString += "\t}\n\n";
+	  outString += RudiFileGenerator.formattedIfClosing(0, 2, 1);
+	  outString += RudiFileGenerator.formattedIfClosing(0, 1, 2);
 
 	  return outString;
   }
