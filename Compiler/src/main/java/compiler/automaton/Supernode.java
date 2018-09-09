@@ -18,6 +18,7 @@ public class Supernode extends Node {
    * A set of (normal and super) nodes contained in the {@code Supernode}.
    */
   private Set<Node> nodes;
+  
   /**
    * A set of the start nodes.
    */
@@ -59,6 +60,10 @@ public class Supernode extends Node {
 	  this.nodes = new HashSet<>();
   }
   
+  /**
+   * Creates the VOnDA-code fragment that initializes the variables belonging to the this {@code Supernode}.
+   * @return A String containing the VOnDA-code fragment that initializes the variables of this {@code Supernode}.
+   */
   public String getVariableSetupCode() {
 	  String outString = "";
 	  for (Variable v : this.getVariables()) {
@@ -69,8 +74,8 @@ public class Supernode extends Node {
   }
 
 /**
- * Creates the rudi-code fragment that sets up the {@code Supernode}.
- * @return the rudi-code fragment that sets up the {@code Supernode} as a String.
+ * Creates the VOnDA-code fragment that sets up the {@code Supernode}.
+ * @return The VOnDA-code fragment that sets up the {@code Supernode} as a String.
  */
   public String getSetupCode() {
 	  
@@ -95,8 +100,8 @@ public class Supernode extends Node {
   }
   
   /**
-   * Creates the rudi-code fragment that imitates the functionality if the {@code Supernode} is not active.
-   * @return the rudi-code fragment that imitates the functionality if the {@code Supernode} is not active as a String.
+   * Creates the VOnDA-code fragment that allows to ignore this {@code Supernode} if it is not active.
+   * @return A String containing the VOnDA-code fragment that allows to ignore this {@code Supernode} if it is not active.
    */
   public String getPassByCode() {
 	  
@@ -112,8 +117,8 @@ public class Supernode extends Node {
   }
 
   /**
-   * Creates the rudi-code fragment that imitates the functionality of the {@code InterruptiveEdges} of the {@code Supernode}.
-   * @return the rudi-code fragment that imitates the functionality of the {@code InterruptiveEdges} of the {@code Supernode} as a String.
+   * Creates the VOnDA-code fragment that imitates the functionality of the outgoing {@code InterruptiveEdges} of this {@code Supernode}.
+   * @return A String containing the VOnDA-code fragment that imitates the functionality of the outgoing {@code InterruptiveEdges} of this {@code Supernode}.
    */
   public String getSuperInterruptiveEdgesCode() {
 
@@ -146,6 +151,10 @@ public class Supernode extends Node {
 	  return outString;
   }
   
+  /**
+   * 
+   * @return
+   */
   public String getStartNodeTransitionCode() {
 	  
 	  String outString = "";

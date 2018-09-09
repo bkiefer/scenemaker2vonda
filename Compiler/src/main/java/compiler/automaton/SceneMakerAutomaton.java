@@ -35,7 +35,7 @@ public class SceneMakerAutomaton extends Supernode {
   }
 
   /**
-   * @return the set of  super nodes used in this {@code SceneMakerAutomaton} and all of its sub nodes.
+   * @return the set of super nodes used in this {@code SceneMakerAutomaton} and all of its sub nodes.
    */
   public Set<Supernode> getAllSupernodes() {
 	  return allSupernodes;
@@ -57,8 +57,8 @@ public class SceneMakerAutomaton extends Supernode {
   }
   
   /**
-   * Creates the rudi-code fragment that sets up the {@code SceneMakerAutomaton}.
-   * @return the rudi-code fragment that sets up the {@code SceneMakerAutomaton} as a String.
+   * Creates the VOnDA-code fragment that sets up the {@code SceneMakerAutomaton}.
+   * @return the VOnDA-code fragment that sets up the {@code SceneMakerAutomaton} as a String.
    */
   public String getSetupCode() {
 	  

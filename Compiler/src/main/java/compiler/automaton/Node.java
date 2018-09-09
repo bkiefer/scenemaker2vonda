@@ -29,18 +29,43 @@ public class Node {
    */
   private String code;
   /**
-   * A set of variables defined in the {@code Node}.}
+   * A set of variables defined in the {@code Node}.
    */
   private Set<Variable> variables;
+  
   /**
-   * A set of outgoing edges.
+   * The set of all outgoing edges at this {@code Node}.
    */
   private Set<Edge> outgoingEdges;
+  
+  /**
+   * The set of outgoing epsilon edges (empty or a single member).
+   */
   private Set<Edge> epsilonEdges;
+  
+  /**
+   * The set of outgoing fork edges.
+   */
   private Set<Edge> forkEdges;
+  
+  /**
+   * The set of outgoing probability edges.
+   */
   private Set<Edge> probabilityEdges;
+  
+  /**
+   * The set of outgoing timeout edges (empty or a single member).
+   */
   private Set<Edge> timeoutEdges;
+  
+  /**
+   * The set of outgoing (non-interruptive) conditional edges.
+   */
   private Set<Edge> conditionalEdges;
+  
+  /**
+   * The set of outgoing interruptive edges.
+   */
   private Set<Edge> interruptiveEdges;
 
   /**
@@ -55,112 +80,136 @@ public class Node {
 	  return name;
   }
 	
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * @return the parent
-	 */
-	public Supernode getParent() {
-		return parent;
-	}
-
-	/**
-	 * @param parent the parent to set
-	 */
-	public void setParent(Supernode parent) {
-		this.parent = parent;
-	}
-	
-	/**
-	 * @return the code
-	 */
-	public String getCode() {
-		return code;
-	}
-	
-	/**
-	 * @param code the code to set
-	 */
-	public void setCode(String code) {
-		this.code = code;
-	}
-	
-	/**
-	 * @return the variables
-	 */
-	public Set<Variable> getVariables() {
-		return variables;
-	}
-	
-	/**
-	 * @param variables the variables to set
-	 */
-	public void setVariables(Set<Variable> variables) {
-		this.variables = variables;
-	}
-	
-	/**
-	 * @return the outgoingEdges
-	 */
-	public Set<Edge> getOutgoingEdges() {
-		return outgoingEdges;
-	}
+  /**
+   * @param name the name to set
+   */
+  public void setName(String name) {
+  	  this.name = name;
+  }
 	
   /**
-   * @param outgoingEdges the outgoingEdges to set
+   * @return the parent
+   */
+  public Supernode getParent() {
+	  return parent;
+  }
+
+  /**
+   * @param parent the parent to set
+   */
+  public void setParent(Supernode parent) {
+	  this.parent = parent;
+  }
+	
+  /**
+   * @return the code
+   */
+  public String getCode() {
+	  return code;
+  }
+	
+  /**
+   * @param code the code to set
+   */
+  public void setCode(String code) {
+	  this.code = code;
+  }
+	
+  /**
+   * @return the variables
+   */
+  public Set<Variable> getVariables() {
+	  return variables;
+  }
+	
+  /**
+   * @param variables the variables to set
+   */
+  public void setVariables(Set<Variable> variables) {
+  	  this.variables = variables;
+  }
+	
+  /**
+   * @return all outgoing edges
+   */
+  public Set<Edge> getOutgoingEdges() {
+	  return outgoingEdges;
+  }
+	
+  /**
+   * @param outgoingEdges the set of outgoing edges that should be attached to this node.
    */
   public void setOutgoingEdges(Set<Edge> outgoingEdges) {
 	this.outgoingEdges = outgoingEdges;
   }
   
+  /**
+   * @return all outgoing epsilon edges (max 1)
+   */
   public Set<Edge> getEpsilonEdges() {
 		return epsilonEdges;
   }
   
+  /**
+   * @return all outgoing fork edges
+   */
   public Set<Edge> getForkEdges() {
 	return forkEdges;
   }
   
+  /**
+   * @return all outgoing probability edges
+   */
   public Set<Edge> getProbabilityEdges() {
 		return probabilityEdges;
   }
   
+  /**
+   * @return all outgoing timeout edges (max 1)
+   */
   public Set<Edge> getTimeoutEdges() {
 	return timeoutEdges;
   }
   
+  /**
+   * @return all outgoing (non-interruptive) conditional edges
+   */
   public Set<Edge> getConditionalEdges() {
 		return conditionalEdges;
   }
   
+  /**
+   * @return all outgoing interruptive edges
+   */
   public Set<Edge> getInterruptiveEdges() {
 	return interruptiveEdges;
   }
 	
   /**
-   * Whether the {@code Node} is a {@code Supernode}.
+   * @return A boolean indicating whether the {@code Node} is a {@code Supernode}
    */
-
   public boolean isSupernode() {
 	  return isSupernode;
   }
 
   /**
-   * @param isSupernode the isSupernode to set
+   * @param isSupernode A boolean indicating whether this {@code Node} should be set as a {@code Supernode}
    */
   public void setSupernode(boolean isSupernode) {
 	  this.isSupernode = isSupernode;
   }
   
+  /**
+   * @return A boolean indicating if a process can die at this {@Node} (if it has only conditional/interruptive outgoing edges, or none at all)
+   */
   public boolean processCanDieHere() {
 	  return ((this.getEpsilonEdges().isEmpty()) && (this.getForkEdges().isEmpty()) && (this.getProbabilityEdges().isEmpty()) && (this.getTimeoutEdges().isEmpty()));
   }
   
+  /**
+   * @param edges A set of edges
+   * @return Rudi-code fragment that imitates the functionality of the set of edges (as a String)
+   */
   public String getEdgeCode(Set<Edge> edges) {
 	  String outString = "";
 	  for (Edge e : edges) {
@@ -169,6 +218,13 @@ public class Node {
 	  return outString;
   }
   
+  /**
+   * This method should only be called on a simple {@code Node} (not on a {@code Supernode}) for proper functionality.
+   * For Supernodes there exists a corresponding method {@code getSuperInterruptiveEdgesCode}.
+   * @param interruptiveEdges A set of interruptive edges
+   * @param numLeadingTabs Integer indicating how indented (number of tabs) the code should be 
+   * @return Rudi-code fragment that imitates the functionality of the set of interruptive edges (as a String)
+   */
   public String getInterruptiveEdgesCode(Set<Edge> interruptiveEdges, int numLeadingTabs) {
 	  String outString = "";
 	  int index = 0;
@@ -195,8 +251,8 @@ public class Node {
   }
 	
 	/**
-	 * Creates the rudi-code fragment that imitates the functionality of the {@code Node}.
-	 * @return the rudi-code that imitates the functionality of the {@code Node} as a String.
+	 * Creates the VOnDA-code fragment that imitates the functionality of the {@code Node}.
+	 * @return The VOnDA-code that imitates the functionality of the {@code Node} (as a String)
 	 */
 	public String getNodeCode() {
 
@@ -229,10 +285,10 @@ public class Node {
   }
   
 	/**
-	 * Changes the name of the given {@code Variable} such that it is a field of the correct supernode object.
-	 * If no supernode of which the variable is a field can be found, the name is left unchanged.
+	 * Changes the name of the given {@code Variable} such that it is a field of the correct Supernode object.
+	 * If no {@code Supernode} of which the variable is a field can be found, the name is left unchanged.
 	 * @param varName The name of the {@code Variable} that is to be replaced in the code.
-	 * @return String The variable call in rudi syntax.
+	 * @return The variable call in VOnDA syntax, as a field of the appropriate Supernode object (as a String)
 	 */
 	public String replaceVarName(String varName) {
 	  
@@ -252,9 +308,9 @@ public class Node {
   }
   
  /**
- * Converts the code that is executed when reaching the {@code Node} into rudi syntax, 
- * replacing variables with fields in supernodes.
- * @return String the code that is executed when reaching the {@code Node} in rudi syntax.
+ * Converts the code that is executed when reaching the {@code Node} into VOnDA syntax, 
+ * replacing variables with fields of the appropriate Supernodes.
+ * @return The code that is executed when reaching the {@code Node} in VOnDA syntax (as a String)
  */
   public String convertCodeToRudi() {
 	    

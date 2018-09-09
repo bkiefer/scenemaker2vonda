@@ -39,7 +39,7 @@ public class ConditionalEdge extends Edge {
 
   /**
    * Creates the rudi-code fragment that imitates the functionality of the {@code ConditionalEdge}.
-   * @param numLeadingTabs how indented (num tabs) the code should be 
+   * @param numLeadingTabs Integer indicating how indented (number of tabs) the code should be 
    * @return the rudi-code fragment that imitates the functionality of the {@code ConditionalEdge} as a String.
    */
   public String getRudiCode(int numLeadingTabs) {
