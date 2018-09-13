@@ -38,9 +38,9 @@ public class ConditionalEdge extends Edge {
   }
 
   /**
-   * Creates the rudi-code fragment that imitates the functionality of the {@code ConditionalEdge}.
-   * @param numLeadingTabs Integer indicating how indented (number of tabs) the code should be 
-   * @return the rudi-code fragment that imitates the functionality of the {@code ConditionalEdge} as a String.
+   * Creates the VOnDA-code fragment that imitates the functionality of the {@code ConditionalEdge}.
+   * @param numLeadingTabs Integer indicating how indented (number of tabs) the code should be at the place it is produced
+   * @return A String containing the VOnDA-code fragment that imitates the functionality of the {@code ConditionalEdge}
    */
   public String getRudiCode(int numLeadingTabs) {
 	  
@@ -52,8 +52,8 @@ public class ConditionalEdge extends Edge {
   }
   
   /**
-   * Replace variables in the {@code condition} of the {@code ConditionalEdge} with fields of supernodes.
-   * @return The {@code condition} of the {@code ConditionalEdge} in rudi-syntax.
+   * Replace variables in the {@code condition} of the {@code ConditionalEdge} with fields of Supernodes.
+   * @return A String containing the {@code condition} of the {@code ConditionalEdge} in VOnDA-syntax.
    */
   public String replaceVarNamesInCondition() {
 	  return RudiFileGenerator.replaceVarNamesInString(this.getCondition(), this.getStartNode());

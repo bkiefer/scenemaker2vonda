@@ -38,8 +38,8 @@ public class TimeoutEdge extends Edge {
   }
 
   /**
-   * Creates the rudi-code fragment that imitates the functionality of the {@code TimeoutEdge}.
-   * @return the rudi-code fragment that imitates the functionality of the {@code TimeoutEdge} as a String.
+   * Creates the VOnDA-code fragment that imitates the functionality of the {@code TimeoutEdge}.
+   * @return A String containing the VOnDA-code fragment that imitates the functionality of the {@code TimeoutEdge}
    */
   public String getRudiCode(int numLeadingTabs) {
 	  

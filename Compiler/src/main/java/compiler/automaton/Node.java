@@ -208,7 +208,7 @@ public class Node {
   
   /**
    * @param edges A set of edges
-   * @return Rudi-code fragment that imitates the functionality of the set of edges (as a String)
+   * @return A string containing the VOnDA-code fragment that imitates the functionality of the set of edges
    */
   public String getEdgeCode(Set<Edge> edges) {
 	  String outString = "";
@@ -223,7 +223,7 @@ public class Node {
    * For Supernodes there exists a corresponding method {@code getSuperInterruptiveEdgesCode}.
    * @param interruptiveEdges A set of interruptive edges
    * @param numLeadingTabs Integer indicating how indented (number of tabs) the code should be 
-   * @return Rudi-code fragment that imitates the functionality of the set of interruptive edges (as a String)
+   * @return A String containing the VOnDA-code fragment that imitates the functionality of the set of interruptive edges attached to this node
    */
   public String getInterruptiveEdgesCode(Set<Edge> interruptiveEdges, int numLeadingTabs) {
 	  String outString = "";
@@ -252,7 +252,7 @@ public class Node {
 	
 	/**
 	 * Creates the VOnDA-code fragment that imitates the functionality of the {@code Node}.
-	 * @return The VOnDA-code that imitates the functionality of the {@code Node} (as a String)
+	 * @return A String containing the VOnDA-code that imitates the functionality of the {@code Node} 
 	 */
 	public String getNodeCode() {
 
@@ -288,7 +288,7 @@ public class Node {
 	 * Changes the name of the given {@code Variable} such that it is a field of the correct Supernode object.
 	 * If no {@code Supernode} of which the variable is a field can be found, the name is left unchanged.
 	 * @param varName The name of the {@code Variable} that is to be replaced in the code.
-	 * @return The variable call in VOnDA syntax, as a field of the appropriate Supernode object (as a String)
+	 * @return A String containing the variable call in VOnDA syntax, as a field of the appropriate Supernode object
 	 */
 	public String replaceVarName(String varName) {
 	  
@@ -310,7 +310,7 @@ public class Node {
  /**
  * Converts the code that is executed when reaching the {@code Node} into VOnDA syntax, 
  * replacing variables with fields of the appropriate Supernodes.
- * @return The code that is executed when reaching the {@code Node} in VOnDA syntax (as a String)
+ * @return A String containing the code that is executed when reaching the {@code Node} in VOnDA syntax
  */
   public String convertCodeToRudi() {
 	    

@@ -3,7 +3,7 @@ package compiler.edges;
 import compiler.automaton.Node;
 
 /**
- * An interruptive edge.
+ * An interruptive edge (inherits from {@code ConditionalEdge}).
  * @author Max Depenbrock
  */
 public class InterruptiveEdge extends ConditionalEdge {
@@ -15,6 +15,5 @@ public class InterruptiveEdge extends ConditionalEdge {
    */
   public InterruptiveEdge(Node start, Node end) {
     super(start, end);
-    this.setInterruptive();
   }
 }

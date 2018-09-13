@@ -13,18 +13,20 @@ public abstract class Edge {
    * {@code Node} at which the edge starts.
    */
   private Node startNode;
+  
   /** 
    * {@code Node} at which the edge ends. 
    */
   private Node endNode;
   
+  /**
+   * The String that is used to translate this edge into VOnDA syntax (the VOnDA function used to implement the node transition)
+   */
   private String transitionString;
-  private boolean isInterruptive;
 
   /**
    * @return the startNode
    */
-
   public Node getStartNode() {
 	  return startNode;
   }
@@ -50,23 +52,20 @@ public abstract class Edge {
 	  this.endNode = endNode;
   }
   
-  public boolean isInterruptive() {
-	return this.isInterruptive;
-  }
-
-  public void setInterruptive() {
-	this.isInterruptive = true;
-  }
-  
+  /**
+   * Creates a new {@code Edge} starting at {@code start} and ending at {@code end}, with the specified {@code transitionString}.
+   * @param start {@code Node} at which the edge starts
+   * @param end {@code Node} at which the edge ends
+   * @param transitionString A String containing the name of the VOnDA function used to translate this edge into VOnDA syntax
+   */
   public Edge(Node start, Node end, String transitionString) {
 	    this.startNode = start;
 	    this.endNode = end;
 	    this.transitionString = transitionString;
-	    this.isInterruptive = false;
 	  }
   
   /**
-   * Creates a new {@code Edge} starting at {@code start} and ending at {@code end}.
+   * Creates a new {@code Edge} starting at {@code start} and ending at {@code end}, with the default {@code transitionString} "transition".
    * @param start {@code Node} at which the edge starts
    * @param end {@code Node} at which the edge ends
    */
@@ -75,8 +74,8 @@ public abstract class Edge {
   }
   
   /**
-   * Creates the rudi-code fragment that imitates the functionality of the {@code Edge}.
-   * @return the rudi-code fragment that imitates the functionality of the {@code Edge} as a String.
+   * Creates the VOnDA-code fragment that imitates the functionality of the {@code Edge}.
+   * @return A String containing the VOnDA-code fragment that imitates the functionality of the {@code Edge} as a String
    */
   public String getRudiCode(int numLeadingTabs) {
 	  	

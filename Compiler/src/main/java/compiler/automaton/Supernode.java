@@ -152,8 +152,8 @@ public class Supernode extends Node {
   }
   
   /**
-   * 
-   * @return
+   * Creates the VOnDA-code fragment that imitates entering the start nodes of the {@code Supernode}.
+   * @return A String containing the VOnDA-code fragment that imitates entering the start nodes of the {@code Supernode}
    */
   public String getStartNodeTransitionCode() {
 	  
@@ -175,8 +175,8 @@ public class Supernode extends Node {
   }
 	  
   /**
-   * Creates the rudi-code fragment that imitates entering the {@code Supernode}.
-   * @return the rudi-code fragment that imitates entering the {@code Supernode} as a String.
+   * Creates the VOnDA-code fragment that imitates entering the {@code Supernode}.
+   * @return the VOnDA-code fragment that imitates entering the {@code Supernode} as a String
    */
   public String getPseudoInCode() {
 	  
@@ -198,8 +198,8 @@ public class Supernode extends Node {
   }
   
   /**
-   * Creates the rudi-code fragment that imitates leaving the {@code Supernode}.
-   * @return the rudi-code fragment that imitates leaving the {@code Supernode} as a String.
+   * Creates the VOnDA-code fragment that imitates leaving the {@code Supernode}.
+   * @return the VOnDA-code fragment that imitates leaving the {@code Supernode} as a String.
    */
   public String getPseudoOutCode() {
 	  
@@ -242,8 +242,8 @@ public class Supernode extends Node {
   }
   
   /**
-   * Creates the rudi-code fragment that imports the code for the children of the {@code Supernode}.
-   * @return the rudi-code fragment that imports the code for the children of the {@code Supernode} as a String.
+   * Creates the VOnDA-code fragment to import the code for the Supernodes that are children of this {@code Supernode}.
+   * @return A String containing the VOnDA-code fragment to import the code for the Supernodes that are children of this {@code Supernode}
    */
   public String getImportCode() {
 	  String outString = "";
@@ -257,7 +257,8 @@ public class Supernode extends Node {
   }
 
   /**
-   * Ensures that the name of the {@code Supernode} and its children are lower case.
+   * Ensures the names of the {@code Supernode} and its children start with a lower case character.
+   * This prevents conflicts with the names of the corresponding ontology classes and the .rudi files (which start with an upper case character).
    */
   public void ensureNodeNamesAreLowerCase() {
 	for (Node n: this.nodes) {

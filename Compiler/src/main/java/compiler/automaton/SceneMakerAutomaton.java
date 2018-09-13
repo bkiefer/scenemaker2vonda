@@ -58,7 +58,7 @@ public class SceneMakerAutomaton extends Supernode {
   
   /**
    * Creates the VOnDA-code fragment that sets up the {@code SceneMakerAutomaton}.
-   * @return the VOnDA-code fragment that sets up the {@code SceneMakerAutomaton} as a String.
+   * @return A String containing the VOnDA-code fragment that sets up the {@code SceneMakerAutomaton}
    */
   public String getSetupCode() {
 	  
