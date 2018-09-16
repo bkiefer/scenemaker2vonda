@@ -108,7 +108,7 @@ public class RudiFileGenerator {
 	    	}
 	    
 	      file.getParentFile().mkdirs();
-    	  file.createNewFile();
+    	 file.createNewFile();
 
 		  FileWriter fw = new FileWriter(file);
 		  writer = new BufferedWriter(fw);

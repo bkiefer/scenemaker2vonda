@@ -27,6 +27,9 @@ public interface StringConstants {
 			"\n" + 
 			"	if(a_parent.simple_children.contains(node_a)) {\n" + 
 			"		a_parent.simple_children -= node_a;\n" + 
+			"	}\n\n" + 
+			"	if(a_parent.imminent_simple_children.contains(node_a)) {\n" + 
+			"		a_parent.imminent_simple_children -= node_a;\n" + 
 			"	}\n" + 
 			"\n" + 
 			"	if(targetNodeIsSupernode) {\n" + 

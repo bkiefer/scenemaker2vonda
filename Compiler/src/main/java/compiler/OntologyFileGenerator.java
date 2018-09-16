@@ -20,44 +20,53 @@ import compiler.automaton.Variable;
  * @author Jana Jungbluth
  *
  */
-public class ntFileGenerator {
+public class OntologyFileGenerator {
 	
 	/**
 	 * The {@code SceneMakerautomaton} for which the ontology is generated.
 	 */
 	private SceneMakerAutomaton automat;
+	
 	/**
 	 * The URI to be used for nodes and variables in the ontology (given as input).
 	 */
 	private String uri_own;
+	
 	/**
 	 * The file_path where the generated ontology is stored (given as input).
 	 */
 	private String file_path;
+	
 	/** 
 	 * The URI used for type relations in the ontology.
 	 */
 	private String uri_for_type_relation = "http://www.w3.org/1999/02/22-rdf-syntax-ns";
+	
 	/** 
 	 * The URI used for the relations 'domain', 'range' and 'subclass' in the ontology.
 	 */
 	private String uri_for_domain_range_subClass = "http://www.w3.org/2000/01/rdf-schema";
+	
 	/**
 	 * The URI used for type definitions in the ontology.
 	 */
 	private String uri_for_types = "http://www.w3.org/2001/XMLSchema";
+	
 	/**
 	 * The URI used for owl objects in the ontology.
 	 */
 	private String uri_for_owl_objects = "http://www.w3.org/2002/07/owl";
+	
 	/**
 	 * A list of owl objects used in the ontology.
 	 */
 	private List<String> owl_objects = new ArrayList<>(Arrays.asList("Class","DatatypeProperty", "FunctionalProperty", "NamedIndividual", "ObjectProperty", "Ontology"));
+	
 	/**
 	 * A list of type definitions used in the ontology.
 	 */
 	private List<String> types = new ArrayList<>(Arrays.asList("boolean", "int", "string", "float"));
+	
 	/**
 	 * A list of relations used in the ontology.
 	 */
@@ -240,7 +249,7 @@ public class ntFileGenerator {
 	 * @param uri The URI used for nodes and variables in the ontology.
 	 * @param filepath The path for the nt-File that will be generated.
 	 */
-	public ntFileGenerator(SceneMakerAutomaton automat, String uri, String filepath) {
+	public OntologyFileGenerator(SceneMakerAutomaton automat, String uri, String filepath) {
 		this.automat = automat;
 		this.uri_own = uri;
 		this.file_path = filepath;

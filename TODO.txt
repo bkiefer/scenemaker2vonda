@@ -1,9 +1,13 @@
-1. Javadoc vervollständigen
-2. ggf. lastDA().what-switch einfügen
-3. Ggf. weitere Tests überlegen
-5. Main.py "ersetzen"; Projekt als Shell-Script ausführbar machen (schöneres Handling von Kommandozeilenparametern!)
-6. Konfigurationen als Kommandozeilenparameter oder Konfigurationsdatei? Umsetzen
-7. Kurzanleitung: Wie baut man den Compiler, was ist im Hauptverzeichnis wo, wofür
+
+
+5. Main.java "ersetzen"; Projekt als Shell-Script ausführbar machen (schöneres Handling von Kommandozeilenparametern!) -> Max 
+-> Parameter: 1) Pfad zu Sceneflow/Automatendefinitionsdatei 2) Pfad zum Output Directory (ggf. Vonda-Projekt Directory, falls buildVondaProject == true)
+3) buildVondaProject (boolean, soll das VondaProjekt gebaut werden?, default = false) 4) postProcessDialogueActs (boolean, Default = true)
+
+
+7. Kurzanleitung: Wie baut man den Compiler, was ist im Hauptverzeichnis wo, wofür  -> Simon
+
+
 8. ca. 2-4 Seiten Projektdokumentation: 
 	- Welche Knoten / Kanten gibt es
 	- Wie und wo kann man Variablen definieren, was ist der Scope?
@@ -12,13 +16,10 @@
 	- (Eventuell) Was muss man noch tun, um ein komplettes System zu erhalten (NICHT ASR/Interpretation/Generierung etc.), d.h.welche Teile fehlen, wenn man den 			Automaten kompiliert hat
 	- Was fehlt oder sollte bald hinzugefügt werden?
 	- Was könnte/sollte längerfristig hinzugefügt werden?
+-> Simple node names dekapitalisieren wir, Supernodes und zugehörige rudi-Dateien werden starten automatisch mit Uppercase
+-> Methode, Kommandozeilenparameter "postProcessDialogueActs" erklären (und warum sie nötig ist)
 
 
-Anmerkungen und Dinge zum nochmal anschauen:
+9. Bernd fragen, ob Endprodukt auch auf GitHub (öffentlich) soll bzw. auf einen DFKI-Server; an die entsprechende Stelle kopieren
 
 
-- Wir haben jetzt eine Methode, um sicherzustellen, dass Knotennamen immer LowerCase sind (ensureNodeNamesAreLowerCase in der Supernode-Klasse). Sollte das eine Option sein? Sollten wir in der Spezifikation erwähnen, dass Knotennamen klein geschrieben werden sollen?
-
-- Hashtag-Lösung: Bisher Quickfix -> Kann/Soll der irgendwie raus? (Methode postProcessDialogueActs von RudiFileGenerator, wird benutzt in writeSupernodeToFile)
-
-- Simple_interruptive_edges: Problem bei der bisherigen Lösung ist, dass imminent_simple_children jetzt keine Untermenge von simple_children mehr ist

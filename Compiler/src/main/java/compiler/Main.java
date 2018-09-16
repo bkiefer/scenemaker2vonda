@@ -94,7 +94,7 @@ public class Main {
 	    
 	    System.out.println("Generating ontology file...");
 	    
-	    ntFileGenerator ntg = new ntFileGenerator(a, uri, outPathOntologyFile + projectName + ".nt");
+	    OntologyFileGenerator ntg = new OntologyFileGenerator(a, uri, outPathOntologyFile + projectName + ".nt");
 	    ntg.generateNtFile();
 	    
 	    System.out.println("Generating rudi files...");

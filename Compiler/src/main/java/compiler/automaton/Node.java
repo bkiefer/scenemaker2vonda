@@ -230,9 +230,10 @@ public class Node {
 	  int index = 0;
 	  for (Edge e : interruptiveEdges) {
 		  index += 1;
-		  outString += RudiFileGenerator.formattedRuleLabel(this.getName() + "_interruptive_edge_" + Integer.toString(index), 0, 0, 1);			  
-		  outString += e.getRudiCode(numLeadingTabs);
+		  outString += RudiFileGenerator.formattedRuleLabel(this.getName() + "_interruptive_edge_" + Integer.toString(index), 0, numLeadingTabs, 1);			  
+		  outString += e.getRudiCode(numLeadingTabs+1);
 	  }
+	  
 	  return outString;
   }
 
@@ -255,11 +256,11 @@ public class Node {
 	 * @return A String containing the VOnDA-code that imitates the functionality of the {@code Node} 
 	 */
 	public String getNodeCode() {
-
-	  String outString = this.getInterruptiveEdgesCode(this.getInterruptiveEdges(), 1);
 	  
-	  outString += RudiFileGenerator.formattedRuleLabel(this.name, 0, 0, 0);
+	  String outString = RudiFileGenerator.formattedRuleLabel(this.name, 0, 0, 0);
 	  outString += RudiFileGenerator.formattedIfOpening(this.parent.getName() + ".simple_children.contains(\"" + this.name + "\")", 1, 1, 2);
+	  
+	  outString += this.getInterruptiveEdgesCode(this.getInterruptiveEdges(), 2);
 	  
 	  if (!this.code.isEmpty()) {
 		  
