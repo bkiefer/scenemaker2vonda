@@ -23,7 +23,7 @@ if [ $# -ge 2 ]; then
     key="$1"
 
     case $key in
-      -*) # key is option
+      -*) # key is option or flag
         case $key in
           -b|--build-vonda)
             build_vonda="true"
@@ -65,4 +65,5 @@ else
   display_help
 fi
 
+echo java -jar target/scenemaker2vonda-1.0.jar "$input_dir" "$output_dir" "$build_vonda" "$post_process"
 java -jar target/scenemaker2vonda-1.0.jar "$input_dir" "$output_dir" "$build_vonda" "$post_process"
