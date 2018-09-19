@@ -50,16 +50,16 @@ public class Main {
 	    
 	  	String pathToScenemakerProject = args[0];
 	  	String pathToVondaProject = args[1];
-  		boolean postProcessDialogueActs = true;
-  		
-  		if(args[2] == "false") {
-	  		postProcessDialogueActs = false;
-	  	}
-  		
   		boolean buildVondaProject = true;
   		
-  		if(args[3] == "false") {
+  		if(args[2] == "false") {
 	  		buildVondaProject = false;
+	  	}
+  		
+  		boolean postProcessDialogueActs = true;
+  		
+  		if(args[3] == "false") {
+	  		postProcessDialogueActs = false;
 	  	}
   		
   		String outPathOntologyFile = "./ontology/";
@@ -67,7 +67,7 @@ public class Main {
   		
   		File vondaProject = new File(pathToVondaProject);
   		String projectName = vondaProject.getName();
-  		String uri = "http://www.semanticweb.org/jana/ontologies/2018/6/untitled-ontology-6";
+  		String uri = "http://www.semanticweb.org/robotstalkingsocial/ontologies/default-ontology";
   		
   		if(buildVondaProject) {
   			outPathOntologyFile = pathToVondaProject + "./src/main/resources/ontology/";
@@ -82,7 +82,10 @@ public class Main {
 				e.printStackTrace();
 			}
   			
-  			uri = getUriFromIniFile(outPathOntologyFile);
+  			String uriFromFile = getUriFromIniFile(outPathOntologyFile);
+  			if (!uriFromFile.isEmpty()) {
+  			  uri = uriFromFile;
+  			}
   		}
   		
 	    System.out.println("Parsing Sceneflow...");
