@@ -1,0 +1,9 @@
+- Operatoren:
+  - Unterstützung in Vonda?
+    - ^ (XOR)
+    - % (mod)
+    - ++ (Inc)
+    - -- (Dec)
+  - Funktion in Scenemaker?
+    - & (And)
+    - | (Or)

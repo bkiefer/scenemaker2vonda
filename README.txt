@@ -1,11 +1,4 @@
 
-Kleine Anleitung zum Testen des scenemaker2vonda-Compilers:
-
-- Der eigentliche Compiler befindet sich im Ordner "Compiler". Das Ausführen der main.java übersetzt den in Compiler/sceneflow.xml spezifizierten Automaten nach Vonda.
-	-> In Compiler/rudi werden die .rudi-Dateien generiert
-	-> In Compiler/ontology wird eine Datei ontology.nt generiert
-
-
 Um diese Übersetzung als Vonda-Dialog testen zu können, müssen die folgenden Schritte befolgt werden:
 
 - Im compile-Skript den Namen der Main-Klasse (MainAgent.rudi) einstellen
