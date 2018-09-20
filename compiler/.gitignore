@@ -1,8 +1,6 @@
-/rudi/*
+/rudi
 /bin
-/fragen.txt
-/README.md
-/ontology/*
+/ontology
 /sceneflow.xml
 /target
 .classpath
