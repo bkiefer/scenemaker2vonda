@@ -14,12 +14,12 @@ import compiler.automaton.SceneMakerAutomaton;
 import compiler.automaton.Supernode;
 import compiler.automaton.Type;
 import compiler.automaton.Variable;
-import compiler.edges.ConditionalEdge;
-import compiler.edges.EpsilonEdge;
-import compiler.edges.ForkEdge;
-import compiler.edges.InterruptiveEdge;
-import compiler.edges.ProbabilityEdge;
-import compiler.edges.TimeoutEdge;
+import compiler.automaton.edges.ConditionalEdge;
+import compiler.automaton.edges.EpsilonEdge;
+import compiler.automaton.edges.ForkEdge;
+import compiler.automaton.edges.InterruptiveEdge;
+import compiler.automaton.edges.ProbabilityEdge;
+import compiler.automaton.edges.TimeoutEdge;
 
 /**
  * A parser for sceneflow XML files.

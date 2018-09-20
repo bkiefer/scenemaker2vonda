@@ -5,8 +5,8 @@ import java.util.Set;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import compiler.RudiFileGenerator;
-import compiler.edges.Edge;
-import compiler.edges.InterruptiveEdge;
+import compiler.automaton.edges.Edge;
+import compiler.automaton.edges.InterruptiveEdge;
 
 /**
  * A scenemaker supernode.

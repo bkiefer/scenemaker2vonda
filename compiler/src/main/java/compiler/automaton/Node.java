@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import compiler.RudiFileGenerator;
-import compiler.edges.Edge;
+import compiler.automaton.edges.Edge;
 
 
 /**

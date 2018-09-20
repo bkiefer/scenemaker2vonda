@@ -1,4 +1,4 @@
-package compiler.edges;
+package compiler.automaton.edges;
 
 import compiler.automaton.Node;
 
