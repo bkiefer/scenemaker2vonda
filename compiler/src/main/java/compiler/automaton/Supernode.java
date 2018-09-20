@@ -160,15 +160,13 @@ public class Supernode extends Node {
 	  String outString = "";
 	  for (Node n : this.getStartNodes()) {
 		  
-		  String targetNodeIsSupernode = "false";
 		  if(n.isSupernode()) {
-			  targetNodeIsSupernode = "true";
-		  } 
-		  
-		  String transitionString = "transition(\"" + this.getName() + "_in\", \"" + n.getName() + "\", " + this.getName() + ", ";
-		  transitionString += this.getName() + ", " + targetNodeIsSupernode + ")";
-		  
-		  outString += RudiFileGenerator.formattedLine(transitionString, 0, 3, 1);
+			  outString += RudiFileGenerator.formattedLine(this.getName() + ".initiated += \"" + n.getName() + "\"", 0, 2, 1);
+		  }
+		  else {
+			  outString += RudiFileGenerator.formattedLine(this.getName() + ".simple_children += \"" + n.getName() + "\"", 0, 2, 1);		  
+			  outString += RudiFileGenerator.formattedLine(this.getName() + ".imminent_simple_children += \"" + n.getName() + "\"", 0, 2, 1);		  
+		  }		  
 	  }
 	  
 	  return outString;
@@ -187,6 +185,7 @@ public class Supernode extends Node {
 	  outString += this.convertCodeToRudi();
 	  outString += RudiFileGenerator.formattedLine(this.getName() + ".imminent_simple_children -= \"" + this.getName() + "_in\"", 2, 2, 2);
 	  outString += this.getStartNodeTransitionCode();
+	  outString += RudiFileGenerator.formattedLine(this.getName() + ".simple_children -= \"" + this.getName() + "_in\"", 1, 2, 1);		  
 	  
 	  String transitionString = "check_out_transition(\"" + this.getName() + "_in\", \"" + this.getName() + "_out\", ";
 	  transitionString += this.getName() + ", " + this.getName() + ")";
@@ -212,8 +211,25 @@ public class Supernode extends Node {
 		  outString += RudiFileGenerator.formattedLine(this.getName() + ".imminent_simple_children -= \"" + this.getName() + "_out\"", 1, 2, 2);
 		  outString += this.getEdgeCode(this.getConditionalEdges());
 		  outString += this.getEdgeCode(this.getEpsilonEdges());
-		  outString += this.getEdgeCode(this.getForkEdges());
 		  outString += this.getEdgeCode(this.getProbabilityEdges());
+		  
+		  for (Edge e : this.getForkEdges()) {
+	  		  
+			  Node target = e.getEndNode();
+			  
+			  if(target.isSupernode()) {
+				  outString += RudiFileGenerator.formattedLine(this.getParent().getName() + ".initiated += \"" + target.getName() + "\"", 0, 2, 1);
+			  }
+			  else {
+				  outString += RudiFileGenerator.formattedLine(this.getParent().getName() + ".simple_children += \"" + target.getName() + "\"", 0, 2, 1);		  
+				  outString += RudiFileGenerator.formattedLine(this.getParent().getName() + ".imminent_simple_children += \"" + target.getName() + "\"", 0, 2, 1);		  
+			  }
+		  }
+		  
+		  if(this.getForkEdges().isEmpty() == false) {
+			  outString += RudiFileGenerator.formattedLine(this.getName() + ".simple_children -= \"" + this.getName() + "_out\"", 1, 2, 1);		  
+		  }
+		  
 	  }
 
 	  outString += RudiFileGenerator.formattedIfOpening("test_inactive("+ this.getName() + ")", 1, 2, 2);

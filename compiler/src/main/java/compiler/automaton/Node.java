@@ -8,6 +8,7 @@ import java.util.Set;
 
 import compiler.RudiFileGenerator;
 import compiler.automaton.edges.Edge;
+import compiler.automaton.edges.ForkEdge;
 
 
 /**
@@ -270,12 +271,30 @@ public class Node {
 	  }
 	  
 	  outString += this.getEdgeCode(this.getTimeoutEdges());
+	  
 	  outString += RudiFileGenerator.formattedLine(this.parent.getName() + ".imminent_simple_children -= \"" + this.name + "\"", 1, 2, 2);
+	  
 	  outString += this.getEdgeCode(this.getConditionalEdges());
 	  outString += this.getEdgeCode(this.getEpsilonEdges());
-	  outString += this.getEdgeCode(this.getForkEdges());
 	  outString += this.getEdgeCode(this.getProbabilityEdges());
 	  
+	  for (Edge e : this.getForkEdges()) {
+		  		  
+		  Node target = e.getEndNode();
+		  
+		  if(target.isSupernode()) {
+			  outString += RudiFileGenerator.formattedLine(target.getParent().getName() + ".initiated += \"" + target.getName() + "\"", 0, 2, 1);
+		  }
+		  else {
+			  outString += RudiFileGenerator.formattedLine(target.getParent().getName() + ".simple_children += \"" + target.getName() + "\"", 0, 2, 1);		  
+			  outString += RudiFileGenerator.formattedLine(target.getParent().getName() + ".imminent_simple_children += \"" + target.getName() + "\"", 0, 2, 1);		  
+		  }
+	  }
+	  
+	  if(this.getForkEdges().isEmpty() == false) {
+		  outString += RudiFileGenerator.formattedLine(this.parent.getName() + ".simple_children -= \"" + this.name + "\"", 1, 2, 1);		  
+	  }
+	  	  
 	  if(this.processCanDieHere()) {
 		  outString +=  RudiFileGenerator.formattedLine("check_out_transition(\"" + this.name + "\", \"" + this.parent.getName() + "_out\", " + this.parent.getName() + ", " + this.parent.getName() + ")", 1, 2, 1);			  		  
 	  }

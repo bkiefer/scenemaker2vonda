@@ -23,21 +23,22 @@ public interface StringConstants {
 			"\n" + 
 			"void transition (String node_a, String node_b, Supernode a_parent, Supernode b_parent, boolean targetNodeIsSupernode) {\n" + 
 			"\n" + 
-			"	cancelTimeout(node_a);\n" + 
 			"\n" + 
 			"	if(a_parent.simple_children.contains(node_a)) {\n" + 
+			"		cancelTimeout(node_a);\n" + 
 			"		a_parent.simple_children -= node_a;\n" + 
-			"	}\n\n" + 
-			"	if(a_parent.imminent_simple_children.contains(node_a)) {\n" + 
-			"		a_parent.imminent_simple_children -= node_a;\n" + 
-			"	}\n" + 
+			"	\n" + 
+			"		if(a_parent.imminent_simple_children.contains(node_a)) {\n" + 
+			"			a_parent.imminent_simple_children -= node_a;\n" + 
+			"		}\n" + 
 			"\n" + 
-			"	if(targetNodeIsSupernode) {\n" + 
-			"		b_parent.initiated += node_b;\n" + 
-			"	} else {\n" + 
-			"		b_parent.simple_children += node_b;\n" + 
-			"		b_parent.imminent_simple_children += node_b;\n" + 
-			"	}\n" + 
+			"		if(targetNodeIsSupernode) {\n" + 
+			"			b_parent.initiated += node_b;\n" + 
+			"		} else {\n" + 
+			"			b_parent.simple_children += node_b;\n" + 
+			"			b_parent.imminent_simple_children += node_b;\n" + 
+			"		}\n" + 
+			"	}\n" +
 			"}\n" + 
 			"\n" + 
 			"void check_out_transition(String a, String b, Supernode a_parent, Supernode b_parent) {\n" + 
