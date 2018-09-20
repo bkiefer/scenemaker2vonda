@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # default values
-input_dir=""
+input_file=""
 output_dir=""
 build_vonda="false"
 post_process="true"
@@ -46,7 +46,7 @@ if [ $# -ge 2 ]; then
       *) # key is a normal argument
         case $arg_count in
           0)
-            input_dir="$key"
+            input_file="$key"
             shift
             ;;
           1)
@@ -65,5 +65,5 @@ else
   display_help
 fi
 
-echo java -jar target/scenemaker2vonda-1.0.jar "$input_dir" "$output_dir" "$build_vonda" "$post_process"
-java -jar target/scenemaker2vonda-1.0.jar "$input_dir" "$output_dir" "$build_vonda" "$post_process"
+echo java -jar target/scenemaker2vonda-1.0.jar "$input_file" "$output_dir" "$build_vonda" "$post_process"
+java -jar target/scenemaker2vonda-1.0.jar "$input_file" "$output_dir" "$build_vonda" "$post_process"
