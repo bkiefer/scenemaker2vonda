@@ -14,9 +14,9 @@ This repository contains the following folders:
 
 `scenemaker_projects` contains a sample SceneMaker project that can be used to test the compiler.
 
-### testbed
+### vonda_example_project
 
-`testbed` is a VOnDA sample project to easily test the integration of the generated VOnDA code into an actual VOnDA project.
+`vonda_example_project` is a VOnDA sample project to easily test the integration of the generated VOnDA code into an actual VOnDA project.
 
 ## Building SceneMaker2VOnDA
 
