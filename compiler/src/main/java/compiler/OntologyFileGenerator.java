@@ -1,5 +1,6 @@
 package compiler;
 
+import static compiler.Utils.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import compiler.automaton.SceneMakerAutomaton;
 import compiler.automaton.Supernode;
@@ -21,57 +20,57 @@ import compiler.automaton.Variable;
  *
  */
 public class OntologyFileGenerator {
-	
+
 	/**
 	 * The {@code SceneMakerautomaton} for which the ontology is generated.
 	 */
 	private SceneMakerAutomaton automat;
-	
+
 	/**
 	 * The URI to be used for nodes and variables in the ontology (given as input).
 	 */
 	private String uri_own;
-	
+
 	/**
 	 * The file_path where the generated ontology is stored (given as input).
 	 */
 	private String file_path;
-	
-	/** 
+
+	/**
 	 * The URI used for type relations in the ontology.
 	 */
 	private String uri_for_type_relation = "http://www.w3.org/1999/02/22-rdf-syntax-ns";
-	
-	/** 
+
+	/**
 	 * The URI used for the relations 'domain', 'range' and 'subclass' in the ontology.
 	 */
 	private String uri_for_domain_range_subClass = "http://www.w3.org/2000/01/rdf-schema";
-	
+
 	/**
 	 * The URI used for type definitions in the ontology.
 	 */
 	private String uri_for_types = "http://www.w3.org/2001/XMLSchema";
-	
+
 	/**
 	 * The URI used for owl objects in the ontology.
 	 */
 	private String uri_for_owl_objects = "http://www.w3.org/2002/07/owl";
-	
+
 	/**
 	 * A list of owl objects used in the ontology.
 	 */
 	private List<String> owl_objects = new ArrayList<>(Arrays.asList("Class","DatatypeProperty", "FunctionalProperty", "NamedIndividual", "ObjectProperty", "Ontology"));
-	
+
 	/**
 	 * A list of type definitions used in the ontology.
 	 */
 	private List<String> types = new ArrayList<>(Arrays.asList("boolean", "int", "string", "float"));
-	
+
 	/**
 	 * A list of relations used in the ontology.
 	 */
 	private List<String> relations = new ArrayList<>(Arrays.asList("domain", "range", "subClassOf"));
-	
+
 	/**
 	 * Returns the correct URI needed for the given definition.
 	 * @param string The definition the matching URI has to be returned for.
@@ -86,7 +85,7 @@ public class OntologyFileGenerator {
 		}
 		return this.uri_own;
 	}
-	
+
 	/**
 	 * Returns the correct URI needed for the given relation.
 	 * @param string The relation the matching URI has to be returned for.
@@ -101,7 +100,7 @@ public class OntologyFileGenerator {
 		}
 		return this.uri_own;
 	}
-	
+
 	/**
 	 * Adds the correct syntax to create an nt-element.
 	 * @param uri The URI of the nt-element.
@@ -115,7 +114,7 @@ public class OntologyFileGenerator {
 		String new_string = "<" + uri + string + "> ";
 		return new_string;
 	}
-	
+
 	/**
 	 * Writes one line of the ontology into the given file. This contains the definition of the relation between two objects.
 	 * @param first The first object of the relation.
@@ -128,7 +127,7 @@ public class OntologyFileGenerator {
 		String line = this.create_brackets(this.find_uri(first), first) + this.create_brackets(this.find_uri_relation(relation), relation) + this.create_brackets(this.find_uri(second), second)+ ".\n";
 		bw.write(line);
 	}
-	
+
 	/**
 	 * Writes the definition of a property into the ontology file.
 	 * @param name The name of the property.
@@ -140,7 +139,7 @@ public class OntologyFileGenerator {
 	 * @throws IOException
 	 */
 	private void write_property(String name, String type, String domain, String range, BufferedWriter bw, boolean functional) throws IOException {
-		String class_domain = StringUtils.capitalize(domain);
+		String class_domain = capitalize(domain);
 		this.write_line(name, "type", type, bw);
 		if (functional) {
 			this.write_line(name, "type", "FunctionalProperty", bw);
@@ -148,7 +147,7 @@ public class OntologyFileGenerator {
 		this.write_line(name, "domain", class_domain, bw);
 		this.write_line(name, "range", range, bw);
 	}
-	
+
 	/**
 	 * Writes the definition of a class into the ontology file.
 	 * @param name The class name.
@@ -159,7 +158,7 @@ public class OntologyFileGenerator {
 		this.write_line(name, "type", "Class", bw);
 		this.write_line(name, "subClassOf", "Supernode", bw);
 	}
-	
+
 	/**
 	 * Writes the definition of an instance into the ontology file.
 	 * @param name The name of the instance.
@@ -168,7 +167,7 @@ public class OntologyFileGenerator {
 	 * @throws IOException
 	 */
 	private void write_instance(String name, String parent, BufferedWriter bw) throws IOException {
-		String class_name = StringUtils.capitalize(name);
+		String class_name = capitalize(name);
 		this.write_line(name, "type", "NamedIndividual", bw);
 		this.write_line(name, "type", class_name, bw);
 		if (parent!="") {
@@ -177,7 +176,7 @@ public class OntologyFileGenerator {
 		String line = this.create_brackets(this.find_uri(name), name) + this.create_brackets(this.find_uri_relation("active"),"active")  + "\"false\"^^" + this.create_brackets(this.find_uri("boolean"), "boolean")+ ".\n";
 		bw.write(line);
 	}
-	
+
 	/**
 	 * Writes the ontology into the given nt-File.
 	 * @param bw The buffered writer the ontology is written into.
@@ -201,7 +200,7 @@ public class OntologyFileGenerator {
 		// create Classes
 		this.write_line("Supernode", "type", "Class", bw);
 		for (Supernode supernode : this.automat.getAllSupernodes()) {
-			String class_name = StringUtils.capitalize(supernode.getName());
+			String class_name = capitalize(supernode.getName());
 			this.write_class(class_name, bw);
 		}
 		// create NamedIndividuals
@@ -213,7 +212,7 @@ public class OntologyFileGenerator {
 			}
 		}
 	}
-	
+
 	/**
 	 * Creates a new ontology in form of a nt-File.
 	 */
@@ -233,16 +232,16 @@ public class OntologyFileGenerator {
 			   ioe.printStackTrace();
 			}
 			finally
-			{ 
+			{
 			   try{
 			      if(writer!=null)
 				 writer.close();
 			   }catch(Exception ex){
 			       System.out.println("Error in closing the BufferedWriter"+ex);
 			    }
-			} 
+			}
 	}
-	
+
 	/**
 	 * Creates a new {@code ntFileGenerator} based on {@code automat}. The generated file will use {@code uri} and be stored at {@code filepath}.
 	 * @param automat The SceneMakerAutomaton the ontology is to be generated for.
@@ -253,6 +252,6 @@ public class OntologyFileGenerator {
 		this.automat = automat;
 		this.uri_own = uri;
 		this.file_path = filepath;
-	}  
-	
+	}
+
 }

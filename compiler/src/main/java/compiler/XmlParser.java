@@ -26,11 +26,11 @@ import compiler.automaton.edges.TimeoutEdge;
  * @author Max Depenbrock
  */
 public class XmlParser {
-  
+
   private HashMap<String, Node> nodes;
   private HashMap<String, Element> nodeElements;
   private SceneMakerAutomaton topLevel;
-  
+
   /**
    * Creates a new {@code XmlParser} that immediately parses {@code file}.
    * @param file the file to parse
@@ -38,7 +38,7 @@ public class XmlParser {
   public XmlParser(File file) {
     this.nodes = new HashMap<>();
     this.nodeElements = new HashMap<>();
-    
+
     try {
       SAXBuilder builder = CustomSaxBuilder.getSaxBuilder();
       Document doc = builder.build(file);
@@ -61,26 +61,26 @@ public class XmlParser {
     doc.getRootElement().setAttribute("id", "mainAgent");
     this.nodes.put("mainAgent", this.topLevel);
     // NB: topLevel is not put in this.nodeElements
-  
+
     // variables / declares
-    parseDeclare(doc.getRootElement().getChild("Declare"), this.topLevel);
-    
+    //parseDeclare(doc.getRootElement().getChild("Declare"), this.topLevel);
+
     // commands / code
     parseCommands(doc.getRootElement().getChild("Commands"), this.topLevel);
-    
+
     // nodes and supernodes
     parseNodes(doc.getRootElement().getChildren("Node"));
     parseSupernodes(doc.getRootElement().getChildren("SuperNode"));
-    
+
     this.topLevel.setStartNodes(parseStart(doc.getRootElement().getAttributeValue("start")));
     this.topLevel.setName("mainAgent");
     this.topLevel.getAllSupernodes().add(this.topLevel);
-  
+
     // iterate over this.nodeElements to generate edges
     for (String key : this.nodeElements.keySet()) {
       Node node = this.nodes.get(key);
       Element element = this.nodeElements.get(key);
-      
+
       parseEdges(element, node);
     }
   }
@@ -88,11 +88,11 @@ public class XmlParser {
   private void parseSupernodes(List<Element> list) {
     for (Element e : list) {
       Supernode node = new Supernode();
-  
+
       this.nodes.put(e.getAttributeValue("id"), node);
       this.nodeElements.put(e.getAttributeValue("id"), e);
       this.topLevel.getAllSupernodes().add(node);
-  
+
       parseSupernode(e, node);
       Supernode parent = (Supernode) this.nodes.get(e.getParentElement().getAttributeValue("id"));
       node.setParent(parent);
@@ -103,22 +103,22 @@ public class XmlParser {
   private void parseSupernode(Element e, Supernode node) {
     node.setSupernode(true);;
     node.setName(e.getAttributeValue("name"));
-    
-    parseDeclare(e.getChild("Declare"), node);
+
+    //parseDeclare(e.getChild("Declare"), node);
     parseCommands(e.getChild("Commands"), node);
     parseNodes(e.getChildren("Node"));
     parseSupernodes(e.getChildren("SuperNode"));
-    
+
     node.setStartNodes(parseStart(e.getAttributeValue("start")));
   }
 
   private void parseNodes(List<Element> list) {
     for (Element e : list) {
       Node node = new Node();
-      
+
       this.nodes.put(e.getAttributeValue("id"), node);
       this.nodeElements.put(e.getAttributeValue("id"), e);
-      
+
       parseNode(e, node);
       Supernode parent = (Supernode) this.nodes.get(e.getParentElement().getAttributeValue("id"));
       node.setParent(parent);
@@ -130,34 +130,23 @@ public class XmlParser {
     node.setSupernode(false);
     node.setName(e.getAttributeValue("name"));
 
-    parseDeclare(e.getChild("Declare"), node);
     parseCommands(e.getChild("Commands"), node);
   }
-  
-  private void parseDeclare(Element e, Node n) {
-    for (Element def : e.getChildren()) {
-      Variable v = parseVariable(def);
-      //FIXME Also variables of normal nodes are stored
-      v.setDomain(n);
-      n.getVariables().add(v);
-      this.topLevel.getAllVariables().add(v);
-    }
-  }
-  
+
   private void parseCommands(Element e, Node n) {
     String code = "";
     for (Element com : e.getChildren()) {
-      code += ExpressionParser.parse(com) + ";\n";
+      code += com.getText();
     }
     n.setCode(code);
   }
-  
+
   private Variable parseVariable(Element e) {
     Variable var = new Variable();
-    
+
     var.setName(e.getAttributeValue("name"));
     var.setValue(ExpressionParser.parse(e.getChildren().get(0)));
-    
+
     switch (e.getAttributeValue("type")) {
       case "Int":
         var.setRange(Type.INT);
@@ -173,7 +162,7 @@ public class XmlParser {
         break;
       default:
     }
-    
+
     return var;
   }
 
@@ -185,7 +174,7 @@ public class XmlParser {
       node.getOutgoingEdges().add(edge);
       node.getEpsilonEdges().add(edge);
 }
-    
+
     // probability edges
     for (Element edgeElement : e.getChildren("PEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
@@ -194,7 +183,7 @@ public class XmlParser {
       node.getOutgoingEdges().add(edge);
       node.getProbabilityEdges().add(edge);
 }
-    
+
     // conditional edges
     for (Element edgeElement : e.getChildren("CEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
@@ -202,8 +191,8 @@ public class XmlParser {
       edge.setCondition(ExpressionParser.parse(edgeElement.getChild("ParenExpression")));
       node.getOutgoingEdges().add(edge);
       node.getConditionalEdges().add(edge);
-}
-    
+    }
+
     // timeout edges
     for (Element edgeElement : e.getChildren("TEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
@@ -211,8 +200,8 @@ public class XmlParser {
       edge.setTimeout(Integer.valueOf(edgeElement.getAttributeValue("timeout")));
       node.getOutgoingEdges().add(edge);
       node.getTimeoutEdges().add(edge);
-}
-    
+    }
+
     // fork edges
     for (Element edgeElement : e.getChildren("FEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
@@ -220,7 +209,7 @@ public class XmlParser {
       node.getOutgoingEdges().add(edge);
       node.getForkEdges().add(edge);
     }
-    
+
     // interruptive edges
     for (Element edgeElement : e.getChildren("IEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
@@ -234,11 +223,11 @@ public class XmlParser {
   private Set<Node> parseStart(String s) {
     HashSet<Node> startNodes = new HashSet<>();
     String[] nodeIDs = s.split(";");
-  
+
     for (String id : nodeIDs) {
       startNodes.add(this.nodes.get(id));
     }
-    
+
     return startNodes;
   }
 }

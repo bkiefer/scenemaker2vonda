@@ -10,8 +10,8 @@ import org.json.JSONObject;
 import org.jvoicexml.processor.srgs.ChartGrammarChecker;
 import org.jvoicexml.processor.srgs.ChartGrammarChecker.ChartNode;
 import org.jvoicexml.processor.srgs.JVoiceXmlGrammarManager;
+import org.jvoicexml.processor.srgs.grammar.Grammar;
 import org.jvoicexml.processor.srgs.grammar.GrammarException;
-import org.jvoicexml.processor.srgs.grammar.RuleGrammar;
 
 import de.dfki.mlt.rudimant.agent.DialogueAct;
 import de.dfki.mlt.rudimant.agent.nlg.Interpreter;
@@ -19,7 +19,7 @@ import de.dfki.mlt.srgsparser.JSInterpreter;
 
 public class SrgsParser extends Interpreter {
   JVoiceXmlGrammarManager manager;
-  RuleGrammar ruleGrammar;
+  Grammar ruleGrammar;
   ChartGrammarChecker checker;
 
   @SuppressWarnings("rawtypes")
@@ -29,8 +29,7 @@ public class SrgsParser extends Interpreter {
     if (grammarName == null) return false;
     try {
       manager = new JVoiceXmlGrammarManager();
-      ruleGrammar = (RuleGrammar)
-          manager.loadGrammar(new File(configDir, grammarName).toURI());
+      ruleGrammar = manager.loadGrammar(new File(configDir, grammarName).toURI());
       checker = new ChartGrammarChecker(manager);
     } catch (IOException | GrammarException ex){
       logger.error("Could not read grammar file {} because of {}",
@@ -47,10 +46,8 @@ public class SrgsParser extends Interpreter {
       //TODO: Find out why no validRule is returned
       ChartNode validRule = checker.parse(ruleGrammar, tokens);
       if (validRule != null) {
-        JSInterpreter walker = new JSInterpreter();
-        validRule.preorder(walker);
-        walker.finish(false);
-        JSONObject object = walker.execute();
+        JSInterpreter walker = new JSInterpreter(checker);
+        JSONObject object = walker.evaluate(validRule);
         String da = object.getString(DA_SLOT);
         if (da == null) return null;
         String prop = object.getString(PROP_SLOT);

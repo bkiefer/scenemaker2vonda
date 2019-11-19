@@ -1,13 +1,13 @@
 package compiler;
 
+import static compiler.Utils.*;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import compiler.automaton.Node;
 import compiler.automaton.SceneMakerAutomaton;
@@ -131,7 +131,7 @@ public class RudiFileGenerator {
     BufferedWriter fw = this.getFileWriter(filePath);
 
     for (Supernode m : this.automaton.getAllSupernodes()) {
-      fw.write(StringUtils.capitalize(m.getName()) + " " + m.getName() + ";\n");
+      fw.write(capitalize(m.getName()) + " " + m.getName() + ";\n");
     }
 
     fw.close();
@@ -139,7 +139,7 @@ public class RudiFileGenerator {
 
   public void generateSupernodeFile(Supernode m) throws IOException {
 
-    String filePath = this.outPath + StringUtils.capitalize(m.getName()) + ".rudi";
+    String filePath = this.outPath + capitalize(m.getName()) + ".rudi";
     BufferedWriter fw = this.getFileWriter(filePath);
     this.writeSupernodeToFile(fw, m);
     fw.close();
