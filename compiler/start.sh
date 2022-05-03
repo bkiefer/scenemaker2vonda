@@ -1,4 +1,5 @@
 #!/bin/bash
+scriptdir=`dirname $0`
 
 # default values
 input_file=""
@@ -65,5 +66,5 @@ else
   display_help
 fi
 
-echo java -jar target/scenemaker2vonda-1.0.jar "$input_file" "$output_dir" "$build_vonda" "$post_process"
-java -jar target/scenemaker2vonda-1.0.jar "$input_file" "$output_dir" "$build_vonda" "$post_process"
+echo java -jar "$scriptdir"/target/scenemaker2vonda-1.0.jar "$input_file" "$output_dir" "$build_vonda" "$post_process"
+java -jar "$scriptdir"/target/scenemaker2vonda-1.0.jar "$input_file" "$output_dir" "$build_vonda" "$post_process"

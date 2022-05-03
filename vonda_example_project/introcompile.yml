@@ -1,7 +1,6 @@
+inputFile:          src/main/rudi/MainAgent.rudi
 outputDirectory:    src/main/gen-java
 wrapperClass:       de.dfki.introduction.ChatAgent
 ontologyFile:       src/main/resources/ontology/introduction.ini
 failOnError:        false
 rootPackage:        de.dfki.introduction
-nameToURI:
-  Agent : <cat:Agent>

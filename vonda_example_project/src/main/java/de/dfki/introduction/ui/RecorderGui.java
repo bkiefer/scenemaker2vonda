@@ -14,7 +14,6 @@ import java.util.ArrayList;
 //import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import org.apache.log4j.BasicConfigurator;
 
 //import de.dfki.lt.vad.VadSegmenter;
 
@@ -311,7 +310,6 @@ public class RecorderGui extends JFrame {
 
   public static void main(String[] args)
       throws InterruptedException, IOException {
-    BasicConfigurator.configure();
     String custom_config = null;
     if (args.length != 0)
       custom_config = args[0];

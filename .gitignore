@@ -2,3 +2,8 @@
 **/.project
 **/.settings
 **/.classpath
+**/src/main/resources/generated
+**/src/main/gen-java
+**/persistent.nt
+vonda_example_project/src/main/rudi
+vonda_example_project/src/main/resources/ontology/vonda_example_project.nt

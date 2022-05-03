@@ -1,0 +1,3 @@
+- Definitions are put into ChatAgent.rudi that should be in MainAgent.rudi
+- Handling of '#' is nice, but we need to find another solution
+- what about this strange parsing error with 'if ((nice < -1))'
