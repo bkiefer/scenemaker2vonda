@@ -1,6 +1,6 @@
 inputFile:          src/main/rudi/MainAgent.rudi
 outputDirectory:    src/main/gen-java
 wrapperClass:       de.dfki.introduction.ChatAgent
-ontologyFile:       src/main/resources/ontology/introduction.ini
+ontologyFile:       src/main/resources/ontology/introduction.yml
 failOnError:        false
 rootPackage:        de.dfki.introduction
