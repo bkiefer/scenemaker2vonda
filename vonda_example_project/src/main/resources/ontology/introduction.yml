@@ -17,15 +17,16 @@ shortIsDefault: true
 namespaces:
   # namespaces for XSD, RDF, RDFS, and OWL are already defined
   dial: http://www.dfki.de/lt/onto/common/dialogue.owl#
-  cat: http://www.semanticweb.org/jana/ontologies/2018/6/untitled-ontology-6#
+  autm: http://www.dfki.de/beki/ontologies/2023/7/automaton#
+  intro: http://www.dfki.de/intro/2023/7/introduction#
 
 tupleFiles:
   # the axiomatic triples for OWL-Horst w/ EQ reduction
   - default.eqred.nt
 
-  # the PAL sub-ontologies
+  # essential ontologies
   - dialogue.nt
-  - introduction.nt
+  - automaton.nt
 
 ruleFiles:
   # we need special rules for transaction time (mixture of triples/quadruples)
