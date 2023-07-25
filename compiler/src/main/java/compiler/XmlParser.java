@@ -101,11 +101,9 @@ public class XmlParser {
   }
 
   private void parseSupernode(Element e, Supernode node) {
-    node.setSupernode(true);;
-    node.setName(e.getAttributeValue("name"));
+    parseNode(e, node);
+    node.setSupernode(true);
 
-    //parseDeclare(e.getChild("Declare"), node);
-    parseCommands(e.getChild("Commands"), node);
     parseNodes(e.getChildren("Node"));
     parseSupernodes(e.getChildren("SuperNode"));
 
@@ -128,6 +126,7 @@ public class XmlParser {
 
   private void parseNode(Element e, Node node) {
     node.setSupernode(false);
+    node.setId(e.getAttributeValue("id"));
     node.setName(e.getAttributeValue("name"));
 
     parseCommands(e.getChild("Commands"), node);
@@ -145,7 +144,7 @@ public class XmlParser {
     Variable var = new Variable();
 
     var.setName(e.getAttributeValue("name"));
-    var.setValue(ExpressionParser.parse(e.getChildren().get(0)));
+    //var.setValue(ExpressionParser.parse(e.getChildren().get(0)));
 
     switch (e.getAttributeValue("type")) {
       case "Int":
@@ -188,7 +187,8 @@ public class XmlParser {
     for (Element edgeElement : e.getChildren("CEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
       ConditionalEdge edge = new ConditionalEdge(node, target);
-      edge.setCondition(ExpressionParser.parse(edgeElement.getChild("ParenExpression")));
+      //edge.setCondition(ExpressionParser.parse(edgeElement.getChild("ParenExpression")));
+      edge.setCondition(edgeElement.getChildText("Condition"));
       node.getOutgoingEdges().add(edge);
       node.getConditionalEdges().add(edge);
     }
@@ -214,7 +214,7 @@ public class XmlParser {
     for (Element edgeElement : e.getChildren("IEdge")) {
       Node target = this.nodes.get(edgeElement.getAttributeValue("target"));
       InterruptiveEdge edge = new InterruptiveEdge(node, target);
-      edge.setCondition(ExpressionParser.parse(edgeElement.getChild("ParenExpression")));
+      edge.setCondition(edgeElement.getChildText("Condition"));
       node.getOutgoingEdges().add(edge);
       node.getInterruptiveEdges().add(edge);
     }

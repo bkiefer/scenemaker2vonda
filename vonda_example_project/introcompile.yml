@@ -1,6 +1,11 @@
 inputFile:          src/main/rudi/MainAgent.rudi
 outputDirectory:    src/main/gen-java
-wrapperClass:       de.dfki.introduction.ChatAgent
+#typeDef:            ChatAgent.rudi
 ontologyFile:       src/main/resources/ontology/introduction.yml
 failOnError:        false
 rootPackage:        de.dfki.introduction
+
+customCompileCommands:
+  compile: vondac -c introcompile.yml
+  vcompile: vondac -v -c introcompile.yml
+defaultCompileCommand: compile

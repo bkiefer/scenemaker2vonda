@@ -60,6 +60,13 @@ public class Supernode extends Node {
 	  this.nodes = new HashSet<>();
   }
 
+  @Override
+  public String getName() {
+    // this is returning not the plain name, but a unique and compatible name
+    // for all situations
+    return decapitalize(super.getName());
+  }
+
   /**
    * Creates the VOnDA-code fragment that initializes the variables belonging to the this {@code Supernode}.
    * @return A String containing the VOnDA-code fragment that initializes the variables of this {@code Supernode}.
@@ -258,14 +265,14 @@ public class Supernode extends Node {
   }
 
   /**
-   * Creates the VOnDA-code fragment to import the code for the Supernodes that are children of this {@code Supernode}.
+   * Creates the VOnDA-code fragment to include the code for the Supernodes that are children of this {@code Supernode}.
    * @return A String containing the VOnDA-code fragment to import the code for the Supernodes that are children of this {@code Supernode}
    */
   public String getImportCode() {
 	  String outString = "";
 	  for (Node n : this.nodes) {
 		  if(n.isSupernode()) {
-			  outString += RudiFileGenerator.formattedLine("import " + n.getName().substring(0,1).toUpperCase() + n.getName().substring(1), 0, 0, 1);
+			  outString += RudiFileGenerator.formattedLine("include " + n.getName().substring(0,1).toUpperCase() + n.getName().substring(1), 0, 0, 1);
 		  }
 	  }
 

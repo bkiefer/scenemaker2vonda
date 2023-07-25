@@ -14,7 +14,7 @@ public class Main {
 
     File ontologyDir = new File(pathToOntologyDir);
     for (File f : ontologyDir.listFiles()) {
-      if (f.toString().endsWith(".ini")) {
+      if (f.toString().endsWith(".yml")) {
 
         try {
           BufferedReader reader = new BufferedReader(new FileReader(f));
@@ -82,7 +82,7 @@ public class Main {
         e.printStackTrace();
       }
 
-      String uriFromFile = getUriFromIniFile(outPathOntologyFile);
+      String uriFromFile = "";//getUriFromIniFile(outPathOntologyFile);
       if (!uriFromFile.isEmpty()) {
         uri = uriFromFile;
       }
@@ -93,7 +93,7 @@ public class Main {
     XmlParser parser = new XmlParser(new File(pathToSceneflowFile));
 
     SceneMakerAutomaton a = parser.getSceneMakerAutomaton();
-    a.ensureNodeNamesAreLowerCase();
+    //a.ensureNodeNamesAreLowerCase();
 
     System.out.println("Generating ontology file...");
 

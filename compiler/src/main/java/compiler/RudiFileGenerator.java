@@ -6,6 +6,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +45,7 @@ public class RudiFileGenerator {
       int numAppendedNewlines) {
 
     String formattedExpression = new String(new char[numLeadingNewlines]).replace("\0", "\n");
-    formattedExpression += new String(new char[numLeadingTabs]).replace("\0", "\t");
+    formattedExpression += new String(new char[numLeadingTabs]).replace("\0", "  ");
     formattedExpression += exp;
     formattedExpression += new String(new char[numAppendedNewlines]).replace("\0", "\n");
 
@@ -77,7 +79,16 @@ public class RudiFileGenerator {
     // If m is the top-level supernode, define utility functions (transitions
     // etc...) in this file
     if (m.getParent() == null) {
-      fw.write(StringConstants.FUNCTIONS);
+	  // Create RDF objects for all super nodes
+	  for (Supernode s: ((SceneMakerAutomaton)m).getAllSupernodes()) {
+	    fw.write(RudiFileGenerator.formattedLine(
+	        "Supernode " + s.getName() + " = new Supernode", 0, 0, 1));
+	  }
+
+	  // add global transition and other functions
+	  new InputStreamReader(
+          this.getClass().getClassLoader().getResourceAsStream("functions.rudi"),
+          StandardCharsets.UTF_8).transferTo(fw);
     }
 
     fw.write(m.getSetupCode());
